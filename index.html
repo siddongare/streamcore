@@ -894,12 +894,37 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeCatalog(); })
         <div class="co-order-id-val" id="coOrderIdVal">SX-000000-XXXX</div>
         <div class="co-order-id-hint">Auto-added in the QR and UPI app note</div>
       </div>
+      <div class="co-method-switch" id="coMethodSwitch">
+        <button class="co-method-tab active" type="button" data-co-mode="upi" onclick="setCheckoutPaymentMode('upi')">UPI</button>
+        <button class="co-method-tab" type="button" data-co-mode="crypto" onclick="setCheckoutPaymentMode('crypto')">Crypto</button>
+      </div>
 
-      <div class="co-divider-text">— or pay with UPI app —</div>
+      <div class="co-method-panel active" id="coUpiPanel">
+        <div class="co-divider-text">— pay with UPI —</div>
+        <div class="co-uid-row">
+          <span class="co-uid">tanish.ind@fam</span>
+          <button class="co-uid-copy" id="coUidCopy" onclick="coUidCopyFn()">Copy ID</button>
+        </div>
+      </div>
 
-      <div class="co-uid-row">
-        <span class="co-uid">tanish.ind@fam</span>
-        <button class="co-uid-copy" id="coUidCopy" onclick="coUidCopyFn()">Copy ID</button>
+      <div class="co-method-panel" id="coCryptoPanel">
+        <div class="co-divider-text">— pay with crypto —</div>
+        <div class="co-method-note">
+          <strong>Minimal self-custody checkout</strong>
+          <span>Use LTCPay if you want a quiet crypto checkout instead of UPI. Order details are carried over automatically for this Netflix purchase.</span>
+        </div>
+        <form method="POST" action="https://ltcpay.com/api/v1/invoices" class="co-crypto-form">
+          <input type="hidden" name="storeId" value="52Z9hVUxujGyxHUf6vEbGkt3D2jbih3qWzLkmTt3Lgyi"/>
+          <input type="hidden" name="orderId" value="nflix" id="cryptoOrderIdInput"/>
+          <input type="hidden" name="checkoutDesc" value="Netflix Premium checkout" id="cryptoCheckoutDescInput"/>
+          <input type="hidden" name="notifyEmail" value="siddongare21@gmail.com"/>
+          <input type="hidden" name="price" value="1"/>
+          <input type="hidden" name="currency" value="USD"/>
+          <button class="co-crypto-button" type="submit" aria-label="Pay with crypto">
+            <img src="https://ltcpay.com/img/paybutton/pay.svg" alt="Pay with crypto"/>
+          </button>
+        </form>
+        <div class="co-crypto-foot">Crypto checkout opens securely in LTCPay. After payment, return here and use the same screenshot flow for delivery.</div>
       </div>
       <button class="co-paid-btn" onclick="coPaid()">✅ &nbsp;I've Paid — Send Screenshot</button>
       <p class="co-paid-note">⚠️ Only a few slots left! Send your screenshot on WhatsApp — delivery within 3 hrs of verification. 🔒</p>
@@ -920,6 +945,7 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeCatalog(); })
 const CO_WA = '15482992818';
 let coTimer = null;
 let coKey = null;
+let coPaymentMode = 'upi';
 
 const CO_DATA = {
   netflix:    {name:'Netflix Premium',    sub:'4K UHD · Multiple profiles · Lifetime', amt:149,  msg:"Hi! 👋 I just paid *₹149* for *Netflix Premium Lifetime*. Sending my payment screenshot — please confirm and send my account! 🙏"},
@@ -1091,6 +1117,8 @@ function openCheckout(key) {
   cb.textContent = 'Copy ID'; cb.className = 'co-uid-copy';
   // Show Order ID
   document.getElementById('coOrderIdVal').textContent = window._currentOrderId;
+  syncCryptoCheckout(d);
+  setCheckoutPaymentMode('upi');
   renderCheckoutQR();
   startCoTimer(5*60);
   document.getElementById('coBackdrop').classList.add('open');
@@ -1119,6 +1147,33 @@ function startCoTimer(secs) {
     rem--;
   }
   tick(); coTimer = setInterval(tick, 1000);
+}
+
+function syncCryptoCheckout(d) {
+  const orderInput = document.getElementById('cryptoOrderIdInput');
+  const descInput = document.getElementById('cryptoCheckoutDescInput');
+  if (!orderInput || !descInput || !d) return;
+  const orderId = window._currentOrderId || 'nflix';
+  orderInput.value = orderId + '-crypto';
+  descInput.value = d.name + ' | Order ID ' + orderId;
+}
+
+function setCheckoutPaymentMode(mode) {
+  const isNetflix = coKey === 'netflix';
+  const nextMode = mode === 'crypto' && isNetflix ? 'crypto' : 'upi';
+  coPaymentMode = nextMode;
+
+  const switcher = document.getElementById('coMethodSwitch');
+  const upiPanel = document.getElementById('coUpiPanel');
+  const cryptoPanel = document.getElementById('coCryptoPanel');
+
+  if (switcher) switcher.style.display = isNetflix ? 'grid' : 'none';
+  if (upiPanel) upiPanel.classList.toggle('active', nextMode === 'upi');
+  if (cryptoPanel) cryptoPanel.classList.toggle('active', isNetflix && nextMode === 'crypto');
+
+  document.querySelectorAll('[data-co-mode]').forEach((tab) => {
+    tab.classList.toggle('active', tab.getAttribute('data-co-mode') === nextMode);
+  });
 }
 
 function openUPI(app) {
@@ -1151,7 +1206,8 @@ function coPaid() {
   const d = CO_DATA[coKey];
   const orderId = window._currentOrderId || 'N/A';
   const amt = d.amt;
-  const customMsg = d.msg.replace('Sending', 'Order ID: *' + orderId + '* | Sending').replace('₹' + d.amt, '₹' + amt);
+  const paymentLine = coPaymentMode === 'crypto' ? 'Paid via *Crypto* | ' : 'Paid via *UPI* | ';
+  const customMsg = d.msg.replace('Sending', paymentLine + 'Order ID: *' + orderId + '* | Sending').replace('₹' + d.amt, '₹' + amt);
   const waLink = 'https://wa.me/' + CO_WA + '?text=' + encodeURIComponent(customMsg);
   document.getElementById('coWaBtn').href = waLink;
   document.getElementById('cos1').className = 'co-step done';
@@ -1256,6 +1312,20 @@ document.addEventListener('keydown', e => {
 .co-qr-wrap{background:#0d1120;border:1px solid rgba(124,109,250,0.2);border-radius:14px;padding:14px;display:flex;align-items:center;justify-content:center;width:100%;margin-bottom:6px;box-shadow:0 0 30px rgba(124,109,250,0.1);}
 .co-qr-hint{font-size:0.65rem;color:var(--accent2);margin-top:8px;font-weight:600;}
 .co-divider-text{text-align:center;color:var(--muted);font-size:0.72rem;margin:10px 0;letter-spacing:0.05em;}
+.co-method-switch{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 14px;}
+.co-method-tab{appearance:none;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:var(--muted);border-radius:12px;padding:11px 12px;font:600 0.76rem "DM Sans",sans-serif;letter-spacing:0.04em;cursor:pointer;transition:all 0.2s ease;}
+.co-method-tab:hover{border-color:rgba(124,109,250,0.3);color:var(--text);transform:translateY(-1px);}
+.co-method-tab.active{background:linear-gradient(135deg,rgba(124,109,250,0.18),rgba(79,209,197,0.12));border-color:rgba(124,109,250,0.38);color:#fff;box-shadow:0 12px 28px rgba(124,109,250,0.14);}
+.co-method-panel{display:none;}
+.co-method-panel.active{display:block;}
+.co-method-note{background:linear-gradient(135deg,rgba(255,255,255,0.04),rgba(124,109,250,0.06));border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px 15px;margin-bottom:12px;}
+.co-method-note strong{display:block;font-size:0.8rem;color:var(--text);margin-bottom:4px;}
+.co-method-note span{display:block;font-size:0.7rem;line-height:1.6;color:var(--muted);}
+.co-crypto-form{display:block;width:100%;}
+.co-crypto-button{width:100%;display:flex;align-items:center;justify-content:center;padding:14px 16px;border-radius:14px;border:1px solid rgba(124,109,250,0.24);background:linear-gradient(135deg,rgba(124,109,250,0.16),rgba(79,209,197,0.1));cursor:pointer;transition:transform 0.2s ease,box-shadow 0.2s ease,border-color 0.2s ease;}
+.co-crypto-button:hover{transform:translateY(-2px);border-color:rgba(79,209,197,0.3);box-shadow:0 18px 36px rgba(79,209,197,0.08);}
+.co-crypto-button img{width:168px;max-width:100%;height:auto;display:block;}
+.co-crypto-foot{margin-top:10px;text-align:center;font-size:0.68rem;color:var(--muted);line-height:1.6;}
 
 /* REFERRAL FLOATING BUBBLE */
 .ref-bubble{position:fixed;bottom:86px;right:22px;z-index:200;display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
