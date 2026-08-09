@@ -383,6 +383,7 @@ footer{border-top:1px solid var(--border);padding:48px 5%;display:flex;justify-c
 .co-wa-btn:hover{transform:translateY(-2px);box-shadow:0 0 32px rgba(37,211,102,0.42);}
 
 </style>
+<script src="https://ltcpay.com/modal/btcpay.js" defer></script>
 </head>
 <body>
 
@@ -971,7 +972,7 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeCatalog(); })
           <strong>Pay securely with Litecoin</strong>
           <span>Continue to LTCPay to complete your Netflix order. Your order ID is included automatically.</span>
         </div>
-        <form method="POST" action="https://ltcpay.com/api/v1/invoices" class="co-crypto-form">
+        <form method="POST" action="https://ltcpay.com/api/v1/invoices" target="btcpay" data-btcpay-button class="co-crypto-form" id="siteBtcpayForm">
           <input type="hidden" name="storeId" value="52Z9hVUxujGyxHUf6vEbGkt3D2jbih3qWzLkmTt3Lgyi"/>
           <input type="hidden" name="orderId" value="nflix" id="cryptoOrderIdInput"/>
           <input type="hidden" name="checkoutDesc" value="Netflix Premium checkout" id="cryptoCheckoutDescInput"/>
@@ -3602,6 +3603,31 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   }
 })();
+</script>
+
+<script>
+window.addEventListener('load', function registerSiteBtcpayEvents() {
+  if (!window.btcpay || typeof window.btcpay.onModalReceiveMessage !== 'function') return;
+
+  window.btcpay.onModalReceiveMessage(function handleSiteBtcpayMessage(event) {
+    const data = event && event.data;
+    if (!data || typeof data !== 'object') return;
+    const status = String(data.status || '').toLowerCase();
+    if (status !== 'complete' && status !== 'settled') return;
+
+    const orderId = window._currentOrderId || 'N/A';
+    const body = document.getElementById('coBodyMain');
+    const success = document.getElementById('coSuccess');
+    const successOrder = document.getElementById('coOrderIdVal');
+    if (body) body.style.display = 'none';
+    if (success) success.classList.add('show');
+    if (successOrder) successOrder.textContent = orderId;
+
+    if (window.location.protocol !== 'file:') {
+      window.history.replaceState({ orderId }, '', '/success?orderId=' + encodeURIComponent(orderId));
+    }
+  });
+}, { once: true });
 </script>
 
 </body>
