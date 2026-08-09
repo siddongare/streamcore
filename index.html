@@ -972,17 +972,17 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeCatalog(); })
           <strong>Pay securely with Litecoin</strong>
           <span>Continue to LTCPay to complete your Netflix order. Your order ID is included automatically.</span>
         </div>
-        <form method="POST" action="https://ltcpay.com/api/v1/invoices" target="btcpay" data-btcpay-button class="co-crypto-form" id="siteBtcpayForm">
+        <form method="POST" action="https://ltcpay.com/api/v1/invoices" target="btcpay" data-btcpay-button class="btcpay-form co-crypto-form" id="siteBtcpayForm">
           <input type="hidden" name="storeId" value="52Z9hVUxujGyxHUf6vEbGkt3D2jbih3qWzLkmTt3Lgyi"/>
           <input type="hidden" name="orderId" value="nflix" id="cryptoOrderIdInput"/>
           <input type="hidden" name="checkoutDesc" value="Netflix Premium checkout" id="cryptoCheckoutDescInput"/>
           <input type="hidden" name="notifyEmail" value="siddongare21@gmail.com"/>
           <input type="hidden" name="price" value="1"/>
           <input type="hidden" name="currency" value="USD"/>
-          <button class="co-crypto-button" type="submit" aria-label="Pay with crypto">
+          <button class="crypto-pay-btn co-crypto-button" type="submit" aria-label="Pay $1.00 with Litecoin">
             <span class="co-crypto-mark" aria-hidden="true">Ł</span>
             <span class="co-crypto-copy">
-              <strong>Pay by LTC</strong>
+              <strong>Pay $1.00 with LTC</strong>
               <small>Continue securely with LTCPay</small>
             </span>
             <span class="co-crypto-arrow" aria-hidden="true">→</span>
