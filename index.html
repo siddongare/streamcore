@@ -910,8 +910,8 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeCatalog(); })
       <div class="co-method-panel" id="coCryptoPanel">
         <div class="co-divider-text">— pay with crypto —</div>
         <div class="co-method-note">
-          <strong>Minimal self-custody checkout</strong>
-          <span>Use LTCPay if you want a quiet crypto checkout instead of UPI. Order details are carried over automatically for this Netflix purchase.</span>
+          <strong>Pay securely with Litecoin</strong>
+          <span>Continue to LTCPay to complete your Netflix order. Your order ID is included automatically.</span>
         </div>
         <form method="POST" action="https://ltcpay.com/api/v1/invoices" class="co-crypto-form">
           <input type="hidden" name="storeId" value="52Z9hVUxujGyxHUf6vEbGkt3D2jbih3qWzLkmTt3Lgyi"/>
@@ -1166,13 +1166,19 @@ function setCheckoutPaymentMode(mode) {
   const switcher = document.getElementById('coMethodSwitch');
   const upiPanel = document.getElementById('coUpiPanel');
   const cryptoPanel = document.getElementById('coCryptoPanel');
+  const upiOnlyElements = document.querySelectorAll('#coBodyMain > .co-qr-label, #coBodyMain > .co-qr-wrap, #coBodyMain > .co-qr-hint, #coBodyMain > .co-or, #coBodyMain > .co-upi-apps');
 
   if (switcher) switcher.style.display = isNetflix ? 'grid' : 'none';
   if (upiPanel) upiPanel.classList.toggle('active', nextMode === 'upi');
   if (cryptoPanel) cryptoPanel.classList.toggle('active', isNetflix && nextMode === 'crypto');
+  upiOnlyElements.forEach((element) => {
+    element.hidden = nextMode === 'crypto';
+  });
 
   document.querySelectorAll('[data-co-mode]').forEach((tab) => {
-    tab.classList.toggle('active', tab.getAttribute('data-co-mode') === nextMode);
+    const isActive = tab.getAttribute('data-co-mode') === nextMode;
+    tab.classList.toggle('active', isActive);
+    tab.setAttribute('aria-selected', String(isActive));
   });
 }
 
@@ -2610,11 +2616,13 @@ window.openCheckout = async function(key) {
   }
   _baseOpenCheckout(key);
   renderCheckoutCreditInfo();
+  syncCryptoCheckout(CO_DATA[key]);
   if (REFERRAL_STATE.user || window._currentUserUid) {
     syncReferralState(REFERRAL_STATE.user || { uid: window._currentUserUid });
   }
   setTimeout(() => {
     renderCheckoutCreditInfo();
+    syncCryptoCheckout(CO_DATA[key]);
     if (typeof renderCheckoutQR === 'function') renderCheckoutQR();
   }, 80);
 };
@@ -2674,6 +2682,7 @@ window.coPaid = async function() {
           originalAmount: pricing.originalAmount,
           discount: pricing.creditUsed,
           discountSource: pricing.creditUsed > 0 ? 'referral_credit' : '',
+          paymentMethod: coPaymentMode,
           status: 'pending',
           verificationStatus: 'pending',
           deliveryStatus: 'awaiting_verification',
@@ -2737,6 +2746,7 @@ window.coPaid = async function() {
     pricing.creditUsed > 0 ? `Original price: *${formatINR(pricing.originalAmount)}*` : '',
     pricing.creditUsed > 0 ? `Referral credit used: *${formatINR(pricing.creditUsed)}*` : '',
     `Amount paid: *${formatINR(pricing.payableAmount)}*`,
+    `Payment method: *${coPaymentMode === 'crypto' ? 'Crypto' : 'UPI'}*`,
     'Sending my payment screenshot now, please confirm my order.'
   ].filter(Boolean).join(' | ');
 
