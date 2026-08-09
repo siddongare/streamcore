@@ -287,6 +287,31 @@ footer{border-top:1px solid var(--border);padding:48px 5%;display:flex;justify-c
   .orders-page-body{grid-template-columns:1fr}
 }
 
+/* PAYMENT METHOD CHOOSER */
+.pm-backdrop{position:fixed;inset:0;z-index:690;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(3,5,10,0.88);backdrop-filter:blur(18px);opacity:0;pointer-events:none;transition:opacity 0.28s ease;}
+.pm-backdrop.open{opacity:1;pointer-events:auto;}
+.pm-card{position:relative;width:min(430px,100%);padding:28px;border:1px solid rgba(124,109,250,0.28);border-radius:24px;background:linear-gradient(145deg,#101522,#0b0f19);box-shadow:0 30px 90px rgba(0,0,0,0.55),0 0 60px rgba(124,109,250,0.08);transform:translateY(18px) scale(0.96);transition:transform 0.36s cubic-bezier(0.34,1.56,0.64,1);overflow:hidden;}
+.pm-card::before{content:"";position:absolute;width:210px;height:210px;right:-90px;top:-110px;border-radius:50%;background:radial-gradient(circle,rgba(124,109,250,0.24),transparent 68%);pointer-events:none;}
+.pm-backdrop.open .pm-card{transform:translateY(0) scale(1);}
+.pm-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border:1px solid var(--border);border-radius:50%;background:rgba(255,255,255,0.05);color:var(--muted);font-size:1rem;cursor:pointer;transition:all 0.2s ease;}
+.pm-close:hover{color:#fff;background:rgba(255,255,255,0.1);transform:rotate(90deg);}
+.pm-eyebrow{font-size:0.64rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent2);margin-bottom:8px;}
+.pm-title{font-family:"Syne",sans-serif;font-size:1.45rem;line-height:1.15;font-weight:800;color:#fff;margin:0 36px 8px 0;}
+.pm-subtitle{font-size:0.75rem;line-height:1.6;color:var(--muted);margin-bottom:22px;}
+.pm-option{width:100%;display:flex;align-items:center;gap:13px;padding:15px;border:1px solid rgba(255,255,255,0.09);border-radius:15px;background:rgba(255,255,255,0.035);color:#fff;text-align:left;cursor:pointer;transition:transform 0.2s ease,border-color 0.2s ease,background 0.2s ease,box-shadow 0.2s ease;}
+.pm-option:hover{transform:translateY(-2px);border-color:rgba(124,109,250,0.4);background:rgba(124,109,250,0.08);box-shadow:0 16px 34px rgba(0,0,0,0.2);}
+.pm-option-icon{width:44px;height:44px;display:grid;place-items:center;flex:0 0 auto;border-radius:13px;font-family:"Syne",sans-serif;font-size:1.05rem;font-weight:800;background:rgba(124,109,250,0.14);color:#b9b1ff;border:1px solid rgba(124,109,250,0.22);}
+.pm-option.crypto .pm-option-icon{background:linear-gradient(135deg,#7c6dfa,#4fd1c5);color:#fff;border:0;box-shadow:0 9px 24px rgba(124,109,250,0.24);}
+.pm-option-copy{display:flex;flex-direction:column;gap:3px;min-width:0;}
+.pm-option-copy strong{font-family:"Syne",sans-serif;font-size:0.9rem;font-weight:750;}
+.pm-option-copy small{font-size:0.67rem;color:var(--muted);}
+.pm-option-arrow{margin-left:auto;color:var(--accent2);font-size:1.05rem;transition:transform 0.2s ease;}
+.pm-option:hover .pm-option-arrow{transform:translateX(3px);}
+.pm-or{display:flex;align-items:center;gap:12px;margin:13px 0;color:var(--muted);font-size:0.67rem;text-transform:uppercase;letter-spacing:0.1em;}
+.pm-or::before,.pm-or::after{content:"";height:1px;flex:1;background:var(--border);}
+.pm-safe{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:17px;color:var(--muted);font-size:0.64rem;}
+@media(max-width:520px){.pm-card{padding:24px 18px 20px;border-radius:20px}.pm-title{font-size:1.25rem}.pm-option{padding:13px}}
+
 /* ══ UPI CHECKOUT MODAL ══ */
 .co-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.88);backdrop-filter:blur(18px);z-index:700;display:flex;align-items:center;justify-content:center;padding:12px;opacity:0;pointer-events:none;transition:opacity 0.3s;}
 .co-backdrop.open{opacity:1;pointer-events:all;}
@@ -819,7 +844,39 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeCatalog(); })
   <span class="qr-lightbox-hint">Tap anywhere to close</span>
 </div>
 
-<!-- UPI CHECKOUT MODAL -->
+<!-- PAYMENT METHOD CHOOSER -->
+<div class="pm-backdrop" id="paymentMethodBackdrop" onclick="paymentMethodOutsideClick(event)">
+  <section class="pm-card" role="dialog" aria-modal="true" aria-labelledby="paymentMethodTitle">
+    <button class="pm-close" type="button" onclick="closePaymentMethodChooser()" aria-label="Close payment methods">×</button>
+    <div class="pm-eyebrow">Netflix Premium · <span id="pmPrice">₹149</span></div>
+    <h2 class="pm-title" id="paymentMethodTitle">Choose payment method</h2>
+    <p class="pm-subtitle">Select how you want to complete this order.</p>
+
+    <button class="pm-option crypto" type="button" onclick="choosePaymentMethod('crypto')">
+      <span class="pm-option-icon" aria-hidden="true">Ł</span>
+      <span class="pm-option-copy">
+        <strong>Pay by LTC</strong>
+        <small>Continue securely with LTCPay</small>
+      </span>
+      <span class="pm-option-arrow" aria-hidden="true">→</span>
+    </button>
+
+    <div class="pm-or">or</div>
+
+    <button class="pm-option" type="button" onclick="choosePaymentMethod('upi')">
+      <span class="pm-option-icon" aria-hidden="true">₹</span>
+      <span class="pm-option-copy">
+        <strong>Pay by UPI</strong>
+        <small>QR code, GPay, PhonePe, Paytm and more</small>
+      </span>
+      <span class="pm-option-arrow" aria-hidden="true">→</span>
+    </button>
+
+    <div class="pm-safe">Secure checkout · Your order ID is generated after selection</div>
+  </section>
+</div>
+
+<!-- UPI / CRYPTO CHECKOUT MODAL -->
 <div class="co-backdrop" id="coBackdrop" onclick="coOutsideClick(event)">
   <div class="co-box">
     <div class="co-head">
@@ -895,6 +952,7 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeCatalog(); })
         <div class="co-order-id-hint">Auto-added in the QR and UPI app note</div>
       </div>
       <div class="co-method-switch" id="coMethodSwitch">
+        <span class="co-method-title">Choose payment method</span>
         <button class="co-method-tab active" type="button" data-co-mode="upi" onclick="setCheckoutPaymentMode('upi')">UPI</button>
         <button class="co-method-tab" type="button" data-co-mode="crypto" onclick="setCheckoutPaymentMode('crypto')">Crypto</button>
       </div>
@@ -921,7 +979,12 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeCatalog(); })
           <input type="hidden" name="price" value="1"/>
           <input type="hidden" name="currency" value="USD"/>
           <button class="co-crypto-button" type="submit" aria-label="Pay with crypto">
-            <img src="https://ltcpay.com/img/paybutton/pay.svg" alt="Pay with crypto"/>
+            <span class="co-crypto-mark" aria-hidden="true">Ł</span>
+            <span class="co-crypto-copy">
+              <strong>Pay by LTC</strong>
+              <small>Continue securely with LTCPay</small>
+            </span>
+            <span class="co-crypto-arrow" aria-hidden="true">→</span>
           </button>
         </form>
         <div class="co-crypto-foot">Crypto checkout opens securely in LTCPay. After payment, return here and use the same screenshot flow for delivery.</div>
@@ -946,6 +1009,8 @@ const CO_WA = '15482992818';
 let coTimer = null;
 let coKey = null;
 let coPaymentMode = 'upi';
+let paymentChoiceKey = null;
+let checkoutModeRequest = null;
 
 const CO_DATA = {
   netflix:    {name:'Netflix Premium',    sub:'4K UHD · Multiple profiles · Lifetime', amt:149,  msg:"Hi! 👋 I just paid *₹149* for *Netflix Premium Lifetime*. Sending my payment screenshot — please confirm and send my account! 🙏"},
@@ -1097,8 +1162,44 @@ function renderCheckoutQR(retryCount = 0) {
   }
 }
 
+function openPaymentMethodChooser(key) {
+  const d = CO_DATA[key];
+  if (!d) return;
+  paymentChoiceKey = key;
+  const price = document.getElementById('pmPrice');
+  if (price) price.textContent = '₹' + d.amt;
+  document.getElementById('paymentMethodBackdrop').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePaymentMethodChooser() {
+  document.getElementById('paymentMethodBackdrop').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function paymentMethodOutsideClick(event) {
+  if (event.target === document.getElementById('paymentMethodBackdrop')) {
+    closePaymentMethodChooser();
+  }
+}
+
+function choosePaymentMethod(mode) {
+  const key = paymentChoiceKey;
+  if (!key || !['upi', 'crypto'].includes(mode)) return;
+  checkoutModeRequest = mode;
+  closePaymentMethodChooser();
+  paymentChoiceKey = null;
+  setTimeout(() => window.openCheckout(key), 160);
+}
+
 function openCheckout(key) {
-  const d = CO_DATA[key]; if (!d) return;
+  const d = CO_DATA[key]; if (!d) return false;
+  if (key === 'netflix' && !checkoutModeRequest) {
+    openPaymentMethodChooser(key);
+    return false;
+  }
+  const requestedMode = key === 'netflix' ? checkoutModeRequest : 'upi';
+  checkoutModeRequest = null;
   coKey = key;
   // Generate unique order ID
   window._currentOrderId = generateOrderId();
@@ -1118,11 +1219,12 @@ function openCheckout(key) {
   // Show Order ID
   document.getElementById('coOrderIdVal').textContent = window._currentOrderId;
   syncCryptoCheckout(d);
-  setCheckoutPaymentMode('upi');
+  setCheckoutPaymentMode(requestedMode);
   renderCheckoutQR();
   startCoTimer(5*60);
   document.getElementById('coBackdrop').classList.add('open');
   document.body.style.overflow = 'hidden';
+  return true;
 }
 
 function closeCheckout() {
@@ -1158,7 +1260,23 @@ function syncCryptoCheckout(d) {
   descInput.value = d.name + ' | Order ID ' + orderId;
 }
 
+function prepareCheckoutPaymentLayout() {
+  const body = document.getElementById('coBodyMain');
+  const qrLabel = body?.querySelector('.co-qr-label');
+  const orderBox = document.querySelector('.co-order-id-box');
+  const switcher = document.getElementById('coMethodSwitch');
+  const upiPanel = document.getElementById('coUpiPanel');
+  const cryptoPanel = document.getElementById('coCryptoPanel');
+  if (!body || !qrLabel || !orderBox || !switcher || !upiPanel || !cryptoPanel) return;
+
+  body.insertBefore(orderBox, qrLabel);
+  body.insertBefore(switcher, qrLabel);
+  body.insertBefore(cryptoPanel, qrLabel);
+  body.appendChild(upiPanel);
+}
+
 function setCheckoutPaymentMode(mode) {
+  prepareCheckoutPaymentLayout();
   const isNetflix = coKey === 'netflix';
   const nextMode = mode === 'crypto' && isNetflix ? 'crypto' : 'upi';
   coPaymentMode = nextMode;
@@ -1168,7 +1286,7 @@ function setCheckoutPaymentMode(mode) {
   const cryptoPanel = document.getElementById('coCryptoPanel');
   const upiOnlyElements = document.querySelectorAll('#coBodyMain > .co-qr-label, #coBodyMain > .co-qr-wrap, #coBodyMain > .co-qr-hint, #coBodyMain > .co-or, #coBodyMain > .co-upi-apps');
 
-  if (switcher) switcher.style.display = isNetflix ? 'grid' : 'none';
+  if (switcher) switcher.style.display = 'none';
   if (upiPanel) upiPanel.classList.toggle('active', nextMode === 'upi');
   if (cryptoPanel) cryptoPanel.classList.toggle('active', isNetflix && nextMode === 'crypto');
   upiOnlyElements.forEach((element) => {
@@ -1180,6 +1298,13 @@ function setCheckoutPaymentMode(mode) {
     tab.classList.toggle('active', isActive);
     tab.setAttribute('aria-selected', String(isActive));
   });
+
+  const orderHint = document.querySelector('.co-order-id-hint');
+  if (orderHint) {
+    orderHint.textContent = nextMode === 'crypto'
+      ? 'Included automatically in your LTCPay checkout'
+      : 'Auto-added in the QR and UPI app note';
+  }
 }
 
 function openUPI(app) {
@@ -1319,6 +1444,7 @@ document.addEventListener('keydown', e => {
 .co-qr-hint{font-size:0.65rem;color:var(--accent2);margin-top:8px;font-weight:600;}
 .co-divider-text{text-align:center;color:var(--muted);font-size:0.72rem;margin:10px 0;letter-spacing:0.05em;}
 .co-method-switch{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 14px;}
+.co-method-title{grid-column:1/-1;color:var(--muted);font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:2px;}
 .co-method-tab{appearance:none;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:var(--muted);border-radius:12px;padding:11px 12px;font:600 0.76rem "DM Sans",sans-serif;letter-spacing:0.04em;cursor:pointer;transition:all 0.2s ease;}
 .co-method-tab:hover{border-color:rgba(124,109,250,0.3);color:var(--text);transform:translateY(-1px);}
 .co-method-tab.active{background:linear-gradient(135deg,rgba(124,109,250,0.18),rgba(79,209,197,0.12));border-color:rgba(124,109,250,0.38);color:#fff;box-shadow:0 12px 28px rgba(124,109,250,0.14);}
@@ -1328,9 +1454,14 @@ document.addEventListener('keydown', e => {
 .co-method-note strong{display:block;font-size:0.8rem;color:var(--text);margin-bottom:4px;}
 .co-method-note span{display:block;font-size:0.7rem;line-height:1.6;color:var(--muted);}
 .co-crypto-form{display:block;width:100%;}
-.co-crypto-button{width:100%;display:flex;align-items:center;justify-content:center;padding:14px 16px;border-radius:14px;border:1px solid rgba(124,109,250,0.24);background:linear-gradient(135deg,rgba(124,109,250,0.16),rgba(79,209,197,0.1));cursor:pointer;transition:transform 0.2s ease,box-shadow 0.2s ease,border-color 0.2s ease;}
+.co-crypto-button{width:100%;display:flex;align-items:center;justify-content:flex-start;gap:12px;padding:14px 16px;border-radius:14px;border:1px solid rgba(124,109,250,0.3);background:linear-gradient(135deg,rgba(124,109,250,0.2),rgba(79,209,197,0.12));color:#fff;text-align:left;cursor:pointer;transition:transform 0.2s ease,box-shadow 0.2s ease,border-color 0.2s ease;}
 .co-crypto-button:hover{transform:translateY(-2px);border-color:rgba(79,209,197,0.3);box-shadow:0 18px 36px rgba(79,209,197,0.08);}
-.co-crypto-button img{width:168px;max-width:100%;height:auto;display:block;}
+.co-crypto-mark{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:0 0 auto;background:linear-gradient(135deg,#7c6dfa,#4fd1c5);font-family:"Syne",sans-serif;font-size:1.15rem;font-weight:800;box-shadow:0 8px 20px rgba(124,109,250,0.25);}
+.co-crypto-copy{display:flex;flex-direction:column;gap:2px;min-width:0;}
+.co-crypto-copy strong{font-family:"Syne",sans-serif;font-size:0.86rem;font-weight:700;}
+.co-crypto-copy small{color:var(--muted);font:500 0.65rem "DM Sans",sans-serif;}
+.co-crypto-arrow{margin-left:auto;color:var(--accent2);font-size:1.15rem;transition:transform 0.2s ease;}
+.co-crypto-button:hover .co-crypto-arrow{transform:translateX(3px);}
 .co-crypto-foot{margin-top:10px;text-align:center;font-size:0.68rem;color:var(--muted);line-height:1.6;}
 
 /* REFERRAL FLOATING BUBBLE */
@@ -2614,7 +2745,8 @@ window.openCheckout = async function(key) {
       return;
     }
   }
-  _baseOpenCheckout(key);
+  const checkoutOpened = _baseOpenCheckout(key);
+  if (checkoutOpened === false) return;
   renderCheckoutCreditInfo();
   syncCryptoCheckout(CO_DATA[key]);
   if (REFERRAL_STATE.user || window._currentUserUid) {
