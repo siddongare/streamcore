@@ -3779,13 +3779,409 @@ body.nebula-ui::before{content:"";position:fixed;inset:0;z-index:-1;pointer-even
 
   const productsTitle = document.querySelector('#products .section-title');
   const productsCopy = document.querySelector('#products .section-sub');
-  if (productsTitle) productsTitle.innerHTML = 'Choose your <span>digital upgrade</span>';
-  if (productsCopy) productsCopy.textContent = 'Select a product, choose a plan, and continue through secure checkout.';
+  if (productsTitle) productsTitle.innerHTML = 'All <span>products</span>';
+  if (productsCopy) productsCopy.textContent = 'Browse full catalog';
   document.querySelectorAll('.view-btn').forEach((button) => { button.textContent = 'Buy now'; });
 
   const steps = ['Order information', 'Confirm & pay', 'Receive your items'];
   document.querySelectorAll('.co-step').forEach((step, index) => { step.textContent = steps[index] || step.textContent; });
 }());
+</script>
+
+<style>
+/* Reference-aligned commerce shell. Payment and account behavior stay in the existing scripts. */
+body.nebula-ui{
+  --ref-bg:#0b080a;
+  --ref-panel:#11070f;
+  --ref-panel-strong:#170a15;
+  --ref-line:rgba(255,255,255,.09);
+  --ref-copy:#a99fa7;
+  --ref-pink:#f002e1;
+  --ref-pink-bright:#ff28eb;
+  --ref-green:#00c56a;
+  background:radial-gradient(circle at 50% 0,rgba(133,5,101,.17),transparent 30%),var(--ref-bg);
+  color:#fff;
+  font-family:"Inter",sans-serif;
+}
+body.nebula-ui::before{opacity:.2;background-size:54px 54px;}
+.nebula-ui h1,.nebula-ui h2,.nebula-ui h3,.nebula-ui h4,.nebula-ui .logo,.nebula-ui .product-name,.nebula-ui .view-btn{font-family:"Poppins",sans-serif;}
+.nebula-ui nav{
+  position:sticky;top:14px;left:auto;z-index:80;width:min(1170px,calc(100% - 32px));height:54px;margin:0 auto;padding:0 18px;transform:none;
+  border-color:var(--ref-line);border-radius:28px;background:rgba(11,6,10,.92);box-shadow:none;backdrop-filter:blur(18px);
+}
+.nebula-ui nav.scrolled{padding:0 18px;background:rgba(11,6,10,.97);}
+.nebula-ui .logo{font-size:.9rem;letter-spacing:-.04em;white-space:nowrap;}
+.nebula-ui .logo::before{width:28px;height:28px;box-shadow:0 0 0 1px rgba(255,75,237,.78),0 0 16px rgba(240,2,225,.35);}
+.nebula-ui .nav-redeem-btn,.nebula-ui .nav-orders-btn,.nebula-ui .nav-alert-dot{display:none!important;}
+.nebula-ui .nav-right{gap:18px;height:100%;}
+.nebula-ui .nav-links{gap:5px;height:100%;align-items:center;}
+.nebula-ui .nav-links li a{padding:8px 12px;border:1px solid transparent;border-radius:18px;color:#b9afb8;font:600 .73rem/1 "Inter",sans-serif;}
+.nebula-ui .nav-links li a:hover,.nebula-ui .nav-links li a.is-active{border-color:rgba(255,255,255,.08);background:rgba(255,255,255,.07);color:#fff;}
+.nebula-ui .nav-cta{display:none!important;}
+.nebula-ui .nav-account-btn{padding:9px 17px;border-radius:10px;border-color:rgba(255,255,255,.10);background:transparent;font-size:0;}
+.nebula-ui .nav-account-btn::before{display:none;}
+.nebula-ui .nav-account-btn::after{content:"Log in";font:700 .72rem "Inter",sans-serif;}
+.nebula-ui .reference-nav-icons{display:flex;align-items:center;gap:13px;margin-left:4px;color:#c7bdc6;}
+.nebula-ui .reference-nav-icons svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8;}
+.nebula-ui .reference-nav-icons .ref-nav-divider{width:1px;height:19px;background:rgba(255,255,255,.1);}
+.nebula-ui .hero{
+  width:min(1170px,calc(100% - 32px));min-height:630px;margin:0 auto;padding:149px 24px 60px;overflow:hidden;
+  background:linear-gradient(90deg,rgba(89,15,71,.16),rgba(19,7,17,.05) 38%,rgba(89,15,71,.13));border:1px solid rgba(255,255,255,.055);border-top:0;
+}
+.nebula-ui .hero::before{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(90deg,transparent 0,transparent calc(25% - 1px),rgba(255,255,255,.07) 25%,transparent calc(25% + 1px));mask-image:linear-gradient(#000,transparent 92%);}
+.nebula-ui .hero::after{display:none;}
+.nebula-ui .hero-orb,.nebula-ui .particles{display:none;}
+.nebula-ui .hero-badge{position:relative;margin:0 auto 23px;padding:7px 14px;border:0;border-radius:999px;background:linear-gradient(135deg,#ff55ec,#d503bf);box-shadow:0 10px 25px rgba(240,2,225,.27);color:#250220;font:800 .67rem "Inter",sans-serif;}
+.nebula-ui .badge-dot{width:6px;height:6px;background:#250220;box-shadow:none;}
+.nebula-ui .hero h1{position:relative;max-width:720px;margin:0 auto;font-size:clamp(3rem,5.4vw,5.1rem);line-height:.98;letter-spacing:-.075em;font-weight:800;}
+.nebula-ui .hero h1 .grad{background:linear-gradient(90deg,#f002e1,#fc27ec);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.nebula-ui .hero>p{position:relative;max-width:660px;margin:20px auto 27px;color:#aaa0a8;font:500 1rem/1.5 "Inter",sans-serif;}
+.nebula-ui .hero-btns{position:relative;gap:11px;}
+.nebula-ui .btn-primary,.nebula-ui .btn-secondary{min-width:0;padding:13px 22px;border-radius:10px;font:700 .78rem "Inter",sans-serif;}
+.nebula-ui .btn-primary{border:0;background:linear-gradient(135deg,#ff36eb,#d700c0);box-shadow:0 11px 24px rgba(240,2,225,.29);}
+.nebula-ui .btn-secondary{border-color:rgba(255,255,255,.10);background:rgba(12,6,11,.5);}
+.nebula-ui .hero-proof{position:relative;display:flex;justify-content:center;gap:24px;margin-top:22px;color:#a99fa7;font:600 .66rem "Inter",sans-serif;}
+.nebula-ui .hero-proof span::before{content:"+";margin-right:6px;color:var(--ref-pink-bright);font-weight:900;}
+.nebula-ui .hero-stats{display:none;}
+.nebula-ui .marquee-wrap{width:min(1170px,calc(100% - 32px));margin:0 auto;padding:35px 0 76px;border:0;background:transparent;overflow:visible;}
+.nebula-ui .marquee{width:100%;transform:none!important;animation:none!important;justify-content:space-between;gap:18px;}
+.nebula-ui .marquee-item{display:none;color:#9e969d;font:700 1.08rem "Poppins",sans-serif;letter-spacing:-.04em;}
+.nebula-ui .marquee-item:nth-child(-n+6){display:block;}
+.nebula-ui .marquee-item .dot{display:none;}
+.nebula-ui #products{width:min(1170px,calc(100% - 32px));margin:0 auto;padding:28px 0 118px;scroll-margin-top:92px;}
+.nebula-ui .section-label{margin-bottom:6px;color:var(--ref-pink);font-size:.7rem;letter-spacing:0;text-transform:none;}
+.nebula-ui .section-title{font-size:clamp(2rem,3vw,2.65rem);letter-spacing:-.065em;}
+.nebula-ui .section-title span{background:linear-gradient(90deg,#f002e1,#ff40ed)!important;-webkit-background-clip:text!important;-webkit-text-fill-color:transparent!important;}
+.nebula-ui .section-sub{margin-top:9px;color:#a59ca4;font:500 .86rem/1.5 "Inter",sans-serif;}
+.nebula-ui .reference-filter{display:flex;align-items:center;gap:9px;margin:40px 0 18px;padding:7px;border:1px solid rgba(255,255,255,.1);border-radius:16px;background:rgba(28,8,24,.58);}
+.nebula-ui .reference-filter button{flex:0 0 auto;padding:11px 16px;border:1px solid rgba(255,255,255,.09);border-radius:10px;background:rgba(255,255,255,.018);color:#f7eff5;font:700 .76rem "Inter",sans-serif;cursor:pointer;}
+.nebula-ui .reference-filter button:hover,.nebula-ui .reference-filter button.is-active{border-color:rgba(240,2,225,.38);background:rgba(240,2,225,.10);}
+.nebula-ui .reference-filter input{min-width:0;flex:1;padding:11px 10px;border:0;outline:0;background:transparent;color:#fff;font:500 .78rem "Inter",sans-serif;}
+.nebula-ui .reference-filter input::placeholder{color:#827780;}
+.nebula-ui .reference-filter-count{margin:-1px 0 15px;text-align:right;color:#a69ba4;font:600 .73rem "Inter",sans-serif;}
+.nebula-ui .products-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;margin-top:0;}
+.nebula-ui .product-card{min-height:337px;padding:12px;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:linear-gradient(180deg,rgba(20,7,18,.97),rgba(16,5,14,.92));box-shadow:none;overflow:hidden;transform:none;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;}
+.nebula-ui .product-card:hover{transform:translateY(-5px);border-color:rgba(240,2,225,.4);box-shadow:0 20px 42px rgba(0,0,0,.3),0 0 30px rgba(240,2,225,.10);}
+.nebula-ui .product-badge{display:none;}
+.nebula-ui .product-logo{position:relative;height:144px;margin:0 0 13px;border:1px solid rgba(255,255,255,.055);border-radius:11px;background:radial-gradient(ellipse at 50% 8%,rgba(248,43,228,.68),transparent 41%),linear-gradient(150deg,#2b0d29 0%,#100910 55%,#221120 100%);overflow:hidden;isolation:isolate;}
+.nebula-ui .product-logo::before{content:"";position:absolute;z-index:-1;inset:42% -10% -35%;background:repeating-radial-gradient(ellipse at 50% 0,rgba(255,255,255,.2) 0 1px,transparent 2px 12px);opacity:.7;transform:perspective(220px) rotateX(64deg);}
+.nebula-ui .product-card:nth-child(3n+2) .product-logo{background:radial-gradient(ellipse at 50% 8%,rgba(103,237,110,.63),transparent 42%),linear-gradient(150deg,#133016 0%,#08100a 60%,#142216 100%);}
+.nebula-ui .product-card:nth-child(3n) .product-logo{background:radial-gradient(ellipse at 50% 8%,rgba(250,72,72,.67),transparent 42%),linear-gradient(150deg,#3a1218 0%,#12090b 60%,#271115 100%);}
+.nebula-ui .product-logo img{position:relative;width:62%;height:76%;margin:12px auto 0;object-fit:contain;opacity:1;mix-blend-mode:normal;filter:drop-shadow(0 15px 13px rgba(0,0,0,.65));transform:rotate(-6deg);transition:transform .3s ease;}
+.nebula-ui .product-card:hover .product-logo img{transform:translateY(-4px) rotate(-2deg) scale(1.04);}
+.nebula-ui .product-name{min-height:37px;margin:0 0 4px;font-size:.88rem;line-height:1.16;letter-spacing:-.04em;}
+.nebula-ui .product-desc{display:none;}
+.nebula-ui .warranty-tag,.nebula-ui .reference-delivery{display:inline-flex;align-items:center;width:max-content;margin:4px 0 8px;padding:4px 9px;border:1px solid rgba(240,2,225,.42);border-radius:6px;background:rgba(240,2,225,.08);color:#ef45dc;font:700 .6rem "Inter",sans-serif;}
+.nebula-ui .warranty-tag::before,.nebula-ui .reference-delivery::before{content:"+";margin-right:4px;}
+.nebula-ui .product-price{position:relative;margin:0 0 10px;color:#fff;font:800 1rem "Poppins",sans-serif;}
+.nebula-ui .product-price::before{content:"Starting at";display:block;margin-bottom:2px;color:#a59ba3;font:600 .56rem "Inter",sans-serif;}
+.nebula-ui .view-btn{width:100%;margin-top:auto;padding:12px 8px;border:0;border-radius:10px;background:linear-gradient(180deg,#ff37ed,#d700c1);box-shadow:0 10px 22px rgba(240,2,225,.25);color:#16030f;font-size:.73rem;}
+.nebula-ui .view-btn::after{content:" +";margin-left:7px;font-size:.95em;}
+.nebula-ui #how,#reviews{width:min(1170px,calc(100% - 32px));margin:0 auto;padding:105px 0;background:transparent!important;scroll-margin-top:72px;}
+.nebula-ui .steps-flow{gap:18px;margin-top:39px;}
+.nebula-ui .step-card,.nebula-ui .testimonial-card{border-color:rgba(255,255,255,.08);border-radius:14px;background:rgba(20,7,18,.7);box-shadow:none;}
+.nebula-ui .step-card{min-height:180px;padding:23px;}
+.nebula-ui .step-card:hover{border-color:rgba(240,2,225,.35);transform:translateY(-4px);}
+.nebula-ui .step-num{color:#756c74;}
+.nebula-ui .step-icon{background:rgba(240,2,225,.13);color:#f555e4;}
+.nebula-ui .step-arrow{display:none;}
+.nebula-ui .testimonials-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:38px;}
+.nebula-ui .testimonial-card{padding:19px;}
+.nebula-ui .quote-icon{display:none;}
+.nebula-ui .stars{color:#f002e1;font-size:.76rem;}
+.nebula-ui .testimonial-text{min-height:58px;color:#d3c8d0;font-size:.75rem;}
+.nebula-ui .whatsapp-float{display:none!important;}
+.nebula-ui footer{position:relative;display:grid;grid-template-columns:1.5fr repeat(3,1fr);gap:32px;width:min(1170px,calc(100% - 32px));margin:80px auto 0;padding:45px 0 72px;border-top:1px solid rgba(255,255,255,.09);background:transparent;overflow:hidden;scroll-margin-top:72px;}
+.nebula-ui footer::after{content:"Streamox Market";position:absolute;left:-7px;bottom:-35px;color:rgba(255,255,255,.028);font:800 clamp(4rem,11vw,10rem)/1 "Poppins",sans-serif;white-space:nowrap;pointer-events:none;}
+.nebula-ui .ref-footer-brand{position:relative;z-index:1;color:#a79da5;font:500 .76rem/1.55 "Inter",sans-serif;}
+.nebula-ui .ref-footer-brand strong{display:block;margin-bottom:9px;color:#fff;font:800 1rem "Poppins",sans-serif;}
+.nebula-ui .ref-footer-col{position:relative;z-index:1;display:flex;flex-direction:column;gap:10px;}
+.nebula-ui .ref-footer-col h4{margin:0 0 3px;color:#a79da5;font:800 .61rem "Inter",sans-serif;letter-spacing:.08em;text-transform:uppercase;}
+.nebula-ui .ref-footer-col a{color:#c1b7bf;font:600 .72rem "Inter",sans-serif;text-decoration:none;}
+.nebula-ui .ref-footer-col a:hover{color:#fff;}
+.nebula-ui .ref-footer-bottom{position:absolute;z-index:1;right:0;bottom:17px;left:0;display:flex;justify-content:space-between;padding-top:18px;border-top:1px solid rgba(255,255,255,.07);color:#8f858c;font:600 .67rem "Inter",sans-serif;}
+.nebula-ui .reveal{animation:reference-rise .56s both;}
+.nebula-ui .product-card:nth-child(2){animation-delay:.05s}.nebula-ui .product-card:nth-child(3){animation-delay:.1s}.nebula-ui .product-card:nth-child(4){animation-delay:.15s}
+@keyframes reference-rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:900px){
+  .nebula-ui .nav-links li:nth-child(n+4),.nebula-ui .reference-nav-icons{display:none;}
+  .nebula-ui .products-grid{grid-template-columns:repeat(3,minmax(0,1fr));}
+  .nebula-ui footer{grid-template-columns:1.4fr 1fr 1fr;}.nebula-ui .ref-footer-col:last-of-type{display:none;}
+}
+@media(max-width:650px){
+  .nebula-ui nav{top:8px;width:calc(100% - 20px);height:50px;padding:0 13px;}
+  .nebula-ui .logo{font-size:.74rem;}.nebula-ui .logo::before{width:23px;height:23px;}.nebula-ui .nav-links{display:none;}.nebula-ui .nav-right{margin-left:auto;gap:8px;}
+  .nebula-ui .nav-account-btn{padding:8px 12px;font-size:.66rem;}
+  .nebula-ui .hero{width:calc(100% - 20px);min-height:595px;padding:133px 16px 42px;}.nebula-ui .hero h1{font-size:clamp(2.7rem,13vw,4rem);}.nebula-ui .hero>p{font-size:.88rem;}.nebula-ui .hero-proof{flex-wrap:wrap;gap:8px 14px;font-size:.59rem;}
+  .nebula-ui .marquee-wrap{width:100%;padding:26px 16px 56px;overflow:hidden;}.nebula-ui .marquee{width:720px;gap:24px;justify-content:flex-start;}.nebula-ui .marquee-item{font-size:.83rem;}
+  .nebula-ui #products,.nebula-ui #how,.nebula-ui #reviews{width:calc(100% - 28px);}.nebula-ui #products{padding-bottom:70px;}.nebula-ui .reference-filter{gap:6px;margin-top:28px;}.nebula-ui .reference-filter button{padding:10px 10px;font-size:.66rem;}.nebula-ui .reference-filter button:first-child{display:none;}
+  .nebula-ui .products-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}.nebula-ui .product-card{min-height:286px;padding:9px;}.nebula-ui .product-logo{height:100px;margin-bottom:10px;}.nebula-ui .product-name{min-height:31px;font-size:.69rem;}.nebula-ui .warranty-tag,.nebula-ui .reference-delivery{padding:3px 6px;font-size:.5rem;}.nebula-ui .product-price{font-size:.82rem;}.nebula-ui .view-btn{padding:10px 5px;font-size:.63rem;}
+  .nebula-ui .testimonials-grid{grid-template-columns:1fr;}.nebula-ui footer{grid-template-columns:1fr 1fr;width:calc(100% - 28px);gap:28px;padding-bottom:72px;}.nebula-ui .ref-footer-brand{grid-column:1 / -1;}.nebula-ui .ref-footer-bottom{font-size:.58rem;}
+}
+</style>
+
+<script>
+(function matchReferenceUi() {
+  const font = document.createElement('link');
+  font.id = 'reference-ui-fonts';
+  font.rel = 'stylesheet';
+  font.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap';
+  if (!document.getElementById(font.id)) document.head.appendChild(font);
+
+  const hero = document.querySelector('.hero');
+  if (hero && !hero.querySelector('.hero-proof')) {
+    hero.insertAdjacentHTML('beforeend', '<div class="hero-proof"><span>Instant delivery</span><span>Secure checkout</span><span>Real human support</span></div>');
+  }
+
+  const navLinks = document.querySelector('.nav-links');
+  if (navLinks) {
+    navLinks.innerHTML = '<li><a class="is-active" href="#top">Home</a></li><li><a href="#products">Products</a></li><li><a href="#reviews">Reviews</a></li><li><a href="#how">Tutorials</a></li><li><a href="#site-footer">FAQ</a></li>';
+  }
+  const account = document.getElementById('navAccountBtn');
+  if (account) account.textContent = 'Log in';
+  const navRight = document.querySelector('.nav-right');
+  if (navRight && !navRight.querySelector('.reference-nav-icons')) {
+    navRight.insertAdjacentHTML('beforeend', '<div class="reference-nav-icons" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"></circle><path d="m16 16 4 4"></path></svg><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.5"></circle><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"></path></svg><span class="ref-nav-divider"></span><svg viewBox="0 0 24 24"><path d="M5 8h14l-1 11H6L5 8Z"></path><path d="M9 9V6a3 3 0 0 1 6 0v3"></path></svg></div>');
+  }
+  if (hero) hero.id = 'top';
+
+  const grid = document.querySelector('#products .products-grid');
+  if (grid && !document.querySelector('.reference-filter')) {
+    grid.insertAdjacentHTML('beforebegin', '<div class="reference-filter"><button type="button">Price v</button><button type="button" id="refStockFilter">In stock</button><input id="refProductSearch" type="search" placeholder="Search products" aria-label="Search products"></div><div class="reference-filter-count" id="refProductCount"></div>');
+    const search = document.getElementById('refProductSearch');
+    const stock = document.getElementById('refStockFilter');
+    const count = document.getElementById('refProductCount');
+    const cards = Array.from(grid.querySelectorAll('.product-card'));
+    function updateReferenceFilter() {
+      const query = search.value.trim().toLowerCase();
+      let visible = 0;
+      cards.forEach((card) => {
+        const matches = !query || card.textContent.toLowerCase().includes(query);
+        card.hidden = !matches;
+        if (matches) visible += 1;
+      });
+      count.textContent = visible + ' products';
+    }
+    search.addEventListener('input', updateReferenceFilter);
+    stock.addEventListener('click', () => stock.classList.toggle('is-active'));
+    updateReferenceFilter();
+  }
+
+  document.querySelectorAll('.product-card').forEach((card) => {
+    const warranty = card.querySelector('.warranty-tag');
+    if (warranty) warranty.textContent = 'Instant delivery';
+  });
+
+  const footer = document.querySelector('footer');
+  if (footer) {
+    footer.id = 'site-footer';
+    footer.innerHTML = '<div class="ref-footer-brand"><strong>Streamox Market</strong>Premium digital products with secure checkout and simple delivery.</div><div class="ref-footer-col"><h4>Shop</h4><a href="#top">Home</a><a href="#products">Products</a><a href="#reviews">Reviews</a><a href="#how">Tutorials</a></div><div class="ref-footer-col"><h4>Account</h4><a href="#" onclick="openAuthModal();return false;">Dashboard</a><a href="#" onclick="openAuthModal();return false;">Orders</a><a href="https://wa.me/15482992818">Support</a></div><div class="ref-footer-col"><h4>Legal</h4><a href="#">Terms of service</a><a href="#">Privacy</a></div><div class="ref-footer-bottom"><span>&copy; 2026 Streamox Market. All rights reserved.</span><a href="#top">Back to top ^</a></div>';
+  }
+}());
+</script>
+
+<style>
+/* Unified checkout based on the supplied two-column payment references. */
+.nebula-ui .pm-backdrop{display:none!important;}
+.nebula-ui .co-backdrop{z-index:950;padding:20px;background:rgba(5,3,6,.94);backdrop-filter:blur(20px);}
+.nebula-ui .co-box.reference-checkout{display:grid;grid-template-columns:minmax(310px,.78fr) minmax(520px,1.22fr);width:min(1280px,100%);max-width:none;max-height:min(820px,calc(100vh - 40px));border:1px solid rgba(255,255,255,.08);border-radius:16px;background:#0b090c;box-shadow:0 40px 110px rgba(0,0,0,.7);overflow:hidden;}
+.reference-checkout-summary{position:relative;min-height:640px;padding:54px 50px 38px;border-right:1px solid rgba(255,255,255,.07);background:linear-gradient(155deg,#100a10,#09080a 58%,#0d0710);overflow:hidden;}
+.reference-checkout-summary::after{content:"";position:absolute;inset:auto -90px -110px auto;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(240,2,225,.13),transparent 68%);pointer-events:none;}
+.reference-checkout-brand{display:flex;align-items:center;gap:10px;margin-bottom:58px;font:800 .95rem "Poppins",sans-serif;color:#fff;}
+.reference-checkout-brand-mark{display:grid;place-items:center;width:36px;height:36px;border:1px solid rgba(255,75,237,.72);border-radius:50%;background:radial-gradient(circle at 35% 35%,#ff7cf0,#c800bb 45%,#250321 72%);box-shadow:0 0 20px rgba(240,2,225,.34);color:#fff;font:900 1.05rem/1 "Poppins",sans-serif;}
+.reference-pay-label{margin:0 0 6px;color:#76829d;font:800 .65rem "Inter",sans-serif;letter-spacing:.1em;text-transform:uppercase;}
+.reference-pay-total{margin:0;color:#fff;font:800 clamp(2.2rem,4vw,3.1rem)/1 "Poppins",sans-serif;letter-spacing:-.07em;}
+.reference-order-summary{margin-top:36px;padding:19px 0;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);}
+.reference-order-product{display:flex;align-items:center;gap:14px;}
+.reference-order-image{display:grid;place-items:center;flex:0 0 auto;width:54px;height:54px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:linear-gradient(145deg,#370a33,#130b14);overflow:hidden;}
+.reference-order-image img{width:100%;height:100%;object-fit:cover;}
+.reference-order-image span{color:#ff5dea;font:800 1rem "Poppins",sans-serif;}
+.reference-order-copy{min-width:0;flex:1;}.reference-order-copy strong{display:block;overflow:hidden;color:#fff;font:700 .9rem "Inter",sans-serif;text-overflow:ellipsis;white-space:nowrap;}.reference-order-copy small{display:block;margin-top:4px;color:#8290a8;font:500 .75rem "Inter",sans-serif;}
+.reference-order-price{color:#fff;font:800 .85rem "Inter",sans-serif;}
+.reference-order-totals{display:grid;gap:14px;padding-top:25px;color:#7e8aa0;font:500 .78rem "Inter",sans-serif;}.reference-order-total-line{display:flex;justify-content:space-between;gap:20px;}.reference-order-total-line strong{color:#fff;font:800 .87rem "Inter",sans-serif;}
+.reference-order-note{position:absolute;bottom:43px;display:flex;align-items:center;gap:8px;color:#64738c;font:600 .72rem "Inter",sans-serif;}.reference-order-note::before{content:"";width:8px;height:8px;border:1px solid #65738b;border-radius:2px;}
+.reference-checkout-main{position:relative;min-width:0;padding:52px 62px 42px;overflow-y:auto;}.reference-checkout-main::-webkit-scrollbar{width:6px;}.reference-checkout-main::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:99px;}
+.reference-checkout-close{position:absolute;right:25px;top:22px;width:32px;height:32px;border:1px solid rgba(255,255,255,.1);border-radius:50%;background:rgba(255,255,255,.04);color:#a6a0a8;font-size:1rem;cursor:pointer;transition:transform .2s ease,background .2s ease;}.reference-checkout-close:hover{background:rgba(240,2,225,.13);transform:rotate(90deg);}
+.reference-checkout-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-bottom:32px;border-bottom:2px solid rgba(255,255,255,.08);}.reference-checkout-steps span{padding:0 0 13px;color:#6d6870;font:700 .7rem "Inter",sans-serif;text-align:center;}.reference-checkout-steps span:first-child{text-align:left;}.reference-checkout-steps span:last-child{text-align:right;}.reference-checkout-steps .active{margin-bottom:-2px;border-bottom:2px solid #f002e1;color:#fa4be9;}.reference-checkout-steps .done{color:#fff;}
+.reference-checkout-panel[hidden]{display:none!important;}.reference-checkout-panel{animation:checkout-panel-in .32s ease both;}@keyframes checkout-panel-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.reference-checkout-section{margin:0 0 23px;}.reference-checkout-section-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:12px;color:#92a0b7;font:800 .66rem "Inter",sans-serif;letter-spacing:.1em;text-transform:uppercase;}.reference-secure-copy{color:#718099;font-weight:600;letter-spacing:0;text-transform:none;}.reference-secure-copy::before{content:"lock";margin-right:6px;color:#8897ad;font-size:.62rem;}
+.reference-checkout-input,.reference-coupon-box{box-sizing:border-box;width:100%;height:51px;border:1px solid rgba(255,255,255,.1);border-radius:12px;background:rgba(255,255,255,.025);color:#fff;font:500 .82rem "Inter",sans-serif;outline:none;}.reference-checkout-input{padding:0 15px;}.reference-checkout-input:focus{border-color:rgba(240,2,225,.55);box-shadow:0 0 0 3px rgba(240,2,225,.09);}.reference-checkout-input::placeholder{color:#8290a6;}
+.reference-coupon-box{display:flex;align-items:center;gap:12px;padding:0 10px 0 15px;color:#8290a6;}.reference-coupon-box span{flex:1;}.reference-coupon-box button{padding:7px 14px;border:1px solid rgba(240,2,225,.42);border-radius:99px;background:transparent;color:#e631da;font:700 .68rem "Inter",sans-serif;cursor:pointer;}
+.reference-payment-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}.reference-payment-option{display:flex;align-items:center;gap:12px;min-width:0;padding:13px 14px;border:1px solid rgba(255,255,255,.1);border-radius:13px;background:#101015;color:#fff;text-align:left;cursor:pointer;transition:transform .2s ease,border-color .2s ease,background .2s ease;}.reference-payment-option:hover{border-color:rgba(240,2,225,.48);background:rgba(240,2,225,.07);transform:translateY(-2px);}.reference-payment-icon{display:grid;place-items:center;flex:0 0 auto;width:38px;height:38px;border-radius:10px;background:#29234e;color:#c9b5ff;font:800 1.15rem/1 "Inter",sans-serif;}.reference-payment-option.ltc .reference-payment-icon{background:linear-gradient(135deg,#5f8ce1,#3d63a4);color:#fff;}.reference-payment-copy{min-width:0;}.reference-payment-copy strong{display:block;color:#fff;font:800 .8rem "Inter",sans-serif;}.reference-payment-copy small{display:block;overflow:hidden;margin-top:3px;color:#718099;font:500 .64rem "Inter",sans-serif;text-overflow:ellipsis;white-space:nowrap;}
+.reference-terms{display:grid;gap:11px;margin:21px 0 17px;color:#d7dce6;font:600 .72rem/1.35 "Inter",sans-serif;}.reference-terms label{display:flex;align-items:flex-start;gap:8px;cursor:pointer;}.reference-terms input{accent-color:#f002e1;margin:1px 0 0;}.reference-immediate{margin-top:20px;padding:17px 15px;border:1px solid rgba(255,255,255,.1);border-radius:12px;background:#111116;}.reference-immediate strong{display:block;color:#f4f1f5;font:800 .84rem "Inter",sans-serif;}.reference-immediate p{margin:7px 0 0;color:#7e8ca3;font:500 .7rem/1.45 "Inter",sans-serif;}
+.reference-back-button{display:inline-flex;align-items:center;gap:7px;margin:0 0 20px;padding:0;border:0;background:none;color:#a6b4ca;font:700 .72rem "Inter",sans-serif;cursor:pointer;}.reference-back-button:hover{color:#fff;}.reference-payment-heading{display:flex;align-items:center;gap:11px;margin-bottom:22px;color:#fff;font:800 1.1rem "Poppins",sans-serif;}.reference-payment-heading .reference-payment-icon{width:34px;height:34px;font-size:1rem;}.reference-upi-layout{display:grid;grid-template-columns:minmax(210px,.72fr) minmax(280px,1fr);gap:28px;align-items:center;padding:22px;border:1px solid rgba(255,255,255,.09);border-radius:14px;background:linear-gradient(145deg,#111116,#0c0b0e);}.reference-upi-layout .co-qr-wrap{margin:0;}.reference-upi-layout .co-qr-frame{min-width:190px;min-height:190px;padding:10px;border-radius:12px;}.reference-upi-layout .co-qr-frame img{width:170px;height:170px;}.reference-upi-copy{display:grid;gap:13px;}.reference-upi-copy p{margin:0;color:#8d9ab1;font:500 .72rem/1.5 "Inter",sans-serif;}.reference-upi-copy .co-uid-row{margin:0;background:rgba(255,255,255,.035);border-color:rgba(255,255,255,.1);}.reference-upi-copy .co-uid{font-size:.76rem;}.reference-upi-apps{display:flex;gap:8px;flex-wrap:wrap;}.reference-upi-apps button{padding:9px 11px;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:#17131a;color:#e9e2e9;font:700 .66rem "Inter",sans-serif;cursor:pointer;}.reference-upi-apps button:hover{border-color:rgba(240,2,225,.45);}.reference-complete-button{width:100%;margin-top:17px;padding:14px;border:0;border-radius:10px;background:linear-gradient(135deg,#f002e1,#bd16cf);box-shadow:0 12px 25px rgba(240,2,225,.2);color:#fff;font:800 .78rem "Inter",sans-serif;cursor:pointer;}
+.reference-ltc-card{padding:20px;border:1px solid rgba(255,255,255,.09);border-radius:14px;background:linear-gradient(145deg,#101116,#09090c);}.reference-ltc-top{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:18px;}.reference-ltc-top strong{color:#fff;font:800 .83rem "Inter",sans-serif;}.reference-ltc-top small{display:block;margin-top:3px;color:#76849a;font:500 .66rem "Inter",sans-serif;}.reference-ltc-amount{color:#b9c9e2;font:800 .76rem "Inter",sans-serif;}.reference-ltc-qr{display:grid;place-items:center;width:168px;height:168px;margin:0 auto 16px;border:8px solid #fff;border-radius:13px;background:repeating-linear-gradient(45deg,#fff 0 9px,#f1f1f1 9px 18px);color:#4f74b7;font:900 4rem "Poppins",sans-serif;box-shadow:0 10px 28px rgba(0,0,0,.32);}.reference-ltc-address{display:flex;align-items:center;gap:9px;padding:12px 13px;border:1px solid rgba(255,255,255,.1);border-radius:10px;background:rgba(255,255,255,.035);color:#7e8ca3;font:600 .68rem "Inter",sans-serif;}.reference-ltc-address code{flex:1;overflow:hidden;color:#c7d4e7;font:600 .69rem "Inter",sans-serif;text-overflow:ellipsis;white-space:nowrap;}.reference-ltc-address button{border:0;background:transparent;color:#98a9c3;cursor:pointer;}.reference-ltc-form{margin-top:9px;}.reference-ltc-form button{width:100%;padding:13px;border:1px solid rgba(240,2,225,.48);border-radius:10px;background:rgba(240,2,225,.07);color:#fb42e8;font:800 .78rem "Inter",sans-serif;cursor:pointer;}.reference-ltc-form button:hover{background:rgba(240,2,225,.15);}.reference-ltc-steps{display:grid;gap:9px;margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.07);}.reference-ltc-steps strong{color:#92a0b7;font:800 .62rem "Inter",sans-serif;letter-spacing:.1em;text-transform:uppercase;}.reference-ltc-steps span{color:#8290a5;font:500 .7rem "Inter",sans-serif;}.reference-ltc-status{margin:14px 0 0;color:#7e8ca3;font:600 .68rem/1.45 "Inter",sans-serif;text-align:center;}.reference-ltc-status.is-complete{color:#63d596;}
+.reference-ltc-qr{position:relative;border-color:rgba(143,177,239,.24);background:radial-gradient(circle at 35% 28%,rgba(101,144,224,.28),transparent 42%),linear-gradient(145deg,#18243d,#0b101c);color:#b7ccf7;font-size:3rem;}.reference-ltc-qr::after{content:"Secure QR";position:absolute;bottom:24px;color:#9eb5df;font:800 .55rem "Inter",sans-serif;letter-spacing:.12em;text-transform:uppercase;}
+body.nebula-ui iframe[name="btcpay"]{top:50%!important;left:50%!important;width:min(460px,calc(100% - 32px))!important;height:min(720px,calc(100% - 32px))!important;border:1px solid rgba(240,2,225,.35)!important;border-radius:16px!important;background:#0b090c!important;box-shadow:0 28px 90px rgba(0,0,0,.7)!important;transform:translate(-50%,-50%);}
+.reference-checkout-complete{display:grid;min-height:430px;place-items:center;text-align:center;}.reference-checkout-complete div{max-width:340px;}.reference-checkout-complete h2{margin:17px 0 8px;color:#fff;font:800 1.65rem "Poppins",sans-serif;}.reference-checkout-complete p{margin:0;color:#98a5b8;font:500 .8rem/1.5 "Inter",sans-serif;}.reference-complete-mark{display:grid;place-items:center;width:64px;height:64px;margin:auto;border:1px solid rgba(99,213,150,.4);border-radius:50%;background:rgba(99,213,150,.12);color:#63d596;font:900 1.5rem "Inter",sans-serif;}
+@media(max-width:840px){.nebula-ui .co-backdrop{padding:0;align-items:stretch;}.nebula-ui .co-box.reference-checkout{display:block;max-height:none;min-height:100vh;border-radius:0;}.reference-checkout-summary{min-height:auto;padding:25px 22px 22px;border-right:0;border-bottom:1px solid rgba(255,255,255,.07);}.reference-checkout-brand{margin-bottom:28px;}.reference-order-note{display:none;}.reference-checkout-main{padding:30px 22px 42px;overflow:visible;}.reference-checkout-steps{margin-bottom:27px;}.reference-upi-layout{grid-template-columns:1fr;}.reference-ltc-qr{width:145px;height:145px;}.reference-payment-grid{grid-template-columns:1fr;}}
+@media(max-width:460px){.reference-checkout-summary{padding:22px 16px 18px;}.reference-checkout-main{padding:26px 16px 35px;}.reference-checkout-steps span{font-size:.58rem;}.reference-payment-option{padding:12px;}.reference-upi-layout{padding:13px;}.reference-upi-layout .co-qr-frame{min-width:160px;min-height:160px;}.reference-upi-layout .co-qr-frame img{width:142px;height:142px;}.reference-order-summary{margin-top:26px;}}
+</style>
+
+<script>
+window.addEventListener('load', function installReferenceCheckout() {
+  const oldChooser = document.getElementById('paymentMethodBackdrop');
+  if (oldChooser) oldChooser.remove();
+
+  const backdrop = document.getElementById('coBackdrop');
+  if (!backdrop) return;
+
+  backdrop.innerHTML = `
+    <div class="co-box reference-checkout" role="dialog" aria-modal="true" aria-labelledby="referenceCheckoutTitle">
+      <aside class="reference-checkout-summary">
+        <div class="reference-checkout-brand"><span class="reference-checkout-brand-mark">S</span>Streamox Market</div>
+        <p class="reference-pay-label">Pay Streamox Market</p>
+        <p class="reference-pay-total" id="referenceCheckoutTotal">INR 149</p>
+        <div class="reference-order-summary">
+          <div class="reference-order-product">
+            <div class="reference-order-image" id="referenceCheckoutImage"><span>S</span></div>
+            <div class="reference-order-copy"><strong id="referenceCheckoutProduct">Your product</strong><small id="referenceCheckoutSub">Instant delivery</small></div>
+            <strong class="reference-order-price" id="referenceCheckoutItemPrice">INR 149</strong>
+          </div>
+          <div class="reference-order-totals">
+            <div class="reference-order-total-line"><span>Subtotal</span><span id="referenceCheckoutSubtotal">INR 149</span></div>
+            <div class="reference-order-total-line"><strong>Total</strong><strong id="referenceCheckoutFinal">INR 149</strong></div>
+          </div>
+        </div>
+        <div class="reference-order-note">Pay securely on desktop or mobile</div>
+      </aside>
+      <main class="reference-checkout-main">
+        <button class="reference-checkout-close" type="button" aria-label="Close checkout" onclick="closeCheckout()">x</button>
+        <section class="reference-checkout-panel" id="referenceCheckoutChoose">
+          <div class="reference-checkout-steps"><span class="active">Order information</span><span>Confirm and pay</span><span>Receive your items</span></div>
+          <div class="reference-checkout-section"><div class="reference-checkout-section-head">Contact and delivery</div><input class="reference-checkout-input" id="referenceCheckoutEmail" type="email" placeholder="E-mail Address"></div>
+          <div class="reference-checkout-section"><div class="reference-checkout-section-head">Discount</div><div class="reference-coupon-box"><span>Coupon Code</span><button type="button">Apply</button></div></div>
+          <div class="reference-checkout-section">
+            <div class="reference-checkout-section-head"><span>Payment</span><span class="reference-secure-copy">All transactions are secure and encrypted.</span></div>
+            <div class="reference-payment-grid">
+              <button class="reference-payment-option ltc" type="button" onclick="referenceCheckoutSelect('ltc')"><span class="reference-payment-icon">L</span><span class="reference-payment-copy"><strong>Litecoin</strong><small>via Litecoin Network</small></span></button>
+              <button class="reference-payment-option" type="button" onclick="referenceCheckoutSelect('upi')"><span class="reference-payment-icon">Rs</span><span class="reference-payment-copy"><strong>UPI</strong><small>QR code, GPay, PhonePe and Paytm</small></span></button>
+            </div>
+          </div>
+          <div class="reference-terms"><label><input type="checkbox"> <span>I have read and agree to Streamox Market's Terms of Service.</span></label><label><input type="checkbox"> <span>I would like to receive updates and promotions from Streamox Market.</span></label></div>
+          <div class="reference-immediate"><strong>Immediate delivery</strong><p>Your product is prepared for delivery immediately after payment is confirmed.</p></div>
+        </section>
+        <section class="reference-checkout-panel" id="referenceCheckoutUpi" hidden>
+          <button class="reference-back-button" type="button" onclick="referenceCheckoutBack()">&larr; Change payment method</button>
+          <div class="reference-checkout-steps"><span class="done">Order information</span><span class="active">Confirm and pay</span><span>Receive your items</span></div>
+          <h2 class="reference-payment-heading" id="referenceCheckoutTitle"><span class="reference-payment-icon">Rs</span>UPI Payment</h2>
+          <div class="reference-upi-layout">
+            <div><div class="co-qr-wrap"><div class="co-qr-frame" onclick="openLightbox()" title="Click to enlarge"></div></div></div>
+            <div class="reference-upi-copy"><p>Scan this QR using any UPI app. The exact amount and your order ID are already included.</p><div class="co-uid-row"><span class="co-uid">tanish.ind@fam</span><button class="co-uid-copy" id="coUidCopy" type="button" onclick="coUidCopyFn()">Copy ID</button></div><div class="reference-upi-apps"><button type="button" onclick="openUPI('gpay')">GPay</button><button type="button" onclick="openUPI('phonepe')">PhonePe</button><button type="button" onclick="openUPI('paytm')">Paytm</button></div></div>
+          </div>
+          <button class="reference-complete-button" type="button" onclick="coPaid()">I have completed the UPI payment</button>
+        </section>
+        <section class="reference-checkout-panel" id="referenceCheckoutLtc" hidden>
+          <button class="reference-back-button" type="button" onclick="referenceCheckoutBack()">&larr; Change payment method</button>
+          <div class="reference-checkout-steps"><span class="done">Order information</span><span class="active">Confirm and pay</span><span>Receive your items</span></div>
+          <h2 class="reference-payment-heading"><span class="reference-payment-icon" style="background:linear-gradient(135deg,#5f8ce1,#3d63a4);color:#fff">L</span>LTC Payment</h2>
+          <div class="reference-ltc-card">
+            <div class="reference-ltc-top"><div><strong>Litecoin payment</strong><small id="referenceLtcInvoiceId">Invoice generated securely by LTCPay</small></div><span class="reference-ltc-amount" id="referenceLtcAmount">Live quote</span></div>
+            <div class="reference-ltc-qr" aria-label="Litecoin QR code is created by LTCPay after continuing">L</div>
+            <div class="reference-ltc-address"><span>Address:</span><code id="referenceLtcAddress">Generated securely when you continue</code><button type="button" disabled aria-label="Address available after invoice creation">Copy</button></div>
+            <form method="POST" action="https://ltcpay.com/api/v1/invoices" target="btcpay" data-btcpay-button class="reference-ltc-form" id="siteBtcpayForm">
+              <input type="hidden" name="storeId" value="52Z9hVUxujGyxHUf6vEbGkt3D2jbih3qWzLkmTt3Lgyi">
+              <input type="hidden" name="orderId" value="nflix" id="cryptoOrderIdInput">
+              <input type="hidden" name="checkoutDesc" value="Streamox checkout" id="cryptoCheckoutDescInput">
+              <input type="hidden" name="notifyEmail" value="siddongare21@gmail.com">
+              <input type="hidden" name="price" value="1">
+              <input type="hidden" name="currency" value="USD">
+              <button type="submit">Generate secure LTC invoice</button>
+            </form>
+            <div class="reference-ltc-steps"><strong>How to pay</strong><span>1. Generate your LTCPay invoice to receive the live QR code and address.</span><span>2. Send the exact Litecoin amount. Payment is detected after network confirmation.</span></div>
+            <p class="reference-ltc-status" id="referenceLtcStatus">The secure invoice opens in a compact LTCPay overlay. This page stays open behind it.</p>
+          </div>
+        </section>
+        <section class="reference-checkout-panel reference-checkout-complete" id="referenceCheckoutComplete" hidden><div><span class="reference-complete-mark">OK</span><h2 id="referenceCompleteTitle">Payment confirmed</h2><p id="referenceCompleteCopy">Your order is now in the delivery queue.</p></div></section>
+        <div hidden aria-hidden="true"><span id="cos1"></span><span id="cos2"></span><span id="cos3"></span><div id="coBodyMain"></div><div id="coSuccess"></div><a id="coWaBtn"></a></div>
+      </main>
+    </div>`;
+
+  function value(id, text) {
+    const element = document.getElementById(id);
+    if (element) element.textContent = text;
+  }
+  function showPanel(panel) {
+    ['referenceCheckoutChoose', 'referenceCheckoutUpi', 'referenceCheckoutLtc', 'referenceCheckoutComplete'].forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) element.hidden = id !== panel;
+    });
+  }
+  function currentProduct() {
+    return typeof CO_DATA !== 'undefined' && CO_DATA[coKey] ? CO_DATA[coKey] : null;
+  }
+  function syncLtcForm(product) {
+    const orderId = window._currentOrderId || 'SX-PENDING';
+    const orderInput = document.getElementById('cryptoOrderIdInput');
+    const description = document.getElementById('cryptoCheckoutDescInput');
+    if (orderInput) orderInput.value = `${orderId}-ltc`;
+    if (description && product) description.value = `${product.name} | Order ID ${orderId}`;
+  }
+
+  const legacyCoPaid = window.coPaid;
+
+  window.openPaymentMethodChooser = function openPaymentMethodChooser(key) { window.openCheckout(key); };
+  window.closePaymentMethodChooser = function closePaymentMethodChooser() { window.closeCheckout(); };
+  window.choosePaymentMethod = function choosePaymentMethod(mode) { window.referenceCheckoutSelect(mode === 'crypto' ? 'ltc' : mode); };
+  window.openCheckout = function openCheckout(key) {
+    const product = typeof CO_DATA !== 'undefined' ? CO_DATA[key] : null;
+    if (!product) return false;
+    coKey = key;
+    window._currentOrderId = generateOrderId();
+    const amount = `INR ${product.amt}`;
+    value('referenceCheckoutTotal', amount);
+    value('referenceCheckoutItemPrice', amount);
+    value('referenceCheckoutSubtotal', amount);
+    value('referenceCheckoutFinal', amount);
+    value('referenceCheckoutProduct', product.name);
+    value('referenceCheckoutSub', product.sub);
+    const image = document.getElementById('referenceCheckoutImage');
+    if (image) image.innerHTML = typeof IMGS !== 'undefined' && IMGS[key] ? `<img src="${IMGS[key]}" alt="">` : '<span>S</span>';
+    value('referenceLtcInvoiceId', `Order ID ${window._currentOrderId}`);
+    value('referenceLtcAmount', 'Live quote from LTCPay');
+    value('referenceLtcAddress', 'Generated securely when you continue');
+    value('referenceLtcStatus', 'The secure invoice opens in a compact LTCPay overlay. This page stays open behind it.');
+    document.getElementById('referenceLtcStatus')?.classList.remove('is-complete');
+    syncLtcForm(product);
+    showPanel('referenceCheckoutChoose');
+    backdrop.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    return true;
+  };
+  window.closeCheckout = function closeCheckout() {
+    backdrop.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+  window.coOutsideClick = function coOutsideClick(event) { if (event.target === backdrop) window.closeCheckout(); };
+  window.referenceCheckoutSelect = function referenceCheckoutSelect(mode) {
+    if (!currentProduct()) return;
+    if (mode === 'ltc') {
+      coPaymentMode = 'crypto';
+      showPanel('referenceCheckoutLtc');
+      return;
+    }
+    coPaymentMode = 'upi';
+    showPanel('referenceCheckoutUpi');
+    renderCheckoutQR();
+  };
+  window.referenceCheckoutBack = function referenceCheckoutBack() { showPanel('referenceCheckoutChoose'); };
+  window.coPaid = async function coPaid() {
+    let saved = true;
+    if (typeof legacyCoPaid === 'function') {
+      await legacyCoPaid();
+      saved = document.getElementById('coSuccess')?.classList.contains('show');
+    }
+    if (!saved) return;
+    showPanel('referenceCheckoutComplete');
+    value('referenceCompleteTitle', 'UPI payment submitted');
+    value('referenceCompleteCopy', 'Your payment is being verified and your product will be delivered after confirmation.');
+  };
+  window.showLtcPaymentComplete = function showLtcPaymentComplete() {
+    showPanel('referenceCheckoutComplete');
+    value('referenceCompleteTitle', 'Litecoin payment confirmed');
+    value('referenceCompleteCopy', 'LTCPay confirmed this invoice. Your order is now in the delivery queue.');
+  };
+});
 </script>
 
 </body>
