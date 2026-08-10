@@ -44,7 +44,6 @@ function createApp(options = {}) {
   const processedDeliveries = options.processedDeliveries || new Set();
   const paidOrders = options.paidOrders || new Map();
   const siteFile = path.join(__dirname, 'index.html');
-  const checkoutFile = path.join(__dirname, 'gemini-code-1786288921890.html');
 
   app.post('/api/btcpay-webhook', express.raw({ type: 'application/json' }), async (request, response) => {
     const rawBody = request.body;
@@ -103,28 +102,8 @@ function createApp(options = {}) {
     }
   });
 
-  app.get('/api/order-status', (request, response) => {
-    const orderId = typeof request.query.orderId === 'string' ? request.query.orderId : '';
-    const order = orderId ? paidOrders.get(orderId) : null;
-
-    response.set('Cache-Control', 'no-store');
-    return response.status(200).json({
-      orderId: orderId || null,
-      paid: Boolean(order && order.paymentStatus === 'settled'),
-      deliveryStatus: order?.deliveryStatus || 'pending'
-    });
-  });
-
   app.get('/', (request, response) => {
     response.sendFile(siteFile);
-  });
-
-  app.get('/crypto-checkout', (request, response) => {
-    response.sendFile(checkoutFile);
-  });
-
-  app.get('/success', (request, response) => {
-    response.sendFile(checkoutFile);
   });
 
   return { app, paidOrders, processedDeliveries };

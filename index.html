@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>TW STORE — Premium Digital Accounts</title>
+<title>Streamox Market - Premium Digital Accounts</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
 <style>
@@ -534,7 +534,7 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeCatalog(); })
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="logo">TW STORE</a>
+  <a href="#" class="logo">STREAMOX MARKET</a>
   <div class="nav-right">
     <button id="navRedeemBtn" class="nav-redeem-btn">🎟 Redeem</button>
     <button id="navOrdersBtn" class="nav-orders-btn">📦 Orders</button>
@@ -706,7 +706,7 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeCatalog(); })
 <section style="background:var(--bg2)">
   <div class="features-wrap">
     <div class="reveal-left">
-      <div class="section-label">Why TW Store</div>
+      <div class="section-label">Why Streamox Market</div>
       <h2 class="section-title">Everything You Need,<br>Nothing You Don&rsquo;t</h2>
       <p class="section-sub">Affordable digital accounts with real warranty, delivered fast to your WhatsApp.</p>
       <div class="features-list">
@@ -795,7 +795,7 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeCatalog(); })
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">TW STORE</div>
+  <div class="footer-logo">STREAMOX MARKET</div>
   <div class="footer-links">
     <a href="#products">Shop</a>
     <a href="#how">How It Works</a>
@@ -814,7 +814,7 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeCatalog(); })
       <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.101 18.08.112 18.1.12 18.12a19.879 19.879 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
     </a>
   </div>
-  <div class="footer-copy">&copy; 2026 TW STORE &middot; All rights reserved</div>
+  <div class="footer-copy">&copy; 2026 STREAMOX MARKET &middot; All rights reserved</div>
 </footer>
 
 <a href="https://wa.me/15482992818" class="whatsapp-float" title="Chat on WhatsApp" style="position:fixed">
@@ -849,15 +849,15 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeCatalog(); })
 <div class="pm-backdrop" id="paymentMethodBackdrop" onclick="paymentMethodOutsideClick(event)">
   <section class="pm-card" role="dialog" aria-modal="true" aria-labelledby="paymentMethodTitle">
     <button class="pm-close" type="button" onclick="closePaymentMethodChooser()" aria-label="Close payment methods">×</button>
-    <div class="pm-eyebrow">Netflix Premium · <span id="pmPrice">₹149</span></div>
+    <div class="pm-eyebrow"><span id="pmProduct">Your order</span> · <span id="pmPrice">₹149</span></div>
     <h2 class="pm-title" id="paymentMethodTitle">Choose payment method</h2>
     <p class="pm-subtitle">Select how you want to complete this order.</p>
 
-    <button class="pm-option crypto" type="button" onclick="choosePaymentMethod('crypto')">
+    <button class="pm-option crypto" type="button" onclick="choosePaymentMethod('ltc')">
       <span class="pm-option-icon" aria-hidden="true">Ł</span>
       <span class="pm-option-copy">
-        <strong>Pay by LTC</strong>
-        <small>Continue securely with LTCPay</small>
+        <strong>Litecoin (LTC)</strong>
+        <small>Live QR, wallet address and payment detection</small>
       </span>
       <span class="pm-option-arrow" aria-hidden="true">→</span>
     </button>
@@ -867,7 +867,7 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeCatalog(); })
     <button class="pm-option" type="button" onclick="choosePaymentMethod('upi')">
       <span class="pm-option-icon" aria-hidden="true">₹</span>
       <span class="pm-option-copy">
-        <strong>Pay by UPI</strong>
+        <strong>UPI</strong>
         <small>QR code, GPay, PhonePe, Paytm and more</small>
       </span>
       <span class="pm-option-arrow" aria-hidden="true">→</span>
@@ -877,7 +877,7 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeCatalog(); })
   </section>
 </div>
 
-<!-- UPI / CRYPTO CHECKOUT MODAL -->
+<!-- UPI / LITECOIN CHECKOUT MODAL -->
 <div class="co-backdrop" id="coBackdrop" onclick="coOutsideClick(event)">
   <div class="co-box">
     <div class="co-head">
@@ -955,7 +955,7 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeCatalog(); })
       <div class="co-method-switch" id="coMethodSwitch">
         <span class="co-method-title">Choose payment method</span>
         <button class="co-method-tab active" type="button" data-co-mode="upi" onclick="setCheckoutPaymentMode('upi')">UPI</button>
-        <button class="co-method-tab" type="button" data-co-mode="crypto" onclick="setCheckoutPaymentMode('crypto')">Crypto</button>
+        <button class="co-method-tab" type="button" data-co-mode="crypto" onclick="setCheckoutPaymentMode('crypto')">Litecoin (LTC)</button>
       </div>
 
       <div class="co-method-panel active" id="coUpiPanel">
@@ -970,7 +970,7 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeCatalog(); })
         <div class="co-divider-text">— pay with crypto —</div>
         <div class="co-method-note">
           <strong>Pay securely with Litecoin</strong>
-          <span>Continue to LTCPay to complete your Netflix order. Your order ID is included automatically.</span>
+          <span>Your live LTC QR code, wallet address, exact amount and payment timer open securely on this page.</span>
         </div>
         <form method="POST" action="https://ltcpay.com/api/v1/invoices" target="btcpay" data-btcpay-button class="btcpay-form co-crypto-form" id="siteBtcpayForm">
           <input type="hidden" name="storeId" value="52Z9hVUxujGyxHUf6vEbGkt3D2jbih3qWzLkmTt3Lgyi"/>
@@ -979,8 +979,6 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeCatalog(); })
           <input type="hidden" name="notifyEmail" value="siddongare21@gmail.com"/>
           <input type="hidden" name="price" value="1"/>
           <input type="hidden" name="currency" value="USD"/>
-          <input type="hidden" name="redirectURL" id="cryptoRedirectUrlInput"/>
-          <input type="hidden" name="redirectAutomatically" value="true"/>
           <button class="crypto-pay-btn co-crypto-button" type="submit" aria-label="Pay $1.00 with Litecoin">
             <span class="co-crypto-mark" aria-hidden="true">Ł</span>
             <span class="co-crypto-copy">
@@ -990,15 +988,15 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeCatalog(); })
             <span class="co-crypto-arrow" aria-hidden="true">→</span>
           </button>
         </form>
-        <div class="co-crypto-foot">Crypto checkout opens securely in LTCPay. After payment, return here and use the same screenshot flow for delivery.</div>
+        <div class="co-crypto-foot">LTCPay opens its secure invoice as an in-site overlay. Once the invoice is settled, payment is detected automatically and your order moves to delivery.</div>
       </div>
       <button class="co-paid-btn" onclick="coPaid()">✅ &nbsp;I've Paid — Send Screenshot</button>
       <p class="co-paid-note">⚠️ Only a few slots left! Send your screenshot on WhatsApp — delivery within 3 hrs of verification. 🔒</p>
     </div>
     <div class="co-success" id="coSuccess">
       <div class="co-success-icon">🎉</div>
-      <div class="co-success-title">Payment Noted!</div>
-      <div class="co-success-sub">WhatsApp is opening now. Send your screenshot — we'll deliver within <strong style="color:var(--accent2)">3 hours</strong> of verification. ⚡</div>
+      <div class="co-success-title" id="coSuccessTitle">Payment Noted!</div>
+      <div class="co-success-sub" id="coSuccessSub">WhatsApp is opening now. Send your screenshot — we'll deliver within <strong style="color:var(--accent2)">3 hours</strong> of verification. ⚡</div>
       <a href="#" class="co-wa-btn" id="coWaBtn" target="_blank">
         <svg viewBox="0 0 24 24" fill="white" style="width:15px;height:15px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
         Open WhatsApp
@@ -1169,7 +1167,9 @@ function openPaymentMethodChooser(key) {
   const d = CO_DATA[key];
   if (!d) return;
   paymentChoiceKey = key;
+  const product = document.getElementById('pmProduct');
   const price = document.getElementById('pmPrice');
+  if (product) product.textContent = d.name;
   if (price) price.textContent = '₹' + d.amt;
   document.getElementById('paymentMethodBackdrop').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -1188,8 +1188,9 @@ function paymentMethodOutsideClick(event) {
 
 function choosePaymentMethod(mode) {
   const key = paymentChoiceKey;
-  if (!key || !['upi', 'crypto'].includes(mode)) return;
-  checkoutModeRequest = mode;
+  if (!key || !['upi', 'ltc'].includes(mode)) return;
+  // Keep the internal mode name stable while the customer only sees Litecoin.
+  checkoutModeRequest = mode === 'ltc' ? 'crypto' : 'upi';
   closePaymentMethodChooser();
   paymentChoiceKey = null;
   setTimeout(() => window.openCheckout(key), 160);
@@ -1197,11 +1198,11 @@ function choosePaymentMethod(mode) {
 
 function openCheckout(key) {
   const d = CO_DATA[key]; if (!d) return false;
-  if (key === 'netflix' && !checkoutModeRequest) {
+  if (!checkoutModeRequest) {
     openPaymentMethodChooser(key);
     return false;
   }
-  const requestedMode = key === 'netflix' ? checkoutModeRequest : 'upi';
+  const requestedMode = checkoutModeRequest;
   checkoutModeRequest = null;
   coKey = key;
   // Generate unique order ID
@@ -1216,6 +1217,9 @@ function openCheckout(key) {
   document.getElementById('coAmtHint').textContent = d.amt;
   document.getElementById('coBodyMain').style.display = 'block';
   document.getElementById('coSuccess').classList.remove('show');
+  document.getElementById('coSuccessTitle').textContent = 'Payment Noted!';
+  document.getElementById('coSuccessSub').innerHTML = 'WhatsApp is opening now. Send your screenshot — we\'ll deliver within <strong style="color:var(--accent2)">3 hours</strong> of verification. ⚡';
+  document.getElementById('coWaBtn').style.display = '';
   ['cos1','cos2','cos3'].forEach((id,i) => document.getElementById(id).className = 'co-step' + (i===0?' active':''));
   const cb = document.getElementById('coUidCopy');
   cb.textContent = 'Copy ID'; cb.className = 'co-uid-copy';
@@ -1257,15 +1261,11 @@ function startCoTimer(secs) {
 function syncCryptoCheckout(d) {
   const orderInput = document.getElementById('cryptoOrderIdInput');
   const descInput = document.getElementById('cryptoCheckoutDescInput');
-  const redirectInput = document.getElementById('cryptoRedirectUrlInput');
   if (!orderInput || !descInput || !d) return;
   const orderId = window._currentOrderId || 'nflix';
   const cryptoOrderId = orderId + '-crypto';
   orderInput.value = cryptoOrderId;
   descInput.value = d.name + ' | Order ID ' + orderId;
-  if (redirectInput && window.location.protocol !== 'file:') {
-    redirectInput.value = window.location.origin + '/success?orderId=' + encodeURIComponent(cryptoOrderId);
-  }
 }
 
 function prepareCheckoutPaymentLayout() {
@@ -1285,8 +1285,7 @@ function prepareCheckoutPaymentLayout() {
 
 function setCheckoutPaymentMode(mode) {
   prepareCheckoutPaymentLayout();
-  const isNetflix = coKey === 'netflix';
-  const nextMode = mode === 'crypto' && isNetflix ? 'crypto' : 'upi';
+  const nextMode = mode === 'crypto' ? 'crypto' : 'upi';
   coPaymentMode = nextMode;
 
   const switcher = document.getElementById('coMethodSwitch');
@@ -1296,7 +1295,7 @@ function setCheckoutPaymentMode(mode) {
 
   if (switcher) switcher.style.display = 'none';
   if (upiPanel) upiPanel.classList.toggle('active', nextMode === 'upi');
-  if (cryptoPanel) cryptoPanel.classList.toggle('active', isNetflix && nextMode === 'crypto');
+  if (cryptoPanel) cryptoPanel.classList.toggle('active', nextMode === 'crypto');
   upiOnlyElements.forEach((element) => {
     element.hidden = nextMode === 'crypto';
   });
@@ -1310,7 +1309,7 @@ function setCheckoutPaymentMode(mode) {
   const orderHint = document.querySelector('.co-order-id-hint');
   if (orderHint) {
     orderHint.textContent = nextMode === 'crypto'
-      ? 'Included automatically in your LTCPay checkout'
+      ? 'Included automatically in your secure LTCPay invoice'
       : 'Auto-added in the QR and UPI app note';
   }
 }
@@ -1345,7 +1344,7 @@ function coPaid() {
   const d = CO_DATA[coKey];
   const orderId = window._currentOrderId || 'N/A';
   const amt = d.amt;
-  const paymentLine = coPaymentMode === 'crypto' ? 'Paid via *Crypto* | ' : 'Paid via *UPI* | ';
+  const paymentLine = coPaymentMode === 'crypto' ? 'Paid via *Litecoin (LTC)* | ' : 'Paid via *UPI* | ';
   const customMsg = d.msg.replace('Sending', paymentLine + 'Order ID: *' + orderId + '* | Sending').replace('₹' + d.amt, '₹' + amt);
   const waLink = 'https://wa.me/' + CO_WA + '?text=' + encodeURIComponent(customMsg);
   document.getElementById('coWaBtn').href = waLink;
@@ -1975,7 +1974,7 @@ function firebaseError(code) {
     <button class="auth-close" onclick="closeAuthModal()">✕</button>
     <div class="auth-header">
       <div class="auth-logo-wrap">🔑</div>
-      <div class="auth-title">Welcome to TW Store</div>
+      <div class="auth-title">Welcome to Streamox Market</div>
       <div class="auth-sub">Sign in to track your orders & manage your account</div>
     </div>
     <div class="auth-tabs">
@@ -3613,6 +3612,18 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <script>
+function showLtcPaymentComplete() {
+  if (coTimer) { clearInterval(coTimer); coTimer = null; }
+  document.getElementById('cos1').className = 'co-step done';
+  document.getElementById('cos2').className = 'co-step done';
+  document.getElementById('cos3').className = 'co-step active';
+  document.getElementById('coBodyMain').style.display = 'none';
+  document.getElementById('coSuccessTitle').textContent = 'Litecoin payment confirmed!';
+  document.getElementById('coSuccessSub').innerHTML = 'LTCPay confirmed this invoice. Your order is now in the delivery queue.';
+  document.getElementById('coWaBtn').style.display = 'none';
+  document.getElementById('coSuccess').classList.add('show');
+}
+
 window.addEventListener('load', function registerSiteBtcpayEvents() {
   if (!window.btcpay || typeof window.btcpay.onModalReceiveMessage !== 'function') return;
 
@@ -3622,12 +3633,159 @@ window.addEventListener('load', function registerSiteBtcpayEvents() {
     const status = String(data.status || '').toLowerCase();
     if (status !== 'complete' && status !== 'settled') return;
 
-    const orderId = (window._currentOrderId || 'N/A') + '-crypto';
-    if (window.location.protocol !== 'file:') {
-      window.location.assign('/success?orderId=' + encodeURIComponent(orderId));
-    }
+    showLtcPaymentComplete();
   });
 }, { once: true });
+</script>
+
+<style>
+/* Nebula-inspired storefront layer: keeps the existing products and checkout logic intact. */
+body.nebula-ui{
+  --bg:#080509;
+  --bg2:#0e0711;
+  --card:#120914;
+  --text:#fffaff;
+  --muted:#ae9dad;
+  --accent:#fa19e8;
+  --accent2:#d26cff;
+  --border:rgba(255,255,255,0.10);
+  --glow:rgba(250,25,232,0.28);
+  background:
+    radial-gradient(circle at 18% -4%,rgba(255,23,225,0.20),transparent 28%),
+    radial-gradient(circle at 92% 24%,rgba(137,47,255,0.14),transparent 29%),
+    #080509;
+}
+body.nebula-ui::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.38;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,black,transparent 56%);}
+.nebula-ui .cursor-glow{display:none;}
+.nebula-ui nav{top:16px;left:50%;right:auto;width:min(1180px,calc(100% - 32px));padding:11px 18px;transform:translateX(-50%);border:1px solid rgba(255,255,255,.10);border-radius:16px;background:rgba(10,6,12,.76);box-shadow:0 20px 48px rgba(0,0,0,.28);}
+.nebula-ui nav.scrolled{padding:9px 18px;}
+.nebula-ui .logo{display:flex;align-items:center;gap:9px;font-family:"Syne",sans-serif;font-size:.82rem;font-weight:800;letter-spacing:-.03em;color:#fff;text-decoration:none;}
+.nebula-ui .logo::before{content:"";width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 34% 31%,#fff 0 7%,#f523dc 8% 42%,#7b1689 43% 70%,#29072d 71%);box-shadow:0 0 18px rgba(250,25,232,.65);}
+.nebula-ui .nav-links{gap:8px;}
+.nebula-ui .nav-links a{padding:8px 10px;border-radius:8px;font-size:.72rem;color:#d5c9d5;}
+.nebula-ui .nav-links a:hover{color:#fff;background:rgba(255,255,255,.06);}
+.nebula-ui .nav-links a::after{display:none;}
+.nebula-ui .nav-cta,.nebula-ui .nav-account-btn.logged-in{border:1px solid rgba(255,113,242,.36);border-radius:9px;background:linear-gradient(135deg,#ff27dc,#c02cff);box-shadow:0 8px 22px rgba(250,25,232,.22);}
+.nebula-ui .nav-account-btn{border-radius:9px;background:rgba(255,255,255,.05);}
+.nebula-ui .hero{min-height:650px;padding:176px 5% 96px;background:radial-gradient(ellipse at center 38%,rgba(241,19,212,.16),transparent 34%);}
+.nebula-ui .hero::after{content:"";position:absolute;left:50%;bottom:30px;width:min(930px,88vw);height:260px;transform:translateX(-50%);border:1px solid rgba(255,255,255,.05);border-radius:24px;background:linear-gradient(90deg,rgba(255,255,255,.025),transparent 32%,rgba(250,25,232,.06));box-shadow:inset 0 1px rgba(255,255,255,.04);pointer-events:none;}
+.nebula-ui .hero > :not(.hero-orb):not(.grid-lines):not(.particles){position:relative;z-index:1;}
+.nebula-ui .hero-badge{border-color:rgba(250,25,232,.30);background:rgba(250,25,232,.10);color:#ffc8fa;font-size:.67rem;letter-spacing:.02em;}
+.nebula-ui .badge-dot{background:#ff40df;box-shadow:0 0 12px #ff40df;}
+.nebula-ui .hero h1{max-width:980px;font-size:clamp(2.8rem,5.3vw,4.8rem);line-height:.94;letter-spacing:-.075em;}
+.nebula-ui .hero h1 .grad{background:linear-gradient(100deg,#fb2fdb 14%,#a730f4 76%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.nebula-ui .hero p{max-width:570px;color:#baaebb;font-size:.94rem;}
+.nebula-ui .btn-primary{border-radius:9px;background:linear-gradient(135deg,#ff27dc,#ca2cff);box-shadow:0 12px 28px rgba(250,25,232,.24);}
+.nebula-ui .btn-secondary{border-radius:9px;border-color:rgba(255,255,255,.13);background:rgba(255,255,255,.035);}
+.nebula-ui .hero-stats{margin-top:45px;padding:14px 22px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(12,6,14,.56);backdrop-filter:blur(12px);}
+.nebula-ui .stat-num{color:#f75ce4;font-size:1.3rem;}
+.nebula-ui .marquee-wrap{border-color:rgba(255,255,255,.07);background:#0b060d;}
+.nebula-ui .marquee-item{color:#cbbdcb;font-size:.68rem;}
+.nebula-ui .marquee-item .dot{background:#fa19e8;box-shadow:0 0 10px #fa19e8;}
+.nebula-ui #products{max-width:1180px;margin:0 auto;padding:112px 24px;}
+.nebula-ui .section-label{color:#fa4be8;letter-spacing:.14em;}
+.nebula-ui .section-title{font-size:clamp(2rem,4vw,3.25rem);letter-spacing:-.055em;}
+.nebula-ui .section-sub{color:#a99baa;}
+.nebula-ui .products-grid{grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-top:38px;}
+.nebula-ui .product-card{min-height:315px;padding:14px;border-color:rgba(255,255,255,.09);border-radius:15px;background:linear-gradient(165deg,rgba(34,15,37,.95),rgba(12,7,14,.96));box-shadow:inset 0 1px rgba(255,255,255,.035);}
+.nebula-ui .product-card:hover{border-color:rgba(250,25,232,.55);box-shadow:0 20px 50px rgba(0,0,0,.38),0 0 30px rgba(250,25,232,.13);transform:translateY(-7px) scale(1.012);}
+.nebula-ui .product-logo{width:100%;height:118px;margin:0 0 14px;border:1px solid rgba(255,255,255,.08);border-radius:10px;background:radial-gradient(circle at 35% 20%,rgba(250,25,232,.23),transparent 46%),#1a0b1d;overflow:hidden;}
+.nebula-ui .product-logo img{width:100%;height:100%;object-fit:cover;opacity:.82;mix-blend-mode:screen;}
+.nebula-ui .product-badge,.nebula-ui .warranty-tag{font-size:.58rem;border-radius:999px;}
+.nebula-ui .product-badge{background:rgba(250,25,232,.14);color:#ffb9f6;border-color:rgba(250,25,232,.28);}
+.nebula-ui .product-name{font-size:.88rem;color:#fff;}
+.nebula-ui .product-desc{font-size:.65rem;color:#a99aaa;min-height:30px;}
+.nebula-ui .product-price{color:#fff;font-size:1.15rem;}
+.nebula-ui .view-btn{border:0;border-radius:8px;background:linear-gradient(135deg,#ff26dc,#c92cff);box-shadow:0 8px 18px rgba(250,25,232,.18);}
+.nebula-ui .feature-item,.nebula-ui .review-card,.nebula-ui .faq-item{border-color:rgba(255,255,255,.09);background:rgba(20,10,22,.72);}
+.nebula-ui footer{border-color:rgba(255,255,255,.08);background:#080509;}
+.nebula-ui .modal-box,.nebula-ui .auth-box,.nebula-ui .dash-modal{border-color:rgba(250,25,232,.24);background:linear-gradient(150deg,#190b1c,#0d080f);box-shadow:0 30px 90px rgba(0,0,0,.6),0 0 56px rgba(250,25,232,.10);}
+.nebula-ui .modal-header,.nebula-ui .auth-header{border-color:rgba(255,255,255,.08);}
+.nebula-ui .modal-close,.nebula-ui .auth-close{border-color:rgba(255,255,255,.10);background:rgba(255,255,255,.05);}
+.nebula-ui .plan-card{border-color:rgba(255,255,255,.09);background:rgba(255,255,255,.025);}
+.nebula-ui .plan-card:hover{border-color:rgba(250,25,232,.42);background:rgba(250,25,232,.08);}
+.nebula-ui .plan-order-btn,.nebula-ui .auth-submit{border:0;background:linear-gradient(135deg,#ff26dc,#c92cff);box-shadow:0 8px 20px rgba(250,25,232,.20);}
+.nebula-ui .auth-tab.active{background:rgba(250,25,232,.14);color:#ff96f2;}
+.nebula-ui .auth-input{border-color:rgba(255,255,255,.10);background:rgba(255,255,255,.035);}
+
+/* Full-screen checkout follows the two-column reference flow. */
+.nebula-ui .pm-card{border-color:rgba(250,25,232,.28);background:linear-gradient(150deg,#190b1c,#0d080f);}
+.nebula-ui .pm-option.crypto,.nebula-ui .pm-option:hover{border-color:rgba(250,25,232,.42);background:rgba(250,25,232,.10);}
+.nebula-ui .co-backdrop{padding:24px;background:rgba(4,2,5,.92);backdrop-filter:blur(18px);}
+.nebula-ui .co-box{position:relative;display:grid;grid-template-columns:minmax(280px,.82fr) minmax(430px,1.35fr);max-width:1080px;max-height:min(780px,calc(100vh - 48px));border-color:rgba(255,255,255,.08);border-radius:18px;background:#0b070c;box-shadow:0 38px 120px rgba(0,0,0,.64);}
+.nebula-ui .co-head{grid-column:1;grid-row:1 / span 2;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-height:100%;padding:48px 38px;border-right:1px solid rgba(255,255,255,.07);background:linear-gradient(160deg,#130916,#09070a);}
+.nebula-ui .co-logo{width:44px;height:44px;margin-bottom:18px;}
+.nebula-ui .co-title{font-family:"Syne",sans-serif;font-size:1.08rem;color:#fff;}
+.nebula-ui .co-sub{font-size:.72rem;color:#a99baa;}
+.nebula-ui .co-price-badge{display:block;margin:34px 0 18px;padding:0;border:0;background:none;text-align:left;}
+.nebula-ui .co-price{font-family:"Syne",sans-serif;font-size:2rem;color:#fff;}
+.nebula-ui .co-onetime{margin-top:4px;color:#ad9aac;font-size:.62rem;letter-spacing:.12em;}
+.nebula-ui .co-head::after{content:"Secure checkout\A Payment confirmed automatically\A Delivery unlocked after settlement";white-space:pre-line;margin-top:16px;color:#a998aa;font-size:.72rem;line-height:2.05;}
+.nebula-ui .co-close{position:absolute;z-index:2;top:18px;right:18px;border-color:rgba(255,255,255,.10);background:rgba(255,255,255,.05);}
+.nebula-ui .co-body{grid-column:2;padding:30px 36px 34px;overflow-y:auto;}
+.nebula-ui .co-steps{margin:0 0 24px;border-bottom:2px solid rgba(255,255,255,.08);border-radius:0;background:none;gap:0;}
+.nebula-ui .co-step{flex:1;padding:0 0 12px;border:0;border-radius:0;background:transparent;color:#817181;font-size:.64rem;text-align:center;}
+.nebula-ui .co-step.active{color:#ff73ef;border-bottom:2px solid #fa19e8;margin-bottom:-2px;box-shadow:none;}
+.nebula-ui .co-timer-row,.nebula-ui .co-credit-box,.nebula-ui .co-order-id-box,.nebula-ui .co-method-switch,.nebula-ui .co-method-note,.nebula-ui .co-uid-row{border-color:rgba(255,255,255,.08);border-radius:9px;background:rgba(255,255,255,.025);}
+.nebula-ui .co-method-tab.active{border-color:rgba(250,25,232,.52);background:rgba(250,25,232,.15);box-shadow:none;}
+.nebula-ui .co-crypto-button{border-color:rgba(250,25,232,.45);background:linear-gradient(135deg,rgba(250,25,232,.22),rgba(127,38,189,.21));}
+.nebula-ui .co-crypto-mark{background:linear-gradient(135deg,#ff38df,#a531ea);}
+.nebula-ui #coCryptoPanel.active ~ .co-paid-btn,#coCryptoPanel.active ~ .co-paid-note{display:none;}
+.nebula-ui .co-success{grid-column:2;padding:80px 38px;}
+@media(max-width:760px){
+  .nebula-ui nav{width:calc(100% - 20px);padding:10px 12px;border-radius:13px;}
+  .nebula-ui .logo{font-size:.72rem;}
+  .nebula-ui .nav-right{gap:7px;}
+  .nebula-ui .hero{min-height:620px;padding-top:145px;}
+  .nebula-ui .hero::after{height:185px;bottom:34px;}
+  .nebula-ui .hero h1{font-size:clamp(2.55rem,12vw,4rem);}
+  .nebula-ui .hero-stats{gap:10px;padding:12px;}
+  .nebula-ui .stat-num{font-size:1.03rem;}
+  .nebula-ui .stat-label{font-size:.52rem;}
+  .nebula-ui .products-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+  .nebula-ui .product-card{min-height:275px;padding:10px;}
+  .nebula-ui .product-logo{height:86px;}
+  .nebula-ui .product-name{font-size:.72rem;}
+  .nebula-ui .view-btn{padding:9px 7px;font-size:.62rem;}
+  .nebula-ui .co-backdrop{padding:0;}
+  .nebula-ui .co-box{display:block;max-height:100vh;border-radius:0;}
+  .nebula-ui .co-head{display:flex;min-height:auto;padding:24px 22px;border-right:0;border-bottom:1px solid rgba(255,255,255,.07);}
+  .nebula-ui .co-price-badge{margin:18px 0 0;}
+  .nebula-ui .co-head::after{display:none;}
+  .nebula-ui .co-body{padding:23px 18px 30px;max-height:calc(100vh - 205px);}
+}
+</style>
+
+<script>
+(function applyNebulaStorefront() {
+  document.body.classList.add('nebula-ui');
+
+  const logo = document.querySelector('nav .logo');
+  if (logo) logo.textContent = 'Streamox Market';
+
+  const hero = document.querySelector('.hero');
+  if (hero) {
+    const heading = hero.querySelector('h1');
+    const copy = hero.querySelector('p');
+    const badge = hero.querySelector('.hero-badge');
+    const primary = hero.querySelector('.btn-primary');
+    const secondary = hero.querySelector('.btn-secondary');
+    if (heading) heading.innerHTML = 'Digital products,<br><span class="grad">delivered instantly</span>';
+    if (copy) copy.textContent = 'Premium digital subscriptions and accounts, with secure checkout and a simple order flow.';
+    if (badge) badge.innerHTML = '<span class="badge-dot"></span>Instant delivery, every order';
+    if (primary) primary.textContent = 'Browse products';
+    if (secondary) secondary.textContent = 'Read reviews';
+  }
+
+  const productsTitle = document.querySelector('#products .section-title');
+  const productsCopy = document.querySelector('#products .section-sub');
+  if (productsTitle) productsTitle.innerHTML = 'Choose your <span>digital upgrade</span>';
+  if (productsCopy) productsCopy.textContent = 'Select a product, choose a plan, and continue through secure checkout.';
+  document.querySelectorAll('.view-btn').forEach((button) => { button.textContent = 'Buy now'; });
+
+  const steps = ['Order information', 'Confirm & pay', 'Receive your items'];
+  document.querySelectorAll('.co-step').forEach((step, index) => { step.textContent = steps[index] || step.textContent; });
+}());
 </script>
 
 </body>
