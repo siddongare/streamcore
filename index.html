@@ -4328,6 +4328,7 @@ window.addEventListener('load', function installReferenceCheckout() {
 
   const products = [
     { key:'netflix', name:'Netflix Premium Accounts', plan:'Netflix Premium Accounts (Lifetime)', description:'4K UHD | multiple profiles | lifetime access', period:'lifetime', inr:100, usd:'0.50', benefits:['4K Ultra HD streaming','Multiple profiles','Lifetime access','Instant delivery'] },
+    { key:'netflixkeys', previousNames:['Netflix Premium Keys'], name:'Netflix 4K Key - Auto Replace + 4K Plan', plan:'Netflix 4K Key - Auto Replace + 4K Plan', description:'Auto replace key with 4K plan access', period:'key', inr:120, usd:'1.2', art:'<div class="product-art product-art-netflix-keys"><b>N</b><small>4K KEY</small></div>', benefits:['4K plan access','Auto replacement','Digital key delivery','Instant delivery'] },
     { key:'prime', name:'Amazon Prime Video', plan:'Amazon Prime Video (Lifetime)', description:'Full Prime Video library | lifetime access', period:'lifetime', inr:150, usd:'1', benefits:['Prime Video library','Solo screen access','Lifetime access','Instant delivery'] },
     { key:'spotify', name:'Spotify Premium Account', plan:'Spotify Premium Account (1 Year)', description:'Ad-free music | offline listening | 1 year', period:'1 year', inr:500, usd:'5', benefits:['Ad-free music and podcasts','Offline listening','Unlimited skips','1 year access'] },
     { key:'youtube', name:'YouTube Premium Keys', plan:'YouTube Premium Keys (1 Month)', description:'Ad-free YouTube and Music | 1 month key', period:'1 month', inr:100, usd:'1', benefits:['Ad-free YouTube','YouTube Music','Background play','1 month key'] },
@@ -4348,7 +4349,8 @@ window.addEventListener('load', function installReferenceCheckout() {
   function findCard(product) {
     return Array.from(grid.querySelectorAll('.product-card')).find(function matchCard(card) {
       const action = card.getAttribute('onclick') || '';
-      return action.includes("'" + product.key + "'") || card.dataset.storeKey === product.key || card.querySelector('.product-name')?.textContent.trim() === product.name;
+      const cardName = card.querySelector('.product-name')?.textContent.trim();
+      return action.includes("'" + product.key + "'") || card.dataset.storeKey === product.key || cardName === product.name || (product.previousNames || []).includes(cardName);
     });
   }
   function setDuration(card, duration) {
