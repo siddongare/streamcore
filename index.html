@@ -3951,8 +3951,8 @@ body.nebula-ui::before{opacity:.2;background-size:54px 54px;}
     const search = document.getElementById('refProductSearch');
     const stock = document.getElementById('refStockFilter');
     const count = document.getElementById('refProductCount');
-    const cards = Array.from(grid.querySelectorAll('.product-card'));
     function updateReferenceFilter() {
+      const cards = Array.from(grid.querySelectorAll('.product-card'));
       const query = search.value.trim().toLowerCase();
       let visible = 0;
       cards.forEach((card) => {
@@ -4010,11 +4010,11 @@ body.nebula-ui::before{opacity:.2;background-size:54px 54px;}
 .reference-payment-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}.reference-payment-option{display:flex;align-items:center;gap:12px;min-width:0;padding:13px 14px;border:1px solid rgba(255,255,255,.1);border-radius:13px;background:#101015;color:#fff;text-align:left;cursor:pointer;transition:transform .2s ease,border-color .2s ease,background .2s ease;}.reference-payment-option:hover{border-color:rgba(240,2,225,.48);background:rgba(240,2,225,.07);transform:translateY(-2px);}.reference-payment-icon{display:grid;place-items:center;flex:0 0 auto;width:38px;height:38px;border-radius:10px;background:#29234e;color:#c9b5ff;font:800 1.15rem/1 "Inter",sans-serif;}.reference-payment-option.ltc .reference-payment-icon{background:linear-gradient(135deg,#5f8ce1,#3d63a4);color:#fff;}.reference-payment-copy{min-width:0;}.reference-payment-copy strong{display:block;color:#fff;font:800 .8rem "Inter",sans-serif;}.reference-payment-copy small{display:block;overflow:hidden;margin-top:3px;color:#718099;font:500 .64rem "Inter",sans-serif;text-overflow:ellipsis;white-space:nowrap;}
 .reference-terms{display:grid;gap:11px;margin:21px 0 17px;color:#d7dce6;font:600 .72rem/1.35 "Inter",sans-serif;}.reference-terms label{display:flex;align-items:flex-start;gap:8px;cursor:pointer;}.reference-terms input{accent-color:#f002e1;margin:1px 0 0;}.reference-immediate{margin-top:20px;padding:17px 15px;border:1px solid rgba(255,255,255,.1);border-radius:12px;background:#111116;}.reference-immediate strong{display:block;color:#f4f1f5;font:800 .84rem "Inter",sans-serif;}.reference-immediate p{margin:7px 0 0;color:#7e8ca3;font:500 .7rem/1.45 "Inter",sans-serif;}
 .reference-back-button{display:inline-flex;align-items:center;gap:7px;margin:0 0 20px;padding:0;border:0;background:none;color:#a6b4ca;font:700 .72rem "Inter",sans-serif;cursor:pointer;}.reference-back-button:hover{color:#fff;}.reference-payment-heading{display:flex;align-items:center;gap:11px;margin-bottom:22px;color:#fff;font:800 1.1rem "Poppins",sans-serif;}.reference-payment-heading .reference-payment-icon{width:34px;height:34px;font-size:1rem;}.reference-upi-layout{display:grid;grid-template-columns:minmax(210px,.72fr) minmax(280px,1fr);gap:28px;align-items:center;padding:22px;border:1px solid rgba(255,255,255,.09);border-radius:14px;background:linear-gradient(145deg,#111116,#0c0b0e);}.reference-upi-layout .co-qr-wrap{margin:0;}.reference-upi-layout .co-qr-frame{min-width:190px;min-height:190px;padding:10px;border-radius:12px;}.reference-upi-layout .co-qr-frame img{width:170px;height:170px;}.reference-upi-copy{display:grid;gap:13px;}.reference-upi-copy p{margin:0;color:#8d9ab1;font:500 .72rem/1.5 "Inter",sans-serif;}.reference-upi-copy .co-uid-row{margin:0;background:rgba(255,255,255,.035);border-color:rgba(255,255,255,.1);}.reference-upi-copy .co-uid{font-size:.76rem;}.reference-upi-apps{display:flex;gap:8px;flex-wrap:wrap;}.reference-upi-apps button{padding:9px 11px;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:#17131a;color:#e9e2e9;font:700 .66rem "Inter",sans-serif;cursor:pointer;}.reference-upi-apps button:hover{border-color:rgba(240,2,225,.45);}.reference-complete-button{width:100%;margin-top:17px;padding:14px;border:0;border-radius:10px;background:linear-gradient(135deg,#f002e1,#bd16cf);box-shadow:0 12px 25px rgba(240,2,225,.2);color:#fff;font:800 .78rem "Inter",sans-serif;cursor:pointer;}
-.reference-ltc-card{padding:20px;border:1px solid rgba(255,255,255,.09);border-radius:14px;background:linear-gradient(145deg,#101116,#09090c);}.reference-ltc-top{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:18px;}.reference-ltc-top strong{color:#fff;font:800 .83rem "Inter",sans-serif;}.reference-ltc-top small{display:block;margin-top:3px;color:#76849a;font:500 .66rem "Inter",sans-serif;}.reference-ltc-amount{color:#b9c9e2;font:800 .76rem "Inter",sans-serif;}.reference-ltc-qr{display:grid;place-items:center;width:168px;height:168px;margin:0 auto 16px;border:8px solid #fff;border-radius:13px;background:repeating-linear-gradient(45deg,#fff 0 9px,#f1f1f1 9px 18px);color:#4f74b7;font:900 4rem "Poppins",sans-serif;box-shadow:0 10px 28px rgba(0,0,0,.32);}.reference-ltc-address{display:flex;align-items:center;gap:9px;padding:12px 13px;border:1px solid rgba(255,255,255,.1);border-radius:10px;background:rgba(255,255,255,.035);color:#7e8ca3;font:600 .68rem "Inter",sans-serif;}.reference-ltc-address code{flex:1;overflow:hidden;color:#c7d4e7;font:600 .69rem "Inter",sans-serif;text-overflow:ellipsis;white-space:nowrap;}.reference-ltc-address button{border:0;background:transparent;color:#98a9c3;cursor:pointer;}.reference-ltc-form{margin-top:9px;}.reference-ltc-form button{width:100%;padding:13px;border:1px solid rgba(240,2,225,.48);border-radius:10px;background:rgba(240,2,225,.07);color:#fb42e8;font:800 .78rem "Inter",sans-serif;cursor:pointer;}.reference-ltc-form button:hover{background:rgba(240,2,225,.15);}.reference-ltc-steps{display:grid;gap:9px;margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.07);}.reference-ltc-steps strong{color:#92a0b7;font:800 .62rem "Inter",sans-serif;letter-spacing:.1em;text-transform:uppercase;}.reference-ltc-steps span{color:#8290a5;font:500 .7rem "Inter",sans-serif;}.reference-ltc-status{margin:14px 0 0;color:#7e8ca3;font:600 .68rem/1.45 "Inter",sans-serif;text-align:center;}.reference-ltc-status.is-complete{color:#63d596;}
-.reference-ltc-qr{position:relative;border-color:rgba(143,177,239,.24);background:radial-gradient(circle at 35% 28%,rgba(101,144,224,.28),transparent 42%),linear-gradient(145deg,#18243d,#0b101c);color:#b7ccf7;font-size:3rem;}.reference-ltc-qr::after{content:"Secure QR";position:absolute;bottom:24px;color:#9eb5df;font:800 .55rem "Inter",sans-serif;letter-spacing:.12em;text-transform:uppercase;}
-body.nebula-ui iframe[name="btcpay"]{top:50%!important;left:50%!important;width:min(460px,calc(100% - 32px))!important;height:min(720px,calc(100% - 32px))!important;border:1px solid rgba(240,2,225,.35)!important;border-radius:16px!important;background:#0b090c!important;box-shadow:0 28px 90px rgba(0,0,0,.7)!important;transform:translate(-50%,-50%);}
+.reference-ltc-card{padding:26px 20px;border:1px solid rgba(255,255,255,.09);border-radius:14px;background:linear-gradient(145deg,#101116,#09090c);}.reference-ltc-top{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:18px;}.reference-ltc-top strong{color:#fff;font:800 .83rem "Inter",sans-serif;}.reference-ltc-top small{display:block;margin-top:3px;color:#76849a;font:500 .66rem "Inter",sans-serif;}.reference-ltc-amount{color:#b9c9e2;font:800 .76rem "Inter",sans-serif;}.reference-ltc-form{display:none!important;}.reference-ltc-status{margin:14px 0 0;color:#7e8ca3;font:600 .68rem/1.45 "Inter",sans-serif;text-align:center;}.reference-ltc-status.is-complete{color:#63d596;}
+@media(min-width:841px){body.nebula-ui iframe[name="btcpay"]{top:50%!important;left:calc(50% - 140px)!important;width:min(780px,calc(50vw + 140px))!important;height:min(820px,calc(100% - 40px))!important;border:0!important;border-radius:0 16px 16px 0!important;background:#fff!important;box-shadow:none!important;transform:translateY(-50%)!important;}}
+@media(max-width:840px){body.nebula-ui iframe[name="btcpay"]{top:0!important;left:0!important;width:100%!important;height:100%!important;border:0!important;border-radius:0!important;background:#fff!important;box-shadow:none!important;transform:none!important;}}
 .reference-checkout-complete{display:grid;min-height:430px;place-items:center;text-align:center;}.reference-checkout-complete div{max-width:340px;}.reference-checkout-complete h2{margin:17px 0 8px;color:#fff;font:800 1.65rem "Poppins",sans-serif;}.reference-checkout-complete p{margin:0;color:#98a5b8;font:500 .8rem/1.5 "Inter",sans-serif;}.reference-complete-mark{display:grid;place-items:center;width:64px;height:64px;margin:auto;border:1px solid rgba(99,213,150,.4);border-radius:50%;background:rgba(99,213,150,.12);color:#63d596;font:900 1.5rem "Inter",sans-serif;}
-@media(max-width:840px){.nebula-ui .co-backdrop{padding:0;align-items:stretch;}.nebula-ui .co-box.reference-checkout{display:block;max-height:none;min-height:100vh;border-radius:0;}.reference-checkout-summary{min-height:auto;padding:25px 22px 22px;border-right:0;border-bottom:1px solid rgba(255,255,255,.07);}.reference-checkout-brand{margin-bottom:28px;}.reference-order-note{display:none;}.reference-checkout-main{padding:30px 22px 42px;overflow:visible;}.reference-checkout-steps{margin-bottom:27px;}.reference-upi-layout{grid-template-columns:1fr;}.reference-ltc-qr{width:145px;height:145px;}.reference-payment-grid{grid-template-columns:1fr;}}
+@media(max-width:840px){.nebula-ui .co-backdrop{padding:0;align-items:stretch;}.nebula-ui .co-box.reference-checkout{display:block;max-height:none;min-height:100vh;border-radius:0;}.reference-checkout-summary{min-height:auto;padding:25px 22px 22px;border-right:0;border-bottom:1px solid rgba(255,255,255,.07);}.reference-checkout-brand{margin-bottom:28px;}.reference-order-note{display:none;}.reference-checkout-main{padding:30px 22px 42px;overflow:visible;}.reference-checkout-steps{margin-bottom:27px;}.reference-upi-layout{grid-template-columns:1fr;}.reference-payment-grid{grid-template-columns:1fr;}}
 @media(max-width:460px){.reference-checkout-summary{padding:22px 16px 18px;}.reference-checkout-main{padding:26px 16px 35px;}.reference-checkout-steps span{font-size:.58rem;}.reference-payment-option{padding:12px;}.reference-upi-layout{padding:13px;}.reference-upi-layout .co-qr-frame{min-width:160px;min-height:160px;}.reference-upi-layout .co-qr-frame img{width:142px;height:142px;}.reference-order-summary{margin-top:26px;}}
 </style>
 
@@ -4076,9 +4076,7 @@ window.addEventListener('load', function installReferenceCheckout() {
           <div class="reference-checkout-steps"><span class="done">Order information</span><span class="active">Confirm and pay</span><span>Receive your items</span></div>
           <h2 class="reference-payment-heading"><span class="reference-payment-icon" style="background:linear-gradient(135deg,#5f8ce1,#3d63a4);color:#fff">L</span>LTC Payment</h2>
           <div class="reference-ltc-card">
-            <div class="reference-ltc-top"><div><strong>Litecoin payment</strong><small id="referenceLtcInvoiceId">Invoice generated securely by LTCPay</small></div><span class="reference-ltc-amount" id="referenceLtcAmount">Live quote</span></div>
-            <div class="reference-ltc-qr" aria-label="Litecoin QR code is created by LTCPay after continuing">L</div>
-            <div class="reference-ltc-address"><span>Address:</span><code id="referenceLtcAddress">Generated securely when you continue</code><button type="button" disabled aria-label="Address available after invoice creation">Copy</button></div>
+            <div class="reference-ltc-top"><div><strong>Opening Litecoin invoice</strong><small id="referenceLtcInvoiceId">Preparing your secure LTCPay checkout</small></div><span class="reference-ltc-amount" id="referenceLtcAmount">Live quote</span></div>
             <form method="POST" action="https://ltcpay.com/api/v1/invoices" target="btcpay" data-btcpay-button class="reference-ltc-form" id="siteBtcpayForm">
               <input type="hidden" name="storeId" value="52Z9hVUxujGyxHUf6vEbGkt3D2jbih3qWzLkmTt3Lgyi">
               <input type="hidden" name="orderId" value="nflix" id="cryptoOrderIdInput">
@@ -4086,10 +4084,9 @@ window.addEventListener('load', function installReferenceCheckout() {
               <input type="hidden" name="notifyEmail" value="siddongare21@gmail.com">
               <input type="hidden" name="price" value="1">
               <input type="hidden" name="currency" value="USD">
-              <button type="submit">Generate secure LTC invoice</button>
+              <button type="submit">Open secure LTC invoice</button>
             </form>
-            <div class="reference-ltc-steps"><strong>How to pay</strong><span>1. Generate your LTCPay invoice to receive the live QR code and address.</span><span>2. Send the exact Litecoin amount. Payment is detected after network confirmation.</span></div>
-            <p class="reference-ltc-status" id="referenceLtcStatus">The secure invoice opens in a compact LTCPay overlay. This page stays open behind it.</p>
+            <p class="reference-ltc-status" id="referenceLtcStatus">Loading your secure LTCPay invoice with the live QR code and wallet address.</p>
           </div>
         </section>
         <section class="reference-checkout-panel reference-checkout-complete" id="referenceCheckoutComplete" hidden><div><span class="reference-complete-mark">OK</span><h2 id="referenceCompleteTitle">Payment confirmed</h2><p id="referenceCompleteCopy">Your order is now in the delivery queue.</p></div></section>
@@ -4117,6 +4114,17 @@ window.addEventListener('load', function installReferenceCheckout() {
     if (orderInput) orderInput.value = `${orderId}-ltc`;
     if (description && product) description.value = `${product.name} | Order ID ${orderId}`;
   }
+  function hideBtcpayInvoice() {
+    if (window.btcpay && typeof window.btcpay.hideFrame === 'function') {
+      try { window.btcpay.hideFrame(); } catch (error) { /* The checkout may not have created a frame yet. */ }
+    }
+  }
+  const ltcForm = document.getElementById('siteBtcpayForm');
+  if (ltcForm) {
+    ltcForm.addEventListener('submit', function showLtcInvoiceFrame() {
+      if (window.btcpay && typeof window.btcpay.showFrame === 'function') window.btcpay.showFrame();
+    });
+  }
 
   const legacyCoPaid = window.coPaid;
 
@@ -4139,9 +4147,9 @@ window.addEventListener('load', function installReferenceCheckout() {
     if (image) image.innerHTML = typeof IMGS !== 'undefined' && IMGS[key] ? `<img src="${IMGS[key]}" alt="">` : '<span>S</span>';
     value('referenceLtcInvoiceId', `Order ID ${window._currentOrderId}`);
     value('referenceLtcAmount', 'Live quote from LTCPay');
-    value('referenceLtcAddress', 'Generated securely when you continue');
-    value('referenceLtcStatus', 'The secure invoice opens in a compact LTCPay overlay. This page stays open behind it.');
+    value('referenceLtcStatus', 'Your secure LTCPay invoice will load here with the live QR code and wallet address.');
     document.getElementById('referenceLtcStatus')?.classList.remove('is-complete');
+    if (ltcForm) delete ltcForm.dataset.invoiceOpened;
     syncLtcForm(product);
     showPanel('referenceCheckoutChoose');
     backdrop.classList.add('open');
@@ -4149,6 +4157,7 @@ window.addEventListener('load', function installReferenceCheckout() {
     return true;
   };
   window.closeCheckout = function closeCheckout() {
+    hideBtcpayInvoice();
     backdrop.classList.remove('open');
     document.body.style.overflow = '';
   };
@@ -4158,13 +4167,28 @@ window.addEventListener('load', function installReferenceCheckout() {
     if (mode === 'ltc') {
       coPaymentMode = 'crypto';
       showPanel('referenceCheckoutLtc');
+      if (ltcForm && !ltcForm.dataset.invoiceOpened) {
+        ltcForm.dataset.invoiceOpened = 'true';
+        window.setTimeout(function openLtcInvoice() {
+          if (typeof ltcForm.requestSubmit === 'function') {
+            ltcForm.requestSubmit();
+          } else {
+            if (window.btcpay && typeof window.btcpay.showFrame === 'function') window.btcpay.showFrame();
+            ltcForm.submit();
+          }
+        }, 60);
+      }
       return;
     }
     coPaymentMode = 'upi';
     showPanel('referenceCheckoutUpi');
     renderCheckoutQR();
   };
-  window.referenceCheckoutBack = function referenceCheckoutBack() { showPanel('referenceCheckoutChoose'); };
+  window.referenceCheckoutBack = function referenceCheckoutBack() {
+    hideBtcpayInvoice();
+    if (ltcForm) delete ltcForm.dataset.invoiceOpened;
+    showPanel('referenceCheckoutChoose');
+  };
   window.coPaid = async function coPaid() {
     let saved = true;
     if (typeof legacyCoPaid === 'function') {
@@ -4182,6 +4206,94 @@ window.addEventListener('load', function installReferenceCheckout() {
     value('referenceCompleteCopy', 'LTCPay confirmed this invoice. Your order is now in the delivery queue.');
   };
 });
+</script>
+
+<style>
+/* Visuals for the products whose pricing and checkout will be enabled later. */
+.nebula-ui .product-card[data-coming-soon]{cursor:default;}
+.nebula-ui .product-card[data-coming-soon]:hover{transform:translateY(-7px) scale(1.015);}
+.nebula-ui .product-card[data-coming-soon] .view-btn{background:rgba(255,255,255,.055);border-color:rgba(255,255,255,.12);box-shadow:none;color:#a9a1aa;cursor:not-allowed;}
+.nebula-ui .product-card[data-coming-soon] .warranty-tag{border-color:rgba(255,255,255,.12);background:rgba(255,255,255,.045);color:#b6adb8;}
+.nebula-ui .product-art{position:relative;isolation:isolate;width:60px;height:60px;border-radius:16px;overflow:hidden;}
+.nebula-ui .product-art::after{content:"";position:absolute;inset:1px;border:1px solid rgba(255,255,255,.22);border-radius:15px;pointer-events:none;}
+.nebula-ui .product-art-netflix-keys{display:grid;place-items:center;background:radial-gradient(circle at 22% 20%,#ffe7a0 0 4%,transparent 28%),linear-gradient(135deg,#5f3500,#d99a16 48%,#ffdf77);box-shadow:0 10px 24px rgba(217,154,22,.22);}
+.nebula-ui .product-art-netflix-keys b{position:relative;z-index:1;color:#a90000;font:900 2.7rem/.8 Georgia,serif;text-shadow:1px 2px 0 rgba(255,241,185,.65);transform:scaleX(.72);}
+.nebula-ui .product-art-netflix-keys small{position:absolute;right:5px;bottom:5px;z-index:1;color:#492600;font:800 .37rem/1 Arial,sans-serif;letter-spacing:.08em;}
+.nebula-ui .product-art-mullvad{display:grid;place-items:center;background:radial-gradient(circle at 63% 24%,rgba(255,255,255,.25),transparent 22%),linear-gradient(145deg,#163940,#225d5d 52%,#9bb847);box-shadow:0 10px 24px rgba(104,151,80,.18);}
+.nebula-ui .product-art-mullvad svg{position:relative;z-index:1;width:43px;height:43px;filter:drop-shadow(0 4px 6px rgba(0,0,0,.24));}
+.nebula-ui .product-art-nitro{display:grid;place-items:center;background:radial-gradient(circle at 74% 18%,rgba(255,255,255,.25),transparent 22%),linear-gradient(135deg,#7289da,#4b5cae 58%,#252e67);box-shadow:0 10px 24px rgba(89,107,205,.22);}
+.nebula-ui .product-art-nitro svg{position:relative;z-index:1;width:43px;height:43px;filter:drop-shadow(0 4px 7px rgba(13,18,61,.36));}
+.nebula-ui .product-art-apple{display:grid;place-items:center;background:radial-gradient(circle at 72% 18%,rgba(255,255,255,.52),transparent 22%),linear-gradient(135deg,#fe565d,#fc2c8f 50%,#bf1faa);box-shadow:0 10px 24px rgba(252,44,143,.22);}
+.nebula-ui .product-art-apple span{position:relative;z-index:1;color:#fff;font:900 2.85rem/.8 Georgia,serif;text-shadow:0 4px 8px rgba(75,0,54,.28);}
+</style>
+
+<script>
+(function addUpcomingProducts() {
+  const grid = document.querySelector('#products .products-grid');
+  if (!grid || grid.dataset.upcomingProductsAdded) return;
+  grid.dataset.upcomingProductsAdded = 'true';
+
+  const netflixCard = grid.querySelector(".product-card[onclick*='netflix']");
+  if (netflixCard) {
+    const name = netflixCard.querySelector('.product-name');
+    const description = netflixCard.querySelector('.product-desc');
+    if (name) name.textContent = 'Netflix Premium Accounts';
+    if (description) description.textContent = '4K UHD multiple profiles · Lifetime access';
+  }
+  document.querySelectorAll('.visual-card-name').forEach(function renameNetflixVisual(element) {
+    if (element.textContent.trim() === 'Netflix Premium') element.textContent = 'Netflix Premium Accounts';
+  });
+  if (typeof CATALOGS !== 'undefined' && CATALOGS.netflix) {
+    CATALOGS.netflix.title = 'Netflix Premium Accounts';
+    CATALOGS.netflix.subtitle = '4K UHD multiple profiles · Lifetime access';
+    CATALOGS.netflix.sections[0].plans[0].name = 'Netflix Premium Account';
+  }
+  if (typeof CO_DATA !== 'undefined' && CO_DATA.netflix) {
+    CO_DATA.netflix.name = 'Netflix Premium Accounts';
+    CO_DATA.netflix.sub = '4K UHD · Multiple profiles · Lifetime';
+    CO_DATA.netflix.msg = 'Hi! I just paid for Netflix Premium Accounts. Please confirm my payment and send my account.';
+  }
+  if (typeof WA_MSGS !== 'undefined') WA_MSGS.netflix = 'Hi! I want to order Netflix Premium Accounts. Can you confirm availability and guide me on how to pay?';
+
+  const products = [
+    {
+      name: 'Netflix Premium Keys',
+      description: 'Premium access keys',
+      art: '<div class="product-art product-art-netflix-keys"><b>N</b><small>KEYS</small></div>'
+    },
+    {
+      name: 'Mullvad VPN',
+      description: 'Private VPN access',
+      art: '<div class="product-art product-art-mullvad"><svg viewBox="0 0 64 64" aria-hidden="true"><path fill="#c6da66" d="M13 48V20l10 9 9-16 9 16 10-9v28H13Z"/><path fill="#f2f8d3" d="M22 47V31l10 9 10-9v16H22Z"/><circle cx="27" cy="39" r="2.5" fill="#234b4d"/><circle cx="37" cy="39" r="2.5" fill="#234b4d"/></svg></div>'
+    },
+    {
+      name: 'Nitro Token',
+      description: 'Discord Nitro token',
+      art: '<div class="product-art product-art-nitro"><svg viewBox="0 0 64 64" aria-hidden="true"><path fill="#fff" d="M15 19c7-5 27-5 34 0l4 27c-7 5-35 5-42 0l4-27Z"/><path fill="#6474cd" d="M23 34c2-2 5-3 9-3s7 1 9 3v5c-2 2-5 3-9 3s-7-1-9-3v-5Z"/><circle cx="28" cy="36" r="2.3" fill="#fff"/><circle cx="36" cy="36" r="2.3" fill="#fff"/></svg></div>'
+    },
+    {
+      name: 'Apple Music',
+      description: 'Premium music streaming',
+      art: '<div class="product-art product-art-apple"><span>&#9835;</span></div>'
+    }
+  ];
+
+  products.forEach(function addProduct(product) {
+    const card = document.createElement('article');
+    card.className = 'product-card reveal';
+    card.dataset.comingSoon = 'true';
+    card.innerHTML = product.art +
+      '<div class="product-name">' + product.name + '</div>' +
+      '<div class="product-desc">' + product.description + '</div>' +
+      '<div class="product-price-row"><span class="product-price">TBA</span><span class="product-period">Coming soon</span></div>' +
+      '<div class="warranty-tag">Launching soon</div>' +
+      '<button class="view-btn" type="button" disabled>Coming soon</button>';
+    grid.appendChild(card);
+  });
+
+  const search = document.getElementById('refProductSearch');
+  if (search) search.dispatchEvent(new Event('input', { bubbles: true }));
+}());
 </script>
 
 </body>
