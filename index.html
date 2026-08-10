@@ -4304,6 +4304,8 @@ window.addEventListener('load', function installReferenceCheckout() {
 /* Artwork for the newly added catalog products. */
 .nebula-ui .product-card > .product-art{margin-bottom:14px;}
 .nebula-ui .product-logo .product-art{margin-bottom:0;}
+.nebula-ui .product-duration{min-height:13px;margin:1px 0 9px;color:#a59ba3;font:600 .56rem "Inter",sans-serif;letter-spacing:0;}
+.nebula-ui .product-period[hidden]{display:none!important;}
 .nebula-ui .product-art-duolingo{display:grid;place-items:center;background:radial-gradient(circle at 50% 15%,rgba(255,255,255,.33),transparent 26%),linear-gradient(145deg,#8cc63e,#4e9b28 64%,#21651e);}
 .nebula-ui .product-art-duolingo svg{width:45px;height:45px;filter:drop-shadow(0 4px 7px rgba(20,71,15,.3));}
 .nebula-ui .product-art-filmora{display:grid;place-items:center;background:linear-gradient(135deg,#111a29,#243a5a 56%,#101822);}
@@ -4341,13 +4343,24 @@ window.addEventListener('load', function installReferenceCheckout() {
     { key:'gemini', name:'Gemini Pro Key', plan:'Gemini Pro Key (18 Months)', description:'Gemini Pro key | 18 months', period:'18 months', inr:200, usd:'2', art:'<div class="product-art product-art-gemini"><span>&#10022;</span></div>', benefits:['Gemini Pro key','18 months access','Digital delivery','Instant delivery'] }
   ];
 
-  function money(amount) { return '&#8377;' + amount; }
+  function money(amount, usd) { return '&#8377;' + amount + (usd ? ' / $' + usd : ''); }
   function buildMessage(product) { return 'Hi! I want to order ' + product.plan + ' for INR ' + product.inr + '. Please confirm availability and payment details.'; }
   function findCard(product) {
     return Array.from(grid.querySelectorAll('.product-card')).find(function matchCard(card) {
       const action = card.getAttribute('onclick') || '';
       return action.includes("'" + product.key + "'") || card.dataset.storeKey === product.key || card.querySelector('.product-name')?.textContent.trim() === product.name;
     });
+  }
+  function setDuration(card, duration) {
+    const name = card.querySelector('.product-name');
+    if (!name) return;
+    let durationLine = card.querySelector('.product-duration');
+    if (!durationLine) {
+      durationLine = document.createElement('div');
+      durationLine.className = 'product-duration';
+      name.insertAdjacentElement('afterend', durationLine);
+    }
+    durationLine.textContent = 'Duration: ' + duration;
   }
   function renderCard(card, product) {
     card.dataset.storeKey = product.key;
@@ -4361,8 +4374,10 @@ window.addEventListener('load', function installReferenceCheckout() {
     const button = card.querySelector('.view-btn');
     if (name) name.textContent = product.name;
     if (description) description.textContent = product.description;
-    if (price) price.innerHTML = money(product.inr);
-    if (period) period.textContent = product.period;
+    if (price) price.innerHTML = money(product.inr, product.usd);
+    if (period) { period.textContent = product.period; period.hidden = true; }
+    card.dataset.duration = product.period;
+    setDuration(card, product.period);
     if (warranty) warranty.textContent = 'Instant delivery';
     if (button) { button.disabled = false; button.textContent = 'View Plans & Benefits'; }
   }
@@ -4383,7 +4398,7 @@ window.addEventListener('load', function installReferenceCheckout() {
       title: product.name,
       subtitle: product.description,
       imgKey: product.key,
-      sections: [{ label:'Plan', plans:[{ name:product.plan, detail:product.description, price:money(product.inr), wa:product.key }]}],
+      sections: [{ label:'Plan', plans:[{ name:product.plan, detail:product.description, price:money(product.inr, product.usd), wa:product.key }]}],
       benefits: product.benefits
     };
     CO_DATA[product.key] = {
@@ -4398,6 +4413,13 @@ window.addEventListener('load', function installReferenceCheckout() {
     renderCard(card, product);
   });
 
+  Array.from(grid.querySelectorAll('.product-card')).forEach(function addDurationToEveryCard(card) {
+    const period = card.querySelector('.product-period');
+    const duration = card.dataset.duration || (period ? period.textContent.trim() : 'Coming soon');
+    if (period) period.hidden = true;
+    setDuration(card, duration || 'Coming soon');
+  });
+
   document.querySelectorAll('.visual-card').forEach(function syncVisualCard(card) {
     const action = card.getAttribute('onclick') || '';
     const product = products.find(function findProduct(item) { return action.includes("'" + item.key + "'"); });
@@ -4407,7 +4429,7 @@ window.addEventListener('load', function installReferenceCheckout() {
     const price = card.querySelector('.visual-card-price');
     if (name) name.textContent = product.name;
     if (tag) tag.textContent = product.period;
-    if (price) price.innerHTML = money(product.inr);
+    if (price) price.innerHTML = money(product.inr, product.usd);
   });
 
   const search = document.getElementById('refProductSearch');
