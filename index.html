@@ -4111,8 +4111,12 @@ window.addEventListener('load', function installReferenceCheckout() {
     const orderId = window._currentOrderId || 'SX-PENDING';
     const orderInput = document.getElementById('cryptoOrderIdInput');
     const description = document.getElementById('cryptoCheckoutDescInput');
+    const amountInput = ltcForm ? ltcForm.querySelector('[name="price"]') : null;
+    const currencyInput = ltcForm ? ltcForm.querySelector('[name="currency"]') : null;
     if (orderInput) orderInput.value = `${orderId}-ltc`;
     if (description && product) description.value = `${product.name} | Order ID ${orderId}`;
+    if (amountInput && product && product.usd) amountInput.value = String(product.usd);
+    if (currencyInput) currencyInput.value = 'USD';
   }
   function hideBtcpayInvoice() {
     if (window.btcpay && typeof window.btcpay.hideFrame === 'function') {
@@ -4144,7 +4148,7 @@ window.addEventListener('load', function installReferenceCheckout() {
     value('referenceCheckoutProduct', product.name);
     value('referenceCheckoutSub', product.sub);
     const image = document.getElementById('referenceCheckoutImage');
-    if (image) image.innerHTML = typeof IMGS !== 'undefined' && IMGS[key] ? `<img src="${IMGS[key]}" alt="">` : '<span>S</span>';
+    if (image) image.innerHTML = typeof IMGS !== 'undefined' && IMGS[key] ? `<img src="${IMGS[key]}" alt="">` : (typeof getLogoHTML === 'function' ? getLogoHTML(key) : '<span>S</span>');
     value('referenceLtcInvoiceId', `Order ID ${window._currentOrderId}`);
     value('referenceLtcAmount', 'Live quote from LTCPay');
     value('referenceLtcStatus', 'Your secure LTCPay invoice will load here with the live QR code and wallet address.');
@@ -4293,6 +4297,121 @@ window.addEventListener('load', function installReferenceCheckout() {
 
   const search = document.getElementById('refProductSearch');
   if (search) search.dispatchEvent(new Event('input', { bubbles: true }));
+}());
+</script>
+
+<style>
+/* Artwork for the newly added catalog products. */
+.nebula-ui .product-card > .product-art{margin-bottom:14px;}
+.nebula-ui .product-logo .product-art{margin-bottom:0;}
+.nebula-ui .product-art-duolingo{display:grid;place-items:center;background:radial-gradient(circle at 50% 15%,rgba(255,255,255,.33),transparent 26%),linear-gradient(145deg,#8cc63e,#4e9b28 64%,#21651e);}
+.nebula-ui .product-art-duolingo svg{width:45px;height:45px;filter:drop-shadow(0 4px 7px rgba(20,71,15,.3));}
+.nebula-ui .product-art-filmora{display:grid;place-items:center;background:linear-gradient(135deg,#111a29,#243a5a 56%,#101822);}
+.nebula-ui .product-art-filmora span{display:grid;place-items:center;width:34px;height:34px;transform:rotate(45deg);border-radius:6px;background:linear-gradient(135deg,#6df2d2,#36a7e6);box-shadow:inset 12px -12px 0 #162c49;}
+.nebula-ui .product-art-express{display:grid;place-items:center;background:radial-gradient(circle at 50% 42%,#ff6a6e 0 26%,#e42a36 28% 52%,#94101c 54% 100%);}
+.nebula-ui .product-art-express b{color:#fff;font:900 2.05rem/.8 Arial,sans-serif;letter-spacing:-.18em;text-shadow:0 3px 7px rgba(80,0,0,.3);}
+.nebula-ui .product-art-rockstar{display:grid;place-items:center;background:linear-gradient(145deg,#ffe76e,#f3bb0a 56%,#bd7600);}
+.nebula-ui .product-art-rockstar b{color:#15110a;font:900 1.9rem/.8 Georgia,serif;text-shadow:1px 2px 0 rgba(255,255,255,.45);}
+.nebula-ui .product-art-fivem{display:grid;place-items:center;background:linear-gradient(145deg,#141414,#382818 52%,#16110e);}
+.nebula-ui .product-art-fivem span{width:26px;height:26px;transform:rotate(45deg);border:3px solid #ff9b34;background:linear-gradient(135deg,#ffbd61,#d85318);box-shadow:0 0 14px rgba(255,143,42,.38);}
+.nebula-ui .product-art-gemini{display:grid;place-items:center;background:radial-gradient(circle at 73% 20%,rgba(255,255,255,.46),transparent 20%),linear-gradient(135deg,#1c3c8f,#3589d7 49%,#3fd6bd);}
+.nebula-ui .product-art-gemini span{color:#fff;font:900 2.75rem/.8 Georgia,serif;text-shadow:0 4px 8px rgba(8,42,99,.38);}
+</style>
+
+<script>
+(function syncCatalogPricing() {
+  const grid = document.querySelector('#products .products-grid');
+  if (!grid || grid.dataset.catalogPricingSynced) return;
+  grid.dataset.catalogPricingSynced = 'true';
+
+  const products = [
+    { key:'netflix', name:'Netflix Premium Accounts', plan:'Netflix Premium Accounts (Lifetime)', description:'4K UHD | multiple profiles | lifetime access', period:'lifetime', inr:100, usd:'0.50', benefits:['4K Ultra HD streaming','Multiple profiles','Lifetime access','Instant delivery'] },
+    { key:'prime', name:'Amazon Prime Video', plan:'Amazon Prime Video (Lifetime)', description:'Full Prime Video library | lifetime access', period:'lifetime', inr:150, usd:'1', benefits:['Prime Video library','Solo screen access','Lifetime access','Instant delivery'] },
+    { key:'spotify', name:'Spotify Premium Account', plan:'Spotify Premium Account (1 Year)', description:'Ad-free music | offline listening | 1 year', period:'1 year', inr:500, usd:'5', benefits:['Ad-free music and podcasts','Offline listening','Unlimited skips','1 year access'] },
+    { key:'youtube', name:'YouTube Premium Keys', plan:'YouTube Premium Keys (1 Month)', description:'Ad-free YouTube and Music | 1 month key', period:'1 month', inr:100, usd:'1', benefits:['Ad-free YouTube','YouTube Music','Background play','1 month key'] },
+    { key:'capcut', name:'CapCut Pro Method', plan:'CapCut Pro Method (Lifetime)', description:'Pro tools | no watermark | lifetime method', period:'lifetime', inr:100, usd:'1', benefits:['Pro templates and effects','No watermark','Editing tools','Lifetime method'] },
+    { key:'nordvpn', name:'Nord VPN', plan:'Nord VPN (Lifetime)', description:'Private VPN access | lifetime', period:'lifetime', inr:100, usd:'1', benefits:['Private browsing','Multiple devices','VPN access','Lifetime access'] },
+    { key:'crunchyroll', name:'Crunchyroll', plan:'Crunchyroll Premium', description:'Premium anime streaming | ad-free', period:'premium', inr:59, usd:'0.59', benefits:['Ad-free anime','Offline downloads','Premium streaming','Instant delivery'] },
+    { key:'mullvad', name:'Mullvad VPN', plan:'Mullvad VPN', description:'Private VPN access', period:'premium', inr:150, usd:'1.5', art:'<div class="product-art product-art-mullvad"><svg viewBox="0 0 64 64" aria-hidden="true"><path fill="#c6da66" d="M13 48V20l10 9 9-16 9 16 10-9v28H13Z"/><path fill="#f2f8d3" d="M22 47V31l10 9 10-9v16H22Z"/><circle cx="27" cy="39" r="2.5" fill="#234b4d"/><circle cx="37" cy="39" r="2.5" fill="#234b4d"/></svg></div>', benefits:['Private VPN access','No account details required','Multiple devices','Instant delivery'] },
+    { key:'duolingo', name:'Duolingo', plan:'Duolingo Premium', description:'Premium language learning access', period:'premium', inr:50, usd:'0.5', art:'<div class="product-art product-art-duolingo"><svg viewBox="0 0 64 64" aria-hidden="true"><path fill="#f7ffcb" d="M14 28 9 13l15 6 8-8 8 8 15-6-5 15v17c0 9-8 15-18 15S14 54 14 45V28Z"/><circle cx="25" cy="36" r="5" fill="#314d1f"/><circle cx="39" cy="36" r="5" fill="#314d1f"/><circle cx="26" cy="35" r="1.5" fill="#fff"/><circle cx="40" cy="35" r="1.5" fill="#fff"/><path fill="#f3a316" d="M28 45h8l-4 5-4-5Z"/></svg></div>', benefits:['Premium lessons','Practice tools','Language learning access','Instant delivery'] },
+    { key:'filmora', name:'Wondershare Filmora', plan:'Wondershare Filmora (Lifetime)', description:'Video editing access | lifetime', period:'lifetime', inr:50, usd:'0.5', art:'<div class="product-art product-art-filmora"><span></span></div>', benefits:['Video editing tools','Premium effects','Lifetime access','Instant delivery'] },
+    { key:'expressvpn', name:'ExpressVPN Lifetime', plan:'ExpressVPN Lifetime', description:'Private VPN access | lifetime', period:'lifetime', inr:50, usd:'0.5', art:'<div class="product-art product-art-express"><b>V</b></div>', benefits:['Private browsing','VPN access','Multiple devices','Lifetime access'] },
+    { key:'rockstar', name:'Rockstar Activation Code', plan:'Rockstar Activation Code', description:'Rockstar launcher activation', period:'code', inr:50, usd:'0.5', art:'<div class="product-art product-art-rockstar"><b>R*</b></div>', benefits:['Activation code','Rockstar launcher','Digital delivery','Instant delivery'] },
+    { key:'fivem', name:'FiveM Account', plan:'FiveM Account (Rockstar)', description:'Rockstar-linked FiveM account', period:'account', inr:50, usd:'0.5', art:'<div class="product-art product-art-fivem"><span></span></div>', benefits:['FiveM account','Rockstar linked','Digital delivery','Instant delivery'] },
+    { key:'gemini', name:'Gemini Pro Key', plan:'Gemini Pro Key (18 Months)', description:'Gemini Pro key | 18 months', period:'18 months', inr:200, usd:'2', art:'<div class="product-art product-art-gemini"><span>&#10022;</span></div>', benefits:['Gemini Pro key','18 months access','Digital delivery','Instant delivery'] }
+  ];
+
+  function money(amount) { return '&#8377;' + amount; }
+  function buildMessage(product) { return 'Hi! I want to order ' + product.plan + ' for INR ' + product.inr + '. Please confirm availability and payment details.'; }
+  function findCard(product) {
+    return Array.from(grid.querySelectorAll('.product-card')).find(function matchCard(card) {
+      const action = card.getAttribute('onclick') || '';
+      return action.includes("'" + product.key + "'") || card.dataset.storeKey === product.key || card.querySelector('.product-name')?.textContent.trim() === product.name;
+    });
+  }
+  function renderCard(card, product) {
+    card.dataset.storeKey = product.key;
+    card.removeAttribute('data-coming-soon');
+    card.setAttribute('onclick', "openCatalog('" + product.key + "')");
+    const name = card.querySelector('.product-name');
+    const description = card.querySelector('.product-desc');
+    const price = card.querySelector('.product-price');
+    const period = card.querySelector('.product-period');
+    const warranty = card.querySelector('.warranty-tag');
+    const button = card.querySelector('.view-btn');
+    if (name) name.textContent = product.name;
+    if (description) description.textContent = product.description;
+    if (price) price.innerHTML = money(product.inr);
+    if (period) period.textContent = product.period;
+    if (warranty) warranty.textContent = 'Instant delivery';
+    if (button) { button.disabled = false; button.textContent = 'View Plans & Benefits'; }
+  }
+  function createCard(product) {
+    const card = document.createElement('article');
+    card.className = 'product-card reveal';
+    card.innerHTML = '<div class="product-logo">' + product.art + '</div>' +
+      '<div class="product-name"></div><div class="product-desc"></div>' +
+      '<div class="warranty-tag"></div><div class="product-price-row"><div class="product-price"></div><span class="product-period"></span></div>' +
+      '<button class="view-btn" type="button">View Plans & Benefits</button>';
+    grid.appendChild(card);
+    return card;
+  }
+
+  products.forEach(function applyProduct(product) {
+    if (product.art && typeof SVG_LOGOS !== 'undefined') SVG_LOGOS[product.key] = product.art;
+    CATALOGS[product.key] = {
+      title: product.name,
+      subtitle: product.description,
+      imgKey: product.key,
+      sections: [{ label:'Plan', plans:[{ name:product.plan, detail:product.description, price:money(product.inr), wa:product.key }]}],
+      benefits: product.benefits
+    };
+    CO_DATA[product.key] = {
+      name: product.name,
+      sub: product.description,
+      amt: product.inr,
+      usd: product.usd,
+      msg: buildMessage(product)
+    };
+    WA_MSGS[product.key] = buildMessage(product);
+    const card = findCard(product) || createCard(product);
+    renderCard(card, product);
+  });
+
+  document.querySelectorAll('.visual-card').forEach(function syncVisualCard(card) {
+    const action = card.getAttribute('onclick') || '';
+    const product = products.find(function findProduct(item) { return action.includes("'" + item.key + "'"); });
+    if (!product) return;
+    const name = card.querySelector('.visual-card-name');
+    const tag = card.querySelector('.visual-card-tag');
+    const price = card.querySelector('.visual-card-price');
+    if (name) name.textContent = product.name;
+    if (tag) tag.textContent = product.period;
+    if (price) price.innerHTML = money(product.inr);
+  });
+
+  const search = document.getElementById('refProductSearch');
+  if (search) search.dispatchEvent(new Event('input', { bubbles:true }));
 }());
 </script>
 
