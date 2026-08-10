@@ -1,0 +1,14 @@
+{
+  "name": "streamox-btcpay-checkout",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Netflix LTCPay modal checkout and signed BTCPay webhook handler",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}

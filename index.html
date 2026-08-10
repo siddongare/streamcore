@@ -979,6 +979,8 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeCatalog(); })
           <input type="hidden" name="notifyEmail" value="siddongare21@gmail.com"/>
           <input type="hidden" name="price" value="1"/>
           <input type="hidden" name="currency" value="USD"/>
+          <input type="hidden" name="redirectURL" id="cryptoRedirectUrlInput"/>
+          <input type="hidden" name="redirectAutomatically" value="true"/>
           <button class="crypto-pay-btn co-crypto-button" type="submit" aria-label="Pay $1.00 with Litecoin">
             <span class="co-crypto-mark" aria-hidden="true">Ł</span>
             <span class="co-crypto-copy">
@@ -1255,10 +1257,15 @@ function startCoTimer(secs) {
 function syncCryptoCheckout(d) {
   const orderInput = document.getElementById('cryptoOrderIdInput');
   const descInput = document.getElementById('cryptoCheckoutDescInput');
+  const redirectInput = document.getElementById('cryptoRedirectUrlInput');
   if (!orderInput || !descInput || !d) return;
   const orderId = window._currentOrderId || 'nflix';
-  orderInput.value = orderId + '-crypto';
+  const cryptoOrderId = orderId + '-crypto';
+  orderInput.value = cryptoOrderId;
   descInput.value = d.name + ' | Order ID ' + orderId;
+  if (redirectInput && window.location.protocol !== 'file:') {
+    redirectInput.value = window.location.origin + '/success?orderId=' + encodeURIComponent(cryptoOrderId);
+  }
 }
 
 function prepareCheckoutPaymentLayout() {
@@ -3615,16 +3622,9 @@ window.addEventListener('load', function registerSiteBtcpayEvents() {
     const status = String(data.status || '').toLowerCase();
     if (status !== 'complete' && status !== 'settled') return;
 
-    const orderId = window._currentOrderId || 'N/A';
-    const body = document.getElementById('coBodyMain');
-    const success = document.getElementById('coSuccess');
-    const successOrder = document.getElementById('coOrderIdVal');
-    if (body) body.style.display = 'none';
-    if (success) success.classList.add('show');
-    if (successOrder) successOrder.textContent = orderId;
-
+    const orderId = (window._currentOrderId || 'N/A') + '-crypto';
     if (window.location.protocol !== 'file:') {
-      window.history.replaceState({ orderId }, '', '/success?orderId=' + encodeURIComponent(orderId));
+      window.location.assign('/success?orderId=' + encodeURIComponent(orderId));
     }
   });
 }, { once: true });

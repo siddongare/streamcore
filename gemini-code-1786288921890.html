@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Netflix Premium - Crypto Checkout</title>
+  <script src="https://ltcpay.com/modal/btcpay.js" defer></script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --page: #070a11;
+      --panel: #0e1320;
+      --line: rgba(255, 255, 255, 0.09);
+      --text: #f7f8fc;
+      --muted: #9198aa;
+      --accent: #7c6dfa;
+      --mint: #4fd1c5;
+      --success: #45d483;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at 18% 12%, rgba(124, 109, 250, 0.18), transparent 34%),
+        radial-gradient(circle at 86% 82%, rgba(79, 209, 197, 0.1), transparent 30%),
+        var(--page);
+      color: var(--text);
+      font-family: "Trebuchet MS", sans-serif;
+    }
+
+    .checkout {
+      width: min(440px, 100%);
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: linear-gradient(145deg, rgba(18, 24, 39, 0.98), rgba(11, 15, 25, 0.98));
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.48);
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--mint);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    h1 { margin: 0; font-size: 1.65rem; line-height: 1.2; }
+    .description { margin: 10px 0 22px; color: var(--muted); font-size: 0.86rem; line-height: 1.55; }
+
+    .order-summary {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+      padding: 13px 14px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .order-summary span { color: var(--muted); font-size: 0.73rem; }
+    .order-summary strong { display: block; margin-top: 3px; font-size: 0.84rem; }
+    .price { color: var(--mint); text-align: right; }
+
+    .btcpay-form { display: block; width: 100%; }
+
+    .crypto-pay-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 18px;
+      border: 1px solid rgba(124, 109, 250, 0.4);
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), #5e52d8);
+      color: white;
+      font: 700 0.95rem "Trebuchet MS", sans-serif;
+      cursor: pointer;
+      box-shadow: 0 14px 34px rgba(124, 109, 250, 0.24);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .crypto-pay-btn:hover { transform: translateY(-2px); box-shadow: 0 18px 40px rgba(124, 109, 250, 0.32); }
+    .crypto-pay-btn:disabled { cursor: wait; opacity: 0.68; transform: none; }
+    .fine-print { margin: 13px 0 0; color: var(--muted); text-align: center; font-size: 0.7rem; }
+
+    .status {
+      display: none;
+      margin-top: 16px;
+      padding: 13px 14px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.5;
+    }
+
+    .status.show { display: block; }
+    .status.error { border-color: rgba(239, 68, 68, 0.35); color: #fca5a5; }
+
+    .success {
+      display: none;
+      text-align: center;
+      animation: reveal 0.4s ease both;
+    }
+
+    .success.show { display: block; }
+    .success-mark {
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      background: rgba(69, 212, 131, 0.12);
+      border: 1px solid rgba(69, 212, 131, 0.34);
+      color: var(--success);
+      font-size: 1.45rem;
+    }
+
+    .success p { color: var(--muted); line-height: 1.6; }
+    .success-order { color: var(--mint); font-family: Consolas, monospace; }
+    @keyframes reveal { from { opacity: 0; transform: translateY(8px); } }
+
+    @media (max-width: 520px) {
+      body { padding: 14px; }
+      .checkout { padding: 22px 18px; border-radius: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="checkout">
+    <section id="paymentSection" aria-labelledby="checkoutTitle">
+      <p class="eyebrow">Crypto checkout</p>
+      <h1 id="checkoutTitle">Netflix Premium</h1>
+      <p class="description">Complete your order securely with Litecoin through LTCPay.</p>
+
+      <div class="order-summary">
+        <div>
+          <span>Order ID</span>
+          <strong id="orderIdDisplay">Generating...</strong>
+        </div>
+        <div class="price">
+          <span>Crypto total</span>
+          <strong>$1.00 USD</strong>
+        </div>
+      </div>
+
+      <form method="POST" action="https://ltcpay.com/api/v1/invoices" target="btcpay" data-btcpay-button class="btcpay-form btcpay-form--block" id="btcpayForm">
+        <input type="hidden" name="storeId" value="52Z9hVUxujGyxHUf6vEbGkt3D2jbih3qWzLkmTt3Lgyi">
+        <input type="hidden" name="orderId" id="orderIdInput">
+        <input type="hidden" name="checkoutDesc" value="Netflix Premium">
+        <input type="hidden" name="notifyEmail" value="siddongare21@gmail.com">
+        <input type="hidden" name="price" value="1">
+        <input type="hidden" name="currency" value="USD">
+        <input type="hidden" name="redirectURL" id="redirectUrlInput">
+        <input type="hidden" name="redirectAutomatically" value="true">
+        <button type="submit" class="crypto-pay-btn" id="cryptoPayButton">
+          <span aria-hidden="true">Ł</span>
+          <span>Pay $1.00 with LTC</span>
+        </button>
+      </form>
+
+      <div class="status" id="checkoutStatus" role="status" aria-live="polite"></div>
+      <p class="fine-print">The secure payment modal is provided by LTCPay.</p>
+    </section>
+
+    <section class="success" id="successSection" aria-labelledby="successTitle">
+      <div class="success-mark" aria-hidden="true">✓</div>
+      <p class="eyebrow">Payment settled</p>
+      <h1 id="successTitle">Your order is confirmed</h1>
+      <p>We received your payment and started the digital delivery process.</p>
+      <p>Order <strong class="success-order" id="successOrderId"></strong></p>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const form = document.getElementById('btcpayForm');
+      const orderIdInput = document.getElementById('orderIdInput');
+      const orderIdDisplay = document.getElementById('orderIdDisplay');
+      const payButton = document.getElementById('cryptoPayButton');
+      const statusBox = document.getElementById('checkoutStatus');
+      const redirectUrlInput = document.getElementById('redirectUrlInput');
+      let paymentCompleted = false;
+
+      function generateOrderId() {
+        const date = new Date().toISOString().slice(2, 10).replace(/-/g, '');
+        const random = Math.random().toString(36).slice(2, 6).toUpperCase();
+        return `SX-${date}-${random}`;
+      }
+
+      function showStatus(message, isError) {
+        statusBox.textContent = message;
+        statusBox.className = `status show${isError ? ' error' : ''}`;
+      }
+
+      function completeOrder() {
+        if (paymentCompleted) return;
+        paymentCompleted = true;
+        const orderId = orderIdInput.value;
+        document.getElementById('paymentSection').hidden = true;
+        document.getElementById('successOrderId').textContent = orderId;
+        document.getElementById('successSection').classList.add('show');
+
+        if (window.location.protocol !== 'file:') {
+          const successUrl = `/success?orderId=${encodeURIComponent(orderId)}`;
+          window.history.replaceState({ orderId }, '', successUrl);
+        }
+      }
+
+      function handleModalMessage(event) {
+        const data = event && event.data;
+        if (!data || typeof data !== 'object') return;
+        const status = String(data.status || '').toLowerCase();
+
+        if (status === 'complete' || status === 'settled') {
+          waitForSettledPayment();
+          return;
+        }
+
+        if (status === 'expired' || status === 'invalid') {
+          payButton.disabled = false;
+          showStatus(`Payment ${status}. Please create a new invoice and try again.`, true);
+        }
+      }
+
+      function registerModalEvents() {
+        if (!window.btcpay || typeof window.btcpay.onModalReceiveMessage !== 'function') {
+          showStatus('The LTCPay modal could not load. The checkout will use the standard secure payment page.', false);
+          return;
+        }
+        window.btcpay.onModalReceiveMessage(handleModalMessage);
+      }
+
+      async function isOrderSettled(orderId) {
+        try {
+          const response = await fetch(`/api/order-status?orderId=${encodeURIComponent(orderId)}`, {
+            cache: 'no-store'
+          });
+          if (!response.ok) return false;
+          const result = await response.json();
+          return result.paid === true;
+        } catch (error) {
+          return false;
+        }
+      }
+
+      function waitForSettledPayment() {
+        const orderId = orderIdInput.value;
+        let attempts = 0;
+        const maxAttempts = 40;
+
+        showStatus('Payment received. Confirming it securely...', false);
+
+        async function poll() {
+          if (await isOrderSettled(orderId)) {
+            completeOrder();
+            return;
+          }
+          attempts += 1;
+          if (attempts >= maxAttempts) {
+            showStatus('Your payment is still confirming. Keep this page open and refresh shortly.', false);
+            return;
+          }
+          window.setTimeout(poll, 1500);
+        }
+
+        poll();
+      }
+
+      const queryOrderId = new URLSearchParams(window.location.search).get('orderId');
+      const isSuccessRoute = window.location.pathname === '/success' && queryOrderId;
+      const orderId = queryOrderId || generateOrderId();
+      orderIdInput.value = orderId;
+      orderIdDisplay.textContent = orderId;
+      if (window.location.protocol !== 'file:') {
+        redirectUrlInput.value = `${window.location.origin}/success?orderId=${encodeURIComponent(orderId)}`;
+      }
+
+      form.addEventListener('submit', function () {
+        payButton.disabled = true;
+        showStatus('Opening secure LTCPay checkout...', false);
+        window.setTimeout(function () {
+          if (!paymentCompleted) payButton.disabled = false;
+        }, 2500);
+      });
+
+      window.addEventListener('load', registerModalEvents, { once: true });
+      if (isSuccessRoute) waitForSettledPayment();
+    }());
+  </script>
+</body>
+</html>
