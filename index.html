@@ -972,14 +972,8 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeCatalog(); })
           <strong>Pay securely with Litecoin</strong>
           <span>Your live LTC QR code, wallet address, exact amount and payment timer open securely on this page.</span>
         </div>
-        <form method="POST" action="https://ltcpay.com/api/v1/invoices" target="btcpay" data-btcpay-button class="btcpay-form co-crypto-form" id="siteBtcpayForm">
-          <input type="hidden" name="storeId" value="52Z9hVUxujGyxHUf6vEbGkt3D2jbih3qWzLkmTt3Lgyi"/>
-          <input type="hidden" name="orderId" value="nflix" id="cryptoOrderIdInput"/>
-          <input type="hidden" name="checkoutDesc" value="Netflix Premium checkout" id="cryptoCheckoutDescInput"/>
-          <input type="hidden" name="notifyEmail" value="siddongare21@gmail.com"/>
-          <input type="hidden" name="price" value="1"/>
-          <input type="hidden" name="currency" value="USD"/>
-          <button class="crypto-pay-btn co-crypto-button" type="submit" aria-label="Pay $1.00 with Litecoin">
+        <div class="btcpay-form co-crypto-form">
+          <button class="crypto-pay-btn co-crypto-button" type="button" onclick="window.openCheckout && window.openCheckout(coKey)" aria-label="Pay with Litecoin">
             <span class="co-crypto-mark" aria-hidden="true">Ł</span>
             <span class="co-crypto-copy">
               <strong>Pay $1.00 with LTC</strong>
@@ -987,7 +981,7 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeCatalog(); })
             </span>
             <span class="co-crypto-arrow" aria-hidden="true">→</span>
           </button>
-        </form>
+        </div>
         <div class="co-crypto-foot">LTCPay opens its secure invoice as an in-site overlay. Once the invoice is settled, payment is detected automatically and your order moves to delivery.</div>
       </div>
       <button class="co-paid-btn" onclick="coPaid()">✅ &nbsp;I've Paid — Send Screenshot</button>
@@ -3630,8 +3624,8 @@ window.addEventListener('load', function registerSiteBtcpayEvents() {
   window.btcpay.onModalReceiveMessage(function handleSiteBtcpayMessage(event) {
     const data = event && event.data;
     if (!data || typeof data !== 'object') return;
-    const status = String(data.status || '').toLowerCase();
-    if (status !== 'complete' && status !== 'settled') return;
+    const status = String(data.status || data.type || data.event || '').toLowerCase();
+    if (!['complete', 'settled', 'invoicesettled'].includes(status)) return;
 
     showLtcPaymentComplete();
   });
@@ -4010,7 +4004,7 @@ body.nebula-ui::before{opacity:.2;background-size:54px 54px;}
 .reference-payment-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}.reference-payment-option{display:flex;align-items:center;gap:12px;min-width:0;padding:13px 14px;border:1px solid rgba(255,255,255,.1);border-radius:13px;background:#101015;color:#fff;text-align:left;cursor:pointer;transition:transform .2s ease,border-color .2s ease,background .2s ease;}.reference-payment-option:hover{border-color:rgba(240,2,225,.48);background:rgba(240,2,225,.07);transform:translateY(-2px);}.reference-payment-icon{display:grid;place-items:center;flex:0 0 auto;width:38px;height:38px;border-radius:10px;background:#29234e;color:#c9b5ff;font:800 1.15rem/1 "Inter",sans-serif;}.reference-payment-option.ltc .reference-payment-icon{background:linear-gradient(135deg,#5f8ce1,#3d63a4);color:#fff;}.reference-payment-copy{min-width:0;}.reference-payment-copy strong{display:block;color:#fff;font:800 .8rem "Inter",sans-serif;}.reference-payment-copy small{display:block;overflow:hidden;margin-top:3px;color:#718099;font:500 .64rem "Inter",sans-serif;text-overflow:ellipsis;white-space:nowrap;}
 .reference-terms{display:grid;gap:11px;margin:21px 0 17px;color:#d7dce6;font:600 .72rem/1.35 "Inter",sans-serif;}.reference-terms label{display:flex;align-items:flex-start;gap:8px;cursor:pointer;}.reference-terms input{accent-color:#f002e1;margin:1px 0 0;}.reference-immediate{margin-top:20px;padding:17px 15px;border:1px solid rgba(255,255,255,.1);border-radius:12px;background:#111116;}.reference-immediate strong{display:block;color:#f4f1f5;font:800 .84rem "Inter",sans-serif;}.reference-immediate p{margin:7px 0 0;color:#7e8ca3;font:500 .7rem/1.45 "Inter",sans-serif;}
 .reference-back-button{display:inline-flex;align-items:center;gap:7px;margin:0 0 20px;padding:0;border:0;background:none;color:#a6b4ca;font:700 .72rem "Inter",sans-serif;cursor:pointer;}.reference-back-button:hover{color:#fff;}.reference-payment-heading{display:flex;align-items:center;gap:11px;margin-bottom:22px;color:#fff;font:800 1.1rem "Poppins",sans-serif;}.reference-payment-heading .reference-payment-icon{width:34px;height:34px;font-size:1rem;}.reference-upi-layout{display:grid;grid-template-columns:minmax(210px,.72fr) minmax(280px,1fr);gap:28px;align-items:center;padding:22px;border:1px solid rgba(255,255,255,.09);border-radius:14px;background:linear-gradient(145deg,#111116,#0c0b0e);}.reference-upi-layout .co-qr-wrap{margin:0;}.reference-upi-layout .co-qr-frame{min-width:190px;min-height:190px;padding:10px;border-radius:12px;}.reference-upi-layout .co-qr-frame img{width:170px;height:170px;}.reference-upi-copy{display:grid;gap:13px;}.reference-upi-copy p{margin:0;color:#8d9ab1;font:500 .72rem/1.5 "Inter",sans-serif;}.reference-upi-copy .co-uid-row{margin:0;background:rgba(255,255,255,.035);border-color:rgba(255,255,255,.1);}.reference-upi-copy .co-uid{font-size:.76rem;}.reference-upi-apps{display:flex;gap:8px;flex-wrap:wrap;}.reference-upi-apps button{padding:9px 11px;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:#17131a;color:#e9e2e9;font:700 .66rem "Inter",sans-serif;cursor:pointer;}.reference-upi-apps button:hover{border-color:rgba(240,2,225,.45);}.reference-complete-button{width:100%;margin-top:17px;padding:14px;border:0;border-radius:10px;background:linear-gradient(135deg,#f002e1,#bd16cf);box-shadow:0 12px 25px rgba(240,2,225,.2);color:#fff;font:800 .78rem "Inter",sans-serif;cursor:pointer;}
-.reference-ltc-card{padding:26px 20px;border:1px solid rgba(255,255,255,.09);border-radius:14px;background:linear-gradient(145deg,#101116,#09090c);}.reference-ltc-top{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:18px;}.reference-ltc-top strong{color:#fff;font:800 .83rem "Inter",sans-serif;}.reference-ltc-top small{display:block;margin-top:3px;color:#76849a;font:500 .66rem "Inter",sans-serif;}.reference-ltc-amount{color:#b9c9e2;font:800 .76rem "Inter",sans-serif;}.reference-ltc-form{display:none!important;}.reference-ltc-status{margin:14px 0 0;color:#7e8ca3;font:600 .68rem/1.45 "Inter",sans-serif;text-align:center;}.reference-ltc-status.is-complete{color:#63d596;}
+.reference-ltc-card{padding:26px 20px;border:1px solid rgba(255,255,255,.09);border-radius:14px;background:linear-gradient(145deg,#101116,#09090c);}.reference-ltc-top{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:18px;}.reference-ltc-top strong{color:#fff;font:800 .83rem "Inter",sans-serif;}.reference-ltc-top small{display:block;margin-top:3px;color:#76849a;font:500 .66rem "Inter",sans-serif;}.reference-ltc-amount{color:#b9c9e2;font:800 .76rem "Inter",sans-serif;}.reference-ltc-launch{display:none!important;}.reference-ltc-status{margin:14px 0 0;color:#7e8ca3;font:600 .68rem/1.45 "Inter",sans-serif;text-align:center;}.reference-ltc-status.is-complete{color:#63d596;}
 @media(min-width:841px){body.nebula-ui iframe[name="btcpay"]{top:50%!important;left:calc(50% - 140px)!important;width:min(780px,calc(50vw + 140px))!important;height:min(820px,calc(100% - 40px))!important;border:0!important;border-radius:0 16px 16px 0!important;background:#fff!important;box-shadow:none!important;transform:translateY(-50%)!important;}}
 @media(max-width:840px){body.nebula-ui iframe[name="btcpay"]{top:0!important;left:0!important;width:100%!important;height:100%!important;border:0!important;border-radius:0!important;background:#fff!important;box-shadow:none!important;transform:none!important;}}
 .reference-checkout-complete{display:grid;min-height:430px;place-items:center;text-align:center;}.reference-checkout-complete div{max-width:340px;}.reference-checkout-complete h2{margin:17px 0 8px;color:#fff;font:800 1.65rem "Poppins",sans-serif;}.reference-checkout-complete p{margin:0;color:#98a5b8;font:500 .8rem/1.5 "Inter",sans-serif;}.reference-complete-mark{display:grid;place-items:center;width:64px;height:64px;margin:auto;border:1px solid rgba(99,213,150,.4);border-radius:50%;background:rgba(99,213,150,.12);color:#63d596;font:900 1.5rem "Inter",sans-serif;}
@@ -4077,16 +4071,8 @@ window.addEventListener('load', function installReferenceCheckout() {
           <h2 class="reference-payment-heading"><span class="reference-payment-icon" style="background:linear-gradient(135deg,#5f8ce1,#3d63a4);color:#fff">L</span>LTC Payment</h2>
           <div class="reference-ltc-card">
             <div class="reference-ltc-top"><div><strong>Opening Litecoin invoice</strong><small id="referenceLtcInvoiceId">Preparing your secure LTCPay checkout</small></div><span class="reference-ltc-amount" id="referenceLtcAmount">Live quote</span></div>
-            <form method="POST" action="https://ltcpay.com/api/v1/invoices" target="btcpay" data-btcpay-button class="reference-ltc-form" id="siteBtcpayForm">
-              <input type="hidden" name="storeId" value="52Z9hVUxujGyxHUf6vEbGkt3D2jbih3qWzLkmTt3Lgyi">
-              <input type="hidden" name="orderId" value="nflix" id="cryptoOrderIdInput">
-              <input type="hidden" name="checkoutDesc" value="Streamox checkout" id="cryptoCheckoutDescInput">
-              <input type="hidden" name="notifyEmail" value="siddongare21@gmail.com">
-              <input type="hidden" name="price" value="1">
-              <input type="hidden" name="currency" value="USD">
-              <button type="submit">Open secure LTC invoice</button>
-            </form>
-            <p class="reference-ltc-status" id="referenceLtcStatus">Loading your secure LTCPay invoice with the live QR code and wallet address.</p>
+            <button class="reference-ltc-launch" id="siteBtcpayButton" type="button">Pay with Litecoin</button>
+            <p class="reference-ltc-status" id="referenceLtcStatus">Creating your secure LTCPay invoice.</p>
           </div>
         </section>
         <section class="reference-checkout-panel reference-checkout-complete" id="referenceCheckoutComplete" hidden><div><span class="reference-complete-mark">OK</span><h2 id="referenceCompleteTitle">Payment confirmed</h2><p id="referenceCompleteCopy">Your order is now in the delivery queue.</p></div></section>
@@ -4107,27 +4093,49 @@ window.addEventListener('load', function installReferenceCheckout() {
   function currentProduct() {
     return typeof CO_DATA !== 'undefined' && CO_DATA[coKey] ? CO_DATA[coKey] : null;
   }
-  function syncLtcForm(product) {
-    const orderId = window._currentOrderId || 'SX-PENDING';
-    const orderInput = document.getElementById('cryptoOrderIdInput');
-    const description = document.getElementById('cryptoCheckoutDescInput');
-    const amountInput = ltcForm ? ltcForm.querySelector('[name="price"]') : null;
-    const currencyInput = ltcForm ? ltcForm.querySelector('[name="currency"]') : null;
-    if (orderInput) orderInput.value = `${orderId}-ltc`;
-    if (description && product) description.value = `${product.name} | Order ID ${orderId}`;
-    if (amountInput && product && product.usd) amountInput.value = String(product.usd);
-    if (currencyInput) currencyInput.value = 'USD';
-  }
   function hideBtcpayInvoice() {
     if (window.btcpay && typeof window.btcpay.hideFrame === 'function') {
       try { window.btcpay.hideFrame(); } catch (error) { /* The checkout may not have created a frame yet. */ }
     }
   }
-  const ltcForm = document.getElementById('siteBtcpayForm');
-  if (ltcForm) {
-    ltcForm.addEventListener('submit', function showLtcInvoiceFrame() {
-      if (window.btcpay && typeof window.btcpay.showFrame === 'function') window.btcpay.showFrame();
-    });
+  const ltcButton = document.getElementById('siteBtcpayButton');
+  async function openLtcInvoice(product) {
+    if (!product || ltcButton?.dataset.invoiceOpened === 'true') return;
+    if (ltcButton) {
+      ltcButton.dataset.invoiceOpened = 'true';
+      ltcButton.disabled = true;
+    }
+    value('referenceLtcStatus', 'Creating your secure LTCPay invoice...');
+
+    try {
+      const invoiceResponse = await fetch('/api/create-ltc-invoice', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderId: window._currentOrderId,
+          amount: product.usd,
+          currency: 'USD'
+        })
+      });
+      const invoice = await invoiceResponse.json().catch(() => ({}));
+      if (!invoiceResponse.ok || !invoice.invoiceId) {
+        throw new Error(invoice.error || 'Unable to create your Litecoin invoice.');
+      }
+      if (!window.btcpay || typeof window.btcpay.showInvoice !== 'function') {
+        throw new Error('LTCPay checkout is unavailable. Please try again.');
+      }
+
+      window._ltcInvoiceOrderId = invoice.orderId || window._currentOrderId;
+      value('referenceLtcInvoiceId', `Order ID ${window._ltcInvoiceOrderId}`);
+      value('referenceLtcStatus', 'Your secure LTCPay invoice is open. Complete payment in the panel.');
+      window.btcpay.showInvoice(invoice.invoiceId);
+    } catch (error) {
+      value('referenceLtcStatus', error.message || 'Unable to create your Litecoin invoice.');
+      if (ltcButton) {
+        ltcButton.disabled = false;
+        delete ltcButton.dataset.invoiceOpened;
+      }
+    }
   }
 
   const legacyCoPaid = window.coPaid;
@@ -4151,10 +4159,12 @@ window.addEventListener('load', function installReferenceCheckout() {
     if (image) image.innerHTML = typeof IMGS !== 'undefined' && IMGS[key] ? `<img src="${IMGS[key]}" alt="">` : (typeof getLogoHTML === 'function' ? getLogoHTML(key) : '<span>S</span>');
     value('referenceLtcInvoiceId', `Order ID ${window._currentOrderId}`);
     value('referenceLtcAmount', 'Live quote from LTCPay');
-    value('referenceLtcStatus', 'Your secure LTCPay invoice will load here with the live QR code and wallet address.');
+    value('referenceLtcStatus', 'Select Litecoin to create your secure LTCPay invoice.');
     document.getElementById('referenceLtcStatus')?.classList.remove('is-complete');
-    if (ltcForm) delete ltcForm.dataset.invoiceOpened;
-    syncLtcForm(product);
+    if (ltcButton) {
+      ltcButton.disabled = false;
+      delete ltcButton.dataset.invoiceOpened;
+    }
     showPanel('referenceCheckoutChoose');
     backdrop.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -4171,17 +4181,7 @@ window.addEventListener('load', function installReferenceCheckout() {
     if (mode === 'ltc') {
       coPaymentMode = 'crypto';
       showPanel('referenceCheckoutLtc');
-      if (ltcForm && !ltcForm.dataset.invoiceOpened) {
-        ltcForm.dataset.invoiceOpened = 'true';
-        window.setTimeout(function openLtcInvoice() {
-          if (typeof ltcForm.requestSubmit === 'function') {
-            ltcForm.requestSubmit();
-          } else {
-            if (window.btcpay && typeof window.btcpay.showFrame === 'function') window.btcpay.showFrame();
-            ltcForm.submit();
-          }
-        }, 60);
-      }
+      window.setTimeout(() => openLtcInvoice(currentProduct()), 60);
       return;
     }
     coPaymentMode = 'upi';
@@ -4190,7 +4190,10 @@ window.addEventListener('load', function installReferenceCheckout() {
   };
   window.referenceCheckoutBack = function referenceCheckoutBack() {
     hideBtcpayInvoice();
-    if (ltcForm) delete ltcForm.dataset.invoiceOpened;
+    if (ltcButton) {
+      ltcButton.disabled = false;
+      delete ltcButton.dataset.invoiceOpened;
+    }
     showPanel('referenceCheckoutChoose');
   };
   window.coPaid = async function coPaid() {
@@ -4205,9 +4208,9 @@ window.addEventListener('load', function installReferenceCheckout() {
     value('referenceCompleteCopy', 'Your payment is being verified and your product will be delivered after confirmation.');
   };
   window.showLtcPaymentComplete = function showLtcPaymentComplete() {
-    showPanel('referenceCheckoutComplete');
-    value('referenceCompleteTitle', 'Litecoin payment confirmed');
-    value('referenceCompleteCopy', 'LTCPay confirmed this invoice. Your order is now in the delivery queue.');
+    hideBtcpayInvoice();
+    const orderId = window._ltcInvoiceOrderId || window._currentOrderId || '';
+    window.location.assign(`/success?orderId=${encodeURIComponent(orderId)}`);
   };
 });
 </script>
