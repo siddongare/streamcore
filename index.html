@@ -1008,16 +1008,16 @@ let paymentChoiceKey = null;
 let checkoutModeRequest = null;
 
 const CO_DATA = {
-  netflix:    {name:'Netflix Premium',    sub:'4K UHD · Multiple profiles · Lifetime', amt:149,  msg:"Hi! 👋 I just paid *₹149* for *Netflix Premium Lifetime*. Sending my payment screenshot — please confirm and send my account! 🙏"},
-  prime:      {name:'Amazon Prime Video', sub:'Full library · Solo screen · Lifetime',  amt:149,  msg:"Hi! 👋 I just paid *₹149* for *Amazon Prime Video Lifetime*. Sending screenshot — please confirm! 🙏"},
-  spotify:    {name:'Spotify Premium',    sub:'Gift link · 3 months · Ad-free',        amt:129,  msg:"Hi! 👋 I just paid *₹129* for *Spotify Premium 3-Month Gift Link*. Sending screenshot — please send the gift link! 🙏"},
-  youtube:    {name:'YouTube Premium',    sub:'Ad-free · YT Music · Lifetime',         amt:169,  msg:"Hi! 👋 I just paid *₹169* for *YouTube Premium Lifetime*. Sending screenshot — please confirm! 🙏"},
-  capcut:     {name:'CapCut Pro',         sub:'All pro tools · Lifetime',              amt:99,   msg:"Hi! 👋 I just paid *₹99* for *CapCut Pro Lifetime*. Sending screenshot — please confirm and send access! 🙏"},
-  nordvpn:    {name:'NordVPN',            sub:'6000+ servers · Lifetime',             amt:249,  msg:"Hi! 👋 I just paid *₹249* for *NordVPN Lifetime*. Sending screenshot — please confirm! 🙏"},
-  canva:      {name:'Canva Pro',          sub:'100M+ assets · Lifetime',              amt:149,  msg:"Hi! 👋 I just paid *₹149* for *Canva Pro Lifetime*. Sending screenshot — please confirm and send access! 🙏"},
-  minecraft:  {name:'Minecraft',          sub:'Java + Bedrock · Full account',        amt:399,  msg:"Hi! 👋 I just paid *₹399* for *Minecraft (Java + Bedrock)*. Sending screenshot — please confirm! 🙏"},
-  crunchyroll:{name:'Crunchyroll Premium',sub:'Ad-free anime · Lifetime',             amt:129,  msg:"Hi! 👋 I just paid *₹129* for *Crunchyroll Premium Lifetime*. Sending screenshot — please confirm! 🙏"},
-  combo:      {name:'Mega Combo Pack',    sub:'Netflix + Prime + Spotify + CapCut',   amt:399,  msg:"Hi! 👋 I just paid *₹399* for the *Mega Combo Pack*. Sending screenshot — please confirm all 4 accounts! 🙏"}
+  netflix:    {name:'Netflix Premium',    sub:'4K UHD · Multiple profiles · Lifetime', amt:100, usd:0.50, msg:"Hi! 👋 I just paid *₹100* for *Netflix Premium Lifetime*. Sending my payment screenshot — please confirm and send my account! 🙏"},
+  prime:      {name:'Amazon Prime Video', sub:'Full library · Solo screen · Lifetime',  amt:150, usd:1.00, msg:"Hi! 👋 I just paid *₹150* for *Amazon Prime Video Lifetime*. Sending screenshot — please confirm! 🙏"},
+  spotify:    {name:'Spotify Premium',    sub:'Gift link · 1 year · Ad-free',          amt:500, usd:5.00, msg:"Hi! 👋 I just paid *₹500* for *Spotify Premium 1-Year Gift Link*. Sending screenshot — please send the gift link! 🙏"},
+  youtube:    {name:'YouTube Premium',    sub:'Premium key · 1 month',                 amt:100, usd:1.00, msg:"Hi! 👋 I just paid *₹100* for *YouTube Premium 1-Month Key*. Sending screenshot — please confirm! 🙏"},
+  capcut:     {name:'CapCut Pro',         sub:'All pro tools · Lifetime',              amt:100, usd:1.00, msg:"Hi! 👋 I just paid *₹100* for *CapCut Pro Lifetime*. Sending screenshot — please confirm and send access! 🙏"},
+  nordvpn:    {name:'NordVPN',            sub:'6000+ servers · Lifetime',             amt:100, usd:1.00, msg:"Hi! 👋 I just paid *₹100* for *NordVPN Lifetime*. Sending screenshot — please confirm! 🙏"},
+  canva:      {name:'Canva Pro',          sub:'100M+ assets · Lifetime',              amt:149, cryptoDisabled:true, msg:"Hi! 👋 I just paid *₹149* for *Canva Pro Lifetime*. Sending screenshot — please confirm and send access! 🙏"},
+  minecraft:  {name:'Minecraft',          sub:'Java + Bedrock · Full account',        amt:399, usd:4.00, msg:"Hi! 👋 I just paid *₹399* for *Minecraft (Java + Bedrock)*. Sending screenshot — please confirm! 🙏"},
+  crunchyroll:{name:'Crunchyroll Premium',sub:'Ad-free anime · Lifetime',              amt:59, usd:0.59, msg:"Hi! 👋 I just paid *₹59* for *Crunchyroll Premium Lifetime*. Sending screenshot — please confirm! 🙏"},
+  combo:      {name:'Mega Combo Pack',    sub:'Netflix + Prime + Spotify + CapCut',   amt:399, cryptoDisabled:true, msg:"Hi! 👋 I just paid *₹399* for the *Mega Combo Pack*. Sending screenshot — please confirm all 4 accounts! 🙏"}
 };
 
 function openCheckoutFromCatalog(key) {
@@ -4108,7 +4108,7 @@ window.addEventListener('load', function installReferenceCheckout() {
     value('referenceLtcStatus', 'Creating your secure LTCPay invoice...');
 
     try {
-      const invoiceResponse = await fetch('/api/create-ltc-invoice', {
+      const invoiceResponse = await fetch('https://api.streamox.store/api/create-ltc-invoice', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -4119,7 +4119,12 @@ window.addEventListener('load', function installReferenceCheckout() {
       });
       const invoice = await invoiceResponse.json().catch(() => ({}));
       if (!invoiceResponse.ok || !invoice.invoiceId) {
-        throw new Error(invoice.error || 'Unable to create your Litecoin invoice.');
+        const setupError = invoiceResponse.status === 404
+          ? 'Payment server is not live yet. Deploy the Node checkout server, then try again.'
+          : invoiceResponse.status === 503
+            ? 'Litecoin checkout is not configured yet. Please try again shortly.'
+            : 'Unable to create your Litecoin invoice.';
+        throw new Error(invoice.error || setupError);
       }
       if (!window.btcpay || typeof window.btcpay.showInvoice !== 'function') {
         throw new Error('LTCPay checkout is unavailable. Please try again.');
