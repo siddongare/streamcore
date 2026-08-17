@@ -21,12 +21,19 @@ const CATALOG_PRODUCTS = [
   'minecraft',
   'crunchyroll',
   'combo',
+  // IDs emitted by index.html's checkout catalog. Keep these exact values.
   'gemini',
+  'fivem',
+  'rockstar',
+  'expressvpn',
+  'filmora',
+  'duolingo',
+  'mullvad',
+  'netflixkeys',
+  // Legacy IDs retained so existing orders/inventory remain valid.
   'fivem-rockstar',
   'rockstar-activation-code',
-  'expressvpn',
   'wondershare-filmora',
-  'duolingo',
   'mullvad-vpn',
   'netflix-4k-key'
 ];
