@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Streamox Admin Inventory</title>
+  <style>
+    :root { color-scheme: dark; --bg:#080b12; --panel:#111827; --line:#293244; --text:#e8ecf4; --muted:#9aa7bd; --accent:#7c6dfa; --good:#4fd1c5; --bad:#fb7185; }
+    * { box-sizing:border-box; } body { margin:0; font:15px system-ui,sans-serif; background:var(--bg); color:var(--text); }
+    main { max-width:1200px; margin:auto; padding:28px 18px 60px; } h1,h2 { margin:0 0 10px; } p { color:var(--muted); line-height:1.5; }
+    .card { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:18px; margin-top:18px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; } label { display:grid; gap:6px; color:var(--muted); font-size:13px; }
+    input,select,textarea,button { font:inherit; border-radius:9px; } input,select,textarea { width:100%; padding:10px; color:var(--text); background:#0b1220; border:1px solid var(--line); } textarea { min-height:82px; resize:vertical; }
+    button { padding:10px 14px; border:0; background:var(--accent); color:white; font-weight:700; cursor:pointer; } button.secondary { background:#263247; } button:disabled { opacity:.55; cursor:not-allowed; }
+    .row { display:flex; gap:10px; align-items:end; flex-wrap:wrap; } .row > * { flex:1; } .status { min-height:22px; margin-top:10px; color:var(--muted); } .status.error { color:var(--bad); } .status.ok { color:var(--good); }
+    table { width:100%; border-collapse:collapse; margin-top:12px; } th,td { padding:10px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; } th { color:var(--muted); font-size:12px; } .scroll { overflow:auto; } .slot-form { display:grid; grid-template-columns:1fr 1fr 1fr auto; gap:8px; min-width:760px; } .assigned { color:var(--good); font-weight:700; } .available { color:#fbbf24; font-weight:700; }
+    #app { display:none; } #login { max-width:440px; margin:12vh auto; } small { color:var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <section id="login" class="card">
+      <h1>Streamox Admin</h1>
+      <p>Enter the admin password to manage inventory. It is kept only in this browser tab.</p>
+      <label>Admin password <input id="password" type="password" autocomplete="current-password"></label>
+      <div class="row" style="margin-top:12px"><button id="signIn">Sign in</button></div>
+      <div id="loginStatus" class="status"></div>
+    </section>
+
+    <section id="app">
+      <div class="row"><div><h1>Inventory</h1><p>Assigned slots are immutable and are never deleted.</p></div><button id="signOut" class="secondary">Sign out</button></div>
+      <section class="card">
+        <div class="row"><label>Product<select id="product"></select></label><button id="refresh">Refresh</button></div>
+        <div id="productSummary" class="status"></div>
+      </section>
+      <section class="card">
+        <h2>Add inventory slot</h2>
+        <div class="grid"><label>Delivery item<input id="newItem" placeholder="Account, key, or credential"></label><label>Delivery link<input id="newLink" placeholder="https://..."></label><label>Delivery message<textarea id="newMessage" placeholder="Optional delivery instructions"></textarea></label></div>
+        <button id="addSlot" style="margin-top:12px">Add slot</button><div id="slotStatus" class="status"></div>
+      </section>
+      <section class="card"><h2>Slots</h2><div class="scroll"><table><thead><tr><th>ID</th><th>Status</th><th>Delivery item</th><th>Delivery link</th><th>Delivery message</th><th>Action</th></tr></thead><tbody id="slots"></tbody></table></div></section>
+      <section class="card"><h2>Recent orders</h2><div class="scroll"><table><thead><tr><th>Order</th><th>Product</th><th>Amount</th><th>Payment</th><th>Delivery</th><th>Created</th></tr></thead><tbody id="orders"></tbody></table></div></section>
+    </section>
+  </main>
+  <script>
+    let password = ''; let products = []; let selectedProduct = '';
+    const $ = (id) => document.getElementById(id);
+    const escapeHtml = (value) => String(value ?? '').replace(/[&<>'"]/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+    function setStatus(id, text, error = false) { const el = $(id); el.textContent = text; el.className = `status ${text ? (error ? 'error' : 'ok') : ''}`; }
+    async function api(path, options = {}) {
+      const response = await fetch(path, { ...options, headers: { 'x-admin-password': password, ...(options.headers || {}) } });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || `Request failed (${response.status})`);
+      return data;
+    }
+    async function loadProducts() {
+      const data = await api('/api/admin/products'); products = data.products || [];
+      const select = $('product'); const prior = selectedProduct || select.value;
+      select.innerHTML = products.map((p) => `<option value="${escapeHtml(p.id)}">${escapeHtml(p.name)} (${p.availableSlots || 0}/${p.totalSlots || 0} available)</option>`).join('');
+      selectedProduct = products.some((p) => p.id === prior) ? prior : (products[0] || {}).id || '';
+      select.value = selectedProduct; renderSummary();
+    }
+    function renderSummary() { const p = products.find((item) => item.id === selectedProduct); setStatus('productSummary', p ? `${p.name}: ${p.availableSlots || 0} available, ${p.assignedSlots || 0} assigned, ${p.totalSlots || 0} total.` : 'No products found.'); }
+    async function loadSlots() {
+      if (!selectedProduct) return; const data = await api(`/api/admin/slots/${encodeURIComponent(selectedProduct)}`);
+      $('slots').innerHTML = (data.slots || []).map((slot) => {
+        const locked = slot.status === 'assigned';
+        return `<tr data-slot="${slot.id}"><td>${slot.id}</td><td class="${locked ? 'assigned' : 'available'}">${escapeHtml(slot.status)}</td><td><input data-field="deliveryItem" value="${escapeHtml(slot.delivery_item)}" ${locked ? 'disabled' : ''}></td><td><input data-field="deliveryLink" value="${escapeHtml(slot.delivery_link || '')}" ${locked ? 'disabled' : ''}></td><td><textarea data-field="deliveryMessage" ${locked ? 'disabled' : ''}>${escapeHtml(slot.delivery_message || '')}</textarea></td><td>${locked ? '<small>Immutable</small>' : `<button data-save="${slot.id}">Save</button>`}</td></tr>`;
+      }).join('') || '<tr><td colspan="6">No slots.</td></tr>';
+    }
+    async function loadOrders() {
+      const data = await api('/api/admin/orders');
+      $('orders').innerHTML = (data.orders || []).map((order) => `<tr><td>${escapeHtml(order.order_id)}</td><td>${escapeHtml(order.product_id)}</td><td>${escapeHtml(order.amount)} ${escapeHtml(order.currency)}</td><td>${escapeHtml(order.payment_status)}</td><td>${escapeHtml(order.delivery_status)}</td><td>${escapeHtml(order.created_at)}</td></tr>`).join('') || '<tr><td colspan="6">No orders.</td></tr>';
+    }
+    async function refreshAll() { await loadProducts(); await Promise.all([loadSlots(), loadOrders()]); }
+    $('signIn').onclick = async () => { password = $('password').value; setStatus('loginStatus', ''); try { await refreshAll(); $('login').style.display = 'none'; $('app').style.display = 'block'; } catch (error) { password = ''; setStatus('loginStatus', error.message, true); } };
+    $('password').addEventListener('keydown', (event) => { if (event.key === 'Enter') $('signIn').click(); });
+    $('signOut').onclick = () => { password = ''; $('password').value = ''; $('app').style.display = 'none'; $('login').style.display = 'block'; };
+    $('product').onchange = async (event) => { selectedProduct = event.target.value; renderSummary(); try { await loadSlots(); } catch (error) { setStatus('slotStatus', error.message, true); } };
+    $('refresh').onclick = async () => { try { await refreshAll(); setStatus('slotStatus', 'Refreshed.'); } catch (error) { setStatus('slotStatus', error.message, true); } };
+    $('addSlot').onclick = async () => { try { await api('/api/admin/slots', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ productId:selectedProduct, deliveryItem:$('newItem').value, deliveryLink:$('newLink').value, deliveryMessage:$('newMessage').value }) }); $('newItem').value = ''; $('newLink').value = ''; $('newMessage').value = ''; await refreshAll(); setStatus('slotStatus', 'Slot added.'); } catch (error) { setStatus('slotStatus', error.message, true); } };
+    $('slots').onclick = async (event) => { const button = event.target.closest('[data-save]'); if (!button) return; const row = button.closest('tr'); const value = (field) => row.querySelector(`[data-field="${field}"]`).value; try { button.disabled = true; await api(`/api/admin/slots/${button.dataset.save}`, { method:'PATCH', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ deliveryItem:value('deliveryItem'), deliveryLink:value('deliveryLink'), deliveryMessage:value('deliveryMessage') }) }); await refreshAll(); setStatus('slotStatus', 'Slot updated.'); } catch (error) { setStatus('slotStatus', error.message, true); button.disabled = false; } };
+  </script>
+</body>
+</html>

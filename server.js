@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 require('dotenv').config();
 
@@ -132,6 +132,17 @@ function createApp(options = {}) {
   const webhookSecret = options.webhookSecret || process.env.LTC_PAY_WEBHOOK_SECRET || '';
   const siteFile = path.join(__dirname, 'index.html');
   const adminFile = path.join(__dirname, 'admin.html');
+  const allowedOrigins = new Set(['https://www.streamox.store', 'https://streamox.store']);
+
+  app.use((request, response, next) => {
+    const origin = request.get('Origin');
+    if (origin && allowedOrigins.has(origin)) response.set('Access-Control-Allow-Origin', origin);
+    response.set('Vary', 'Origin');
+    response.set('Access-Control-Allow-Methods', 'GET, POST, PATCH, OPTIONS');
+    response.set('Access-Control-Allow-Headers', 'Content-Type, x-admin-password, x-delivery-token');
+    if (request.method === 'OPTIONS') return response.sendStatus(204);
+    return next();
+  });
 
   const fulfillSettledOrder = db.transaction(({ orderId, invoiceId, deliveryKey }) => {
     if (db.prepare('SELECT 1 FROM webhook_events WHERE delivery_key = ?').get(deliveryKey)) return { duplicate: true };
@@ -234,6 +245,7 @@ function createApp(options = {}) {
   app.post('/api/ltcpay-webhook', express.raw({ type: 'application/json' }), webhookHandler);
   app.post('/api/btcpay-webhook', express.raw({ type: 'application/json' }), webhookHandler);
   app.get('/success', (request, response) => response.redirect(`/?orderId=${encodeURIComponent(String(request.query.orderId || ''))}#buyer-orders`));
+  app.get('/admin', (request, response) => response.sendFile(adminFile));
   app.get('/', (request, response) => response.sendFile(siteFile));
   return { app, db };
 }
