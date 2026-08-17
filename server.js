@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 require('dotenv').config();
 
@@ -9,7 +9,27 @@ const express = require('express');
 const path = require('path');
 
 const port = Number(process.env.PORT) || 3000;
-const CATALOG_PRODUCTS = ['netflix', 'prime', 'spotify', 'youtube', 'capcut', 'nordvpn', 'canva', 'minecraft', 'crunchyroll', 'combo'];
+
+const CATALOG_PRODUCTS = [
+  'netflix',
+  'prime',
+  'spotify',
+  'youtube',
+  'capcut',
+  'nordvpn',
+  'canva',
+  'minecraft',
+  'crunchyroll',
+  'combo',
+  'gemini',
+  'fivem-rockstar',
+  'rockstar-activation-code',
+  'expressvpn',
+  'wondershare-filmora',
+  'duolingo',
+  'mullvad-vpn',
+  'netflix-4k-key'
+];
 
 function isDeliverableSlot(slot) {
   return Boolean(String(slot.delivery_item || '').trim() || String(slot.delivery_link || '').trim() || String(slot.delivery_message || '').trim());
@@ -111,6 +131,7 @@ function createApp(options = {}) {
   const ltcPayApiKey = options.ltcPayApiKey || process.env.LTC_PAY_API_KEY || '';
   const webhookSecret = options.webhookSecret || process.env.LTC_PAY_WEBHOOK_SECRET || '';
   const siteFile = path.join(__dirname, 'index.html');
+  const adminFile = path.join(__dirname, 'admin.html');
 
   const fulfillSettledOrder = db.transaction(({ orderId, invoiceId, deliveryKey }) => {
     if (db.prepare('SELECT 1 FROM webhook_events WHERE delivery_key = ?').get(deliveryKey)) return { duplicate: true };
