@@ -4113,6 +4113,7 @@ window.addEventListener('load', function installReferenceCheckout() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           orderId: window._currentOrderId,
+          productId: coKey,
           amount: product.usd,
           currency: 'USD'
         })
@@ -4447,5 +4448,29 @@ window.addEventListener('load', function installReferenceCheckout() {
 }());
 </script>
 
+<!-- Local fulfillment controls -->
+<style>
+.fulfillment-panel{max-width:980px;margin:48px auto;padding:28px;background:rgba(13,17,32,.92);border:1px solid var(--border);border-radius:20px;position:relative;z-index:2}.fulfillment-panel h2{font-family:"Syne",sans-serif;margin-bottom:8px}.fulfillment-panel p{color:var(--muted);margin-bottom:16px}.fulfillment-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.fulfillment-panel input,.fulfillment-panel select,.fulfillment-panel textarea{width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);background:#0a0f1d;color:var(--text);font:inherit}.fulfillment-panel textarea{min-height:80px}.fulfillment-panel button{margin-top:10px;padding:11px 15px;border:0;border-radius:10px;background:linear-gradient(135deg,var(--accent),#5b4de8);color:#fff;font-weight:700;cursor:pointer}.fulfillment-result{white-space:pre-wrap;color:var(--muted);margin-top:14px;max-height:280px;overflow:auto}.fulfillment-admin{margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
+</style>
+<section id="buyer-orders" class="fulfillment-panel">
+  <h2>Order delivery</h2><p>Enter your order ID to view payment and delivery status.</p>
+  <div class="fulfillment-grid"><input id="buyerOrderId" placeholder="Order ID"><button type="button" onclick="loadBuyerOrder()">View order</button></div>
+  <div id="buyerOrderResult" class="fulfillment-result"></div>
+  <div class="fulfillment-admin">
+    <h2>Admin inventory</h2><p>Use the password configured on the server. It is sent only to the API and is not stored in the page.</p>
+    <div class="fulfillment-grid"><input id="adminPassword" type="password" placeholder="Admin password"><button type="button" onclick="loadAdminProducts()">Load inventory</button></div>
+    <div id="adminProductsResult" class="fulfillment-result"></div>
+    <div class="fulfillment-grid" style="margin-top:14px"><select id="adminProductId"><option value="netflix">netflix</option><option value="prime">prime</option><option value="spotify">spotify</option><option value="youtube">youtube</option><option value="capcut">capcut</option><option value="nordvpn">nordvpn</option><option value="canva">canva</option><option value="minecraft">minecraft</option><option value="crunchyroll">crunchyroll</option><option value="combo">combo</option></select><input id="adminDeliveryItem" placeholder="Delivery item"><input id="adminDeliveryLink" placeholder="Optional link"><textarea id="adminDeliveryMessage" placeholder="Optional message"></textarea><button type="button" onclick="addInventorySlot()">Add inventory slot</button></div>
+  </div>
+</section>
+<script>
+const FULFILLMENT_API='https://api.streamox.store';
+function fulfillmentText(id,value){document.getElementById(id).textContent=typeof value==='string'?value:JSON.stringify(value,null,2)}
+async function loadBuyerOrder(){const orderId=document.getElementById('buyerOrderId').value.trim();if(!orderId)return fulfillmentText('buyerOrderResult','Enter an order ID.');try{const r=await fetch(FULFILLMENT_API+'/api/orders/'+encodeURIComponent(orderId));const d=await r.json();fulfillmentText('buyerOrderResult',r.ok?d:(d.error||'Unable to load order'));}catch(e){fulfillmentText('buyerOrderResult','Unable to reach the order API.')}}
+function adminHeaders(){return {'Content-Type':'application/json','x-admin-password':document.getElementById('adminPassword').value}}
+async function loadAdminProducts(){try{const r=await fetch(FULFILLMENT_API+'/api/admin/products',{headers:adminHeaders()});const d=await r.json();fulfillmentText('adminProductsResult',r.ok?d:(d.error||'Unable to load inventory'));}catch(e){fulfillmentText('adminProductsResult','Unable to reach the admin API.')}}
+async function addInventorySlot(){const body={productId:document.getElementById('adminProductId').value,deliveryItem:document.getElementById('adminDeliveryItem').value,deliveryLink:document.getElementById('adminDeliveryLink').value||null,deliveryMessage:document.getElementById('adminDeliveryMessage').value||null};try{const r=await fetch(FULFILLMENT_API+'/api/admin/slots',{method:'POST',headers:adminHeaders(),body:JSON.stringify(body)});const d=await r.json();fulfillmentText('adminProductsResult',r.ok?'Inventory slot added: '+d.id:(d.error||'Unable to add slot'));if(r.ok)loadAdminProducts();}catch(e){fulfillmentText('adminProductsResult','Unable to reach the admin API.')}}
+const initialOrderId=new URLSearchParams(location.search).get('orderId');if(initialOrderId){document.getElementById('buyerOrderId').value=initialOrderId;loadBuyerOrder();}
+</script>
 </body>
 </html>
